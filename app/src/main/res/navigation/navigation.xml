@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@+id/titleFragment">
+
+    <fragment
+        android:id="@+id/titleFragment"
+        android:name="org.ieselcaminas.alberto.finalproject.mhwbuilder.TitleFragment"
+        android:label="TitleFragment" >
+        <action
+            android:id="@+id/action_titleFragment_to_buildCreator"
+            app:destination="@id/buildCreator" />
+    </fragment>
+    <fragment
+        android:id="@+id/buildCreator"
+        android:name="org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.BuildCreator"
+        android:label="build_creator_fragment"
+        tools:layout="@layout/build_creator_fragment" />
+</navigation>
