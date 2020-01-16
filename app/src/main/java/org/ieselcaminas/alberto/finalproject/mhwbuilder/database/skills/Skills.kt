@@ -1,4 +1,4 @@
-package org.ieselcaminas.alberto.finalproject.mhwbuilder.database
+package org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills
 
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
@@ -16,7 +16,7 @@ data class Skills (
 @Entity(tableName = "skill_rank")
 data class SkillRank(
     @PrimaryKey var id: Int,
-    @ColumnInfo val skillDescription: String,
+    @ColumnInfo(name = "skill_description") val skillDescription: String,
     @ColumnInfo val level: Byte,
-    @ColumnInfo val modifiers: HashMap<String, Int>
+    @ColumnInfo val modifiers: HashMap<String, Int>?
 )

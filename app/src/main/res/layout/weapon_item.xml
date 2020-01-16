@@ -16,13 +16,13 @@
 
         <ImageView
             android:id="@+id/weaponImageView"
-            tools:srcCompat="@drawable/weapon_icon"
             android:layout_width="82dp"
             android:layout_height="79dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:srcCompat="@drawable/weapon_icon" />
 
         <TextView
             android:id="@+id/weaponTextView"
@@ -39,7 +39,7 @@
             android:id="@+id/weaponBaseDamageTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/dmg_icon"
+            android:drawableLeft="@mipmap/dmg_icon"
             android:paddingTop="7dp"
             android:text="918"
             android:textAlignment="center"
@@ -52,7 +52,7 @@
             android:id="@+id/weaponBaseAffinityTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/affinity_icon"
+            android:drawableLeft="@mipmap/affinity_icon"
             android:paddingTop="7dp"
             android:text="0%"
             android:textAlignment="center"
@@ -65,7 +65,7 @@
             android:id="@+id/weaponBaseElementTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/blast_icon"
+            android:drawableLeft="@mipmap/blast_icon"
             android:paddingTop="7dp"
             android:text="100"
             android:textAlignment="center"

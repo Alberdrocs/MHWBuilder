@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.Skills
 
 enum class ArmorType{
     HEAD, CHEST, GLOVES, WAIST, LEGS

@@ -9,6 +9,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#B5000000"
         tools:context=".buildcreator.skills.Skills">
 
         <TextView

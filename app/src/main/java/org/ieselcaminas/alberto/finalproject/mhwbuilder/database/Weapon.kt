@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.Skills
 
 enum class SlotsType{
     LEVEL1, LEVEL2, LEVEL3, LEVEL4
