@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="skillsViewModel"
+            type="org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.skills.SkillsViewModel" />
     </data>
 
     <FrameLayout
