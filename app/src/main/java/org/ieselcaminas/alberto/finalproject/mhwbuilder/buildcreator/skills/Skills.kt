@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillsDatabase
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.SkillsFragmentBinding
+import java.io.File
+import java.io.InputStream
 
 class Skills : Fragment() {
 
@@ -27,9 +29,10 @@ class Skills : Fragment() {
         val binding: SkillsFragmentBinding =  DataBindingUtil.inflate(inflater, R.layout.skills_fragment,  container, false)
         val application = requireNotNull(this.activity).application
 
-        val dataSource = SkillsDatabase.getInstance(application).skillsDatabaseDAO
+        val dataSource = AppDatabase.getInstance(application).skillsDAO()
+        val dataSourceRank = AppDatabase.getInstance(application).skillRankDAO()
 
-        val viewModelFactory = SkillsViewModelFactory(dataSource, application)
+        val viewModelFactory = SkillsViewModelFactory(dataSource, dataSourceRank, application)
 
         val skillsViewModel =
             ViewModelProviders.of(
@@ -39,7 +42,8 @@ class Skills : Fragment() {
 
         binding.setLifecycleOwner(this)
 
-        skillsViewModel.onStartTracking()
+        val inputStream = context?.assets?.open("skills.json")
+        skillsViewModel.onStartTracking(inputStream)
 
 
         return binding.root
