@@ -73,8 +73,10 @@ class SkillsViewModel(
 
     private suspend fun getSkillWithRanks(): List<SkillWithRanks> {
         return withContext(Dispatchers.IO) {
-            var skillWithRanks = databaseRank.getSkillWithRanks()
+            val skillWithRanks = databaseRank.getSkillWithRanks()
+            Log.i("TAG", "" + skillWithRanks.size)
             skillWithRanks
+
         }
     }
 
@@ -82,65 +84,82 @@ class SkillsViewModel(
     fun onStartTracking(inputStream: InputStream?) {
         uiScope.launch {
 
-            var json: String? = null
-
-            try {
-                var gson = Gson()
-                val inputString = inputStream?.bufferedReader().use { it?.readText() }
-                val jsonArray = JSONArray(inputString)
-                for (i in 0..jsonArray.length()-1){
-                    val skill = jsonArray.getJSONObject(i)
-                    Log.i("TAG", "id: " + skill.getInt("id") + ". Name: " + skill.getString("name") + ". Description: " + skill.getString("description"))
-                    val ranks = skill.getJSONArray("ranks")
-                    for (x in 0..ranks.length() - 1){
-                        val rankLevel = ranks.getJSONObject(x)
-                        var modifiers: String? = null
-                        if(!rankLevel.getString("modifiers").equals("[]")){
-                            if(rankLevel.get("modifiers") is JSONObject) {
-                                modifiers = ""
-                                val modifier = rankLevel.getJSONObject("modifiers")
-                                val keys = modifier.keys()
-                                while (keys.hasNext()){
-                                    val key = keys.next()
-                                    modifiers += key + ": " + modifier.get(key) + "\n"
-                                }
-
-                            }
-                        }
-                        Log.i("TAG", "\tid: " + rankLevel.getInt("id") + ". Skill id: " + rankLevel.getInt("skill") + ". Level: " + rankLevel.getInt("level") +
-                                ". Description: " + rankLevel.getString("description") + " Modifiers: " + modifiers)
-                    }
+            //insertSkills(inputStream)
+            val skill = getSkillsFromDatabase()
+            Log.i("TAG", skill?.name)
+            val skillsWithRanks = getSkillWithRanks()
+            Log.i("TAG", "" + skillsWithRanks.size)
+            for (i in 0 until skillsWithRanks.size){
+                val skillWithRanks = skillsWithRanks[i]
+                Log.i("TAG", skillWithRanks.skill.name)
+                for(x in 0..skillWithRanks.skillRank.size -1){
+                    Log.i("TAG","\t" + skillWithRanks.skillRank[x].modifiers.toString())
                 }
-
             }
-            catch (e: IOException){
-                Log.i("TAG", e.toString())
+            //onClear()
+        }
+    }
+
+    private suspend fun SkillsViewModel.insertSkills(
+        inputStream: InputStream?
+    ) {
+        var json: String? = null
+
+        try {
+            var gson = Gson()
+            val inputString = inputStream?.bufferedReader().use { it?.readText() }
+            val jsonArray = JSONArray(inputString)
+            for (i in 0..jsonArray.length() - 1) {
+                val skill = jsonArray.getJSONObject(i)
+                Log.i(
+                    "TAG",
+                    "id: " + skill.getInt("id") + ". Name: " + skill.getString("name") + ". Description: " + skill.getString(
+                        "description"
+                    )
+                )
+                val newSkill = Skills(
+                    skill.getInt("id"),
+                    skill.getString("name"),
+                    skill.getString("description"),
+                    null,
+                    null
+                )
+                insert(newSkill)
+                val ranks = skill.getJSONArray("ranks")
+                for (x in 0..ranks.length() - 1) {
+                    val rankLevel = ranks.getJSONObject(x)
+                    var modifiers: HashMap<String, String>? = HashMap()
+                    if (!rankLevel.getString("modifiers").equals("[]")) {
+                        if (rankLevel.get("modifiers") is JSONObject) {
+                            val modifier = rankLevel.getJSONObject("modifiers")
+                            val keys = modifier.keys()
+                            while (keys.hasNext()) {
+                                val key = keys.next()
+                                modifiers?.set(key, modifier.getString(key))
+                            }
+
+                        }
+                    } else modifiers = null
+                    Log.i(
+                        "TAG",
+                        "\tid: " + rankLevel.getInt("id") + ". Skill id: " + rankLevel.getInt("skill") + ". Level: " + rankLevel.getInt(
+                            "level"
+                        ) +
+                                ". Description: " + rankLevel.getString("description") + " Modifiers: " + modifiers.toString()
+                    )
+                    val skillRank = SkillRank(
+                        rankLevel.getInt("id"),
+                        rankLevel.getInt("skill"),
+                        rankLevel.getString("description"),
+                        rankLevel.getInt("level").toByte(),
+                        modifiers
+                    )
+                    insertRank(skillRank)
+                }
             }
 
-
-
-
-
-//            val rankList: ArrayList<SkillRank> = ArrayList()
-//            rankList.add(SkillRank(1, 1,"Reduces the number of times you take poison damage.",1,null, null))
-//            rankList.add(SkillRank(2, 1,"Greatly reduces the number of times you take poison damage.",2,null,null))
-//            rankList.add(SkillRank(3, 1,"Prevents poison.",3,null, null))
-//            val newSkill = Skills(1,"Poison Resistance","Reduces damage while poisoned.", null)
-//
-//            val skillWithRanks = getSkillWithRanks()
-//            Log.i("TAG", skillWithRanks[0].skill.description)
-//            for (i in 0..2){
-//                Log.i("TAG","Level: " + skillWithRanks[0].skillRank[i].level + ". " + skillWithRanks[0].skillRank[i].skillDescription)
-//            }
-//
-//            insert(newSkill)
-//
-//            insertRank(rankList[0])
-//            insertRank(rankList[1])
-//            insertRank(rankList[2])
-//            onClear()
-//            Log.i("TAG", getSkillsFromDatabase()?.description)
-//            activeSkills.value = getSkillsFromDatabase()
+        } catch (e: IOException) {
+            Log.i("TAG", e.toString())
         }
     }
 
