@@ -8,6 +8,7 @@ data class Skills (
     @ColumnInfo(name = "name")val name: String,
     @ColumnInfo(name = "description")val description: String,
     @ColumnInfo(name = "level_cap")val levelCap: Byte?,
+    @ColumnInfo(name = "level_decap_skill_id")val levelDecapSkillId: Byte?,
     val color: String?
 )
 

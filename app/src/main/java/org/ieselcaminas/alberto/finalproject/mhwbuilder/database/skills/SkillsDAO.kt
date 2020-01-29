@@ -37,7 +37,11 @@ interface SkillRankDAO {
     fun get(key: Int): SkillRank
 
     @Transaction
+    @Query("SELECT * FROM skill WHERE id IN (SELECT DISTINCT(skill_rank_id) FROM skill_rank) AND id = :key")
+    fun getSkillWithRanks(key: Int): SkillWithRanks
+
+    @Transaction
     @Query("SELECT * FROM skill WHERE id IN (SELECT DISTINCT(skill_rank_id) FROM skill_rank)")
-    fun getSkillWithRanks(): List<SkillWithRanks>
+    fun getAllSkillWithRanks(): List<SkillWithRanks>
 
 }

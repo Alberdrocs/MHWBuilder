@@ -71,10 +71,17 @@ class SkillsViewModel(
         }
     }
 
-    private suspend fun getSkillWithRanks(): List<SkillWithRanks> {
+    private suspend fun getSkillWithRanks(): SkillWithRanks {
         return withContext(Dispatchers.IO) {
-            val skillWithRanks = databaseRank.getSkillWithRanks()
-            Log.i("TAG", "" + skillWithRanks.size)
+            val skillWithRanks = databaseRank.getSkillWithRanks(85)
+            skillWithRanks
+
+        }
+    }
+
+    private suspend fun getAllSkillsWithRanks(): List<SkillWithRanks> {
+        return withContext(Dispatchers.IO) {
+            val skillWithRanks = databaseRank.getAllSkillWithRanks()
             skillWithRanks
 
         }
@@ -83,19 +90,36 @@ class SkillsViewModel(
 
     fun onStartTracking(inputStream: InputStream?) {
         uiScope.launch {
-
-            //insertSkills(inputStream)
-            val skill = getSkillsFromDatabase()
-            Log.i("TAG", skill?.name)
-            val skillsWithRanks = getSkillWithRanks()
-            Log.i("TAG", "" + skillsWithRanks.size)
-            for (i in 0 until skillsWithRanks.size){
-                val skillWithRanks = skillsWithRanks[i]
-                Log.i("TAG", skillWithRanks.skill.name)
-                for(x in 0..skillWithRanks.skillRank.size -1){
-                    Log.i("TAG","\t" + skillWithRanks.skillRank[x].modifiers.toString())
+            Log.i("TAG", "Ha entrado")
+            val skillsWithRanks = getAllSkillsWithRanks()
+            for (i in 0 until skillsWithRanks.size - 1) {
+                val skill = skillsWithRanks[i].skill
+                val skillRank = skillsWithRanks[i].skillRank
+                Log.i("TAG", skill.name)
+                for (x in 0..skillRank.size - 1) {
+                    Log.i("TAG", "\t" + skillRank[x].skillDescription)
                 }
             }
+
+            //insertSkills(inputStream)
+//            val skill = getSkillsFromDatabase()
+//            Log.i("TAG", skill?.name)
+//            val skillsWithRanks = getAllSkillsWithRanks()
+//            Log.i("TAG", "" + skillsWithRanks.size)
+//            for (i in 0 until skillsWithRanks.size){
+//                val skillWithRanks = skillsWithRanks[i]
+//                Log.i("TAG", skillWithRanks.skill.name)
+//                for(x in 0..skillWithRanks.skillRank.size -1){
+//                    Log.i("TAG","\t" + skillWithRanks.skillRank[x].modifiers.toString())
+//                }
+//            }
+
+//            val skillsWithRanks = getSkillWithRanks()
+//            Log.i("TAG", skillsWithRanks.skill.name)
+//            for(i in 0 until skillsWithRanks.skillRank.size - 1){
+//                Log.i("TAG","\t" + skillsWithRanks.skillRank[i].skillDescription)
+//            }
+
             //onClear()
         }
     }
@@ -121,6 +145,7 @@ class SkillsViewModel(
                     skill.getInt("id"),
                     skill.getString("name"),
                     skill.getString("description"),
+                    null,
                     null,
                     null
                 )

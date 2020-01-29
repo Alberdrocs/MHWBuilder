@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.EquipmentFragmentBinding
 
 class Equipment : Fragment() {
@@ -24,7 +25,24 @@ class Equipment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding: EquipmentFragmentBinding =  DataBindingUtil.inflate(inflater, R.layout.equipment_fragment,  container, false)
-        viewModel = ViewModelProviders.of(this).get(EquipmentViewModel::class.java)
+        val application = requireNotNull(this.activity).application
+
+        val dataSource = AppDatabase.getInstance(application).armorPieceDAO()
+        val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
+        val viewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet)
+
+        val equipmentViewModel =
+            ViewModelProviders.of(
+                this, viewModelFactory).get(EquipmentViewModel::class.java)
+
+        binding.equipmentSkillsViewModel = equipmentViewModel
+
+        val inputStreamPiece = context?.assets?.open("armor.json")
+        val inputStreamSet = context?.assets?.open("sets.json")
+
+        equipmentViewModel.onStartTracking(inputStreamPiece, inputStreamSet)
+
+        binding.setLifecycleOwner(this)
         return binding.root
     }
 

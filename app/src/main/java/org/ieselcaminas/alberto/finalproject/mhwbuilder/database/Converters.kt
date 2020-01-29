@@ -50,7 +50,7 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromString(value: String?): HashMap<String, String>? {
+    fun fromStringToHashMapSS(value: String?): HashMap<String, String>? {
         val mapType = object : TypeToken<HashMap<String, String>>() {
 
         }.type
@@ -58,7 +58,21 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStringMap(map: HashMap<String, String>?): String? {
+    fun fromStringToMapSS(map: HashMap<String, String>?): String? {
+        val gson = Gson()
+        return gson.toJson(map)
+    }
+
+    @TypeConverter
+    fun fromStringToHashMapSI(value: String?): HashMap<String, Int>? {
+        val mapType = object : TypeToken<HashMap<String, Int>>() {
+
+        }.type
+        return Gson().fromJson(value, mapType)
+    }
+
+    @TypeConverter
+    fun fromStringToMapSI(map: HashMap<String, Int>?): String? {
         val gson = Gson()
         return gson.toJson(map)
     }
