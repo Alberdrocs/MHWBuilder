@@ -6,7 +6,7 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRan
 
 @Entity(tableName = "armor_piece")
 data class ArmorPiece (
-    @PrimaryKey var id: Int,
+    @PrimaryKey @ColumnInfo(name = "armor_piece_id") var armorPieceId: Int,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "type") val type: String,
     @ColumnInfo(name = "rank") val rank: String,
@@ -25,7 +25,7 @@ data class ArmorSet(
     @ColumnInfo val rank: String,
     @ColumnInfo(name = "bonus_name") val bonusName: String?,
     @ColumnInfo(name = "required_pieces") val requiredPieces: ArrayList<Int>?,
-    @ColumnInfo(name = "skill_rank_id") val setBonusSkillsRanksId: ArrayList<Int>?
+    @ColumnInfo(name = "skill_rank_id") val setBonusSkillRankId: ArrayList<Int>?
 )
 
 data class ArmorSetWithArmorPiece(

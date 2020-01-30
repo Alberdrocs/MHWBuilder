@@ -3,9 +3,6 @@ package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import com.google.gson.Gson
 import kotlinx.coroutines.*
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.*
 import org.json.JSONArray
@@ -65,10 +62,8 @@ class EquipmentViewModel(
     fun onStartTracking(inputStreamPiece: InputStream?, inputStreamSet: InputStream?) {
         uiScope.launch {
 
-
+            //insertArmorPiece(inputStreamPiece)
             //insertArmorsSets(inputStreamSet)
-
-
 
             //insertTest()
 //            Log.i("TAG", getAllArmorPieces()[0].name)
@@ -76,6 +71,79 @@ class EquipmentViewModel(
 //            Log.i("TAG", getArmorSetWithPieces()[0].armorPiece[0].name)
 //            Log.i("TAG",getArmorSetWithPieces().armorPiece[0].name)
 //            Log.i("TAG",getArmorSetWithPieces().armorSet.name)
+        }
+    }
+
+    private suspend fun EquipmentViewModel.insertArmorPiece(
+        inputStreamPiece: InputStream?
+    ) {
+        try {
+            val inputString = inputStreamPiece?.bufferedReader().use { it?.readText() }
+            val jsonArray = JSONArray(inputString)
+            for (i in 0..jsonArray.length() - 1) {
+                val piece = jsonArray.getJSONObject(i)
+                val defenseList: ArrayList<Int> = ArrayList()
+                val defense = piece.getJSONObject("defense")
+                defenseList.add(0, defense.getInt("base"))
+                defenseList.add(1, defense.getInt("max"))
+                defenseList.add(2, defense.getInt("augmented"))
+                val resistancesHashMap: HashMap<String, Int> = HashMap()
+                val resistance = piece.getJSONObject("resistances")
+                resistancesHashMap.set("fire", resistance.getInt("fire"))
+                resistancesHashMap.set("water", resistance.getInt("water"))
+                resistancesHashMap.set("ice", resistance.getInt("ice"))
+                resistancesHashMap.set("thunder", resistance.getInt("thunder"))
+                resistancesHashMap.set("dragon", resistance.getInt("dragon"))
+                var slotsList: ArrayList<Int>? = ArrayList()
+                if (piece.getString("slots") == "[]") {
+                    slotsList = null
+                } else {
+                    val slot = piece.getJSONArray("slots")
+                    for (x in 0 until slot.length()) {
+                        val rank = slot.getJSONObject(x)
+                        slotsList?.add(rank.getInt("rank"))
+                    }
+                }
+                var skillRankId: ArrayList<Int>? = ArrayList()
+                if (piece.getString("skills") == "[]") {
+                    skillRankId = null
+                } else {
+                    val skills = piece.getJSONArray("skills")
+                    for (x in 0 until skills.length() - 1) {
+                        val skill = skills.getJSONObject(x)
+                        skillRankId?.add(skill.getInt("id"))
+                    }
+                }
+                var set: Int?
+                if (piece.getString("armorSet") == "null") {
+                    set = null
+                } else {
+                    val setObject = piece.getJSONObject("armorSet")
+                    set = setObject.getInt("id")
+                }
+
+                val armorPiece = ArmorPiece(
+                    piece.getInt("id"),
+                    piece.getString("name"),
+                    piece.getString("type"),
+                    piece.getString("rank"),
+                    piece.getInt("rarity").toByte(),
+                    defenseList,
+                    resistancesHashMap,
+                    slotsList,
+                    skillRankId,
+                    set
+                )
+                Log.i(
+                    "TAG",
+                    "Id: " + armorPiece.armorPieceId + ". Name: " + armorPiece.name + ". Type: " + armorPiece.type + ". Rank: " + armorPiece.rank +
+                            ". Rarity: " + armorPiece.rarity + ". Defense: " + armorPiece.defense.toString() + ". Resistances: " + armorPiece.resistances.toString() + ". Slots: " +
+                            armorPiece.slots.toString() + ". Skills Id: " + armorPiece.skillRankId.toString() + ". Armor Set Id: " + armorPiece.armorSetId
+                )
+                insert(armorPiece)
+            }
+        } catch (e: IOException) {
+            Log.i("TAG", e.toString())
         }
     }
 
