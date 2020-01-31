@@ -1,6 +1,7 @@
 package org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 
 @Dao
@@ -13,6 +14,9 @@ interface ArmorPieceDAO{
 
     @Query("SELECT * FROM armor_piece")
     fun getAllArmorPieces():List<ArmorPiece>
+
+    @Query("SELECT * FROM armor_piece WHERE type = :armorType")
+    fun getAllArmorPiecesOfType(armorType: String): LiveData<List<ArmorPiece>>
 
     @Query("DELETE from armor_piece")
     fun clear()

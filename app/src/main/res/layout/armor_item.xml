@@ -22,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            tools:srcCompat="@drawable/weapon_icon" />
+            tools:srcCompat="@drawable/item_background" />
 
         <TextView
             android:id="@+id/armorTextView"
@@ -32,7 +32,8 @@
             android:textColor="#F7F7F7"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/armorImageView"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/armorSkill1TextView"
@@ -44,7 +45,8 @@
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/armorImageView"
-            app:layout_constraintTop_toBottomOf="@+id/armorTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/armorTextView"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/armorSkill2TextView"
@@ -56,7 +58,8 @@
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/armorImageView"
-            app:layout_constraintTop_toBottomOf="@+id/armorSkill1TextView" />
+            app:layout_constraintTop_toBottomOf="@+id/armorSkill1TextView"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/armorDecoration1TextView"
@@ -66,7 +69,8 @@
             android:textColor="#F7F7F7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/armorTextView"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/armorDecoration2TextView"
@@ -76,7 +80,8 @@
             android:textColor="#F7F7F7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/armorTextView"
-            app:layout_constraintTop_toBottomOf="@+id/armorDecoration1TextView" />
+            app:layout_constraintTop_toBottomOf="@+id/armorDecoration1TextView"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/armorDecoration3TextView"
@@ -86,7 +91,8 @@
             android:textColor="#F7F7F7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/armorTextView"
-            app:layout_constraintTop_toBottomOf="@+id/armorDecoration2TextView" />
+            app:layout_constraintTop_toBottomOf="@+id/armorDecoration2TextView"
+            android:ellipsize="end"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

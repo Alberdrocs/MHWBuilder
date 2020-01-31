@@ -41,7 +41,6 @@ class Skills : Fragment() {
 
         binding.skillsViewModel = skillsViewModel
 
-        binding.setLifecycleOwner(this)
 
         val inputStream = context?.assets?.open("skills.json")
         skillsViewModel.onStartTracking(inputStream)

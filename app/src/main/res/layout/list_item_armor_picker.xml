@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp">
+
+    <ImageView
+        android:id="@+id/armorPickerImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/item_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/armorPickerName"
+        android:layout_width="147dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Armor Name"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/armorPickerImage"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/armorPickerSkill1"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:text="Armor Skill 1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/armorPickerName"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/armorPickerSkill2"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:text="Armor Skill 2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/armorPickerName"
+        app:layout_constraintTop_toBottomOf="@+id/armorPickerSkill1" />
+
+    <ImageView
+        android:id="@+id/armorPickerSlot1Image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:src="@mipmap/gem_level_4"
+        app:layout_constraintEnd_toStartOf="@+id/armorPickerSlot2Image"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/armorPickerImage"
+        app:layout_constraintTop_toBottomOf="@+id/armorPickerName" />
+
+    <ImageView
+        android:id="@+id/armorPickerSlot2Image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="36dp"
+        android:src="@mipmap/gem_level_4"
+        app:layout_constraintEnd_toStartOf="@+id/armorPickerSlot3Image"
+        app:layout_constraintTop_toBottomOf="@+id/armorPickerName" />
+
+    <ImageView
+        android:id="@+id/armorPickerSlot3Image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="20dp"
+        android:src="@mipmap/gem_level_4"
+        app:layout_constraintEnd_toStartOf="@+id/armorPickerSkill2"
+        app:layout_constraintTop_toBottomOf="@+id/armorPickerName" />
+</androidx.constraintlayout.widget.ConstraintLayout>

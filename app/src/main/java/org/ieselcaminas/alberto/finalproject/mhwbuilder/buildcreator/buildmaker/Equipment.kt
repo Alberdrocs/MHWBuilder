@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
@@ -37,10 +38,9 @@ class Equipment : Fragment() {
 
         binding.equipmentSkillsViewModel = equipmentViewModel
 
-        val inputStreamPiece = context?.assets?.open("armor.json")
-        val inputStreamSet = context?.assets?.open("sets.json")
-
-        equipmentViewModel.onStartTracking(inputStreamPiece, inputStreamSet)
+        binding.headArmorCardView.setOnClickListener {view: View ->
+            Navigation.findNavController(view).navigate(R.id.action_buildCreator_to_armorPickerFragment2)
+        }
 
         binding.setLifecycleOwner(this)
         return binding.root
