@@ -3,7 +3,10 @@ package org.ieselcaminas.alberto.finalproject.mhwbuilder.database
 import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
 import com.google.gson.Gson
+import com.google.gson.stream.JsonReader
+import java.io.StringReader
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
@@ -23,30 +26,35 @@ class Converters {
     }
 
     @TypeConverter
-    fun gettingListFromString(genreIds: String?): ArrayList<Int>? {
-        val list = ArrayList<Int>()
-
-        val array = genreIds?.split(",".toRegex())?.dropLastWhile { it.isEmpty() }?.toTypedArray()
-
+    fun gettingListFromString(value: String?): ArrayList<Int>? {
+        if (value == ""){
+            return null
+        }
+        val list = mutableListOf<Int>()
+        val array = value?.split(",")
         if (array != null) {
             for (s in array) {
-                if (!s.isEmpty()) {
-                    list.add(Integer.parseInt(s))
+                try {
+                    list.add(s.toInt())
+                } catch (e: NumberFormatException){
+
                 }
+
             }
         }
-        return list
+        return list as ArrayList<Int>
     }
 
     @TypeConverter
     fun writingStringFromList(list: ArrayList<Int>?): String? {
-        var genreIds = ""
-        if (list != null) {
-            for (i in list) {
-                genreIds += ",$i"
+        var result = ""
+        list?.forEachIndexed { index, element ->
+            result += element
+            if(index != (list.size-1)){
+                result += ","
             }
         }
-        return genreIds
+        return result
     }
 
     @TypeConverter

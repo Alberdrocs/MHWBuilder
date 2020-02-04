@@ -49,7 +49,7 @@ data class ArmorSetWithSetSkill(
 data class ArmorPieceWithSkillRank(
     @Embedded val armor: ArmorPiece,
     @Relation(
-        parentColumn = "id",
+        parentColumn = "armor_piece_id",
         entityColumn = "skill_rank_id"
     )
     val skillRank: List<SkillRank>

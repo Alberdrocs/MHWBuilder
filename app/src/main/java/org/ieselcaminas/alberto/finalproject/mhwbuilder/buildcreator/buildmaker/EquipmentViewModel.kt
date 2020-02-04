@@ -59,9 +59,14 @@ class EquipmentViewModel(
         }
     }
 
-    fun onStartTracking(inputStreamPiece: InputStream?, inputStreamSet: InputStream?) {
-        uiScope.launch {
 
+
+    fun onStartTracking(
+        inputStreamPiece: InputStream?,
+        inputStreamSet: InputStream?
+    ) {
+        uiScope.launch {
+            //clear()
             //insertArmorPiece(inputStreamPiece)
             //insertArmorsSets(inputStreamSet)
 
@@ -109,7 +114,7 @@ class EquipmentViewModel(
                     skillRankId = null
                 } else {
                     val skills = piece.getJSONArray("skills")
-                    for (x in 0 until skills.length() - 1) {
+                    for (x in 0 until skills.length()) {
                         val skill = skills.getJSONObject(x)
                         skillRankId?.add(skill.getInt("id"))
                     }

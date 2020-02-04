@@ -15,7 +15,7 @@ interface SkillsDAO {
 
 
     @Query("SELECT * FROM skill WHERE id = :key")
-    fun get(key: Int): Skills
+    fun get(key: Int): LiveData<Skills>
 
     @Query("SELECT * FROM skill ORDER BY id DESC")
     fun getAllSkills(): LiveData<List<Skills>>
@@ -34,11 +34,11 @@ interface SkillRankDAO {
     fun getSkillRanks(): LiveData<List<SkillRank>>
 
     @Query("SELECT * FROM skill_rank WHERE skill_rank_id = :key")
-    fun get(key: Int): SkillRank
+    fun get(key: Int): LiveData<SkillRank>
 
     @Transaction
-    @Query("SELECT * FROM skill WHERE id IN (SELECT DISTINCT(skill_rank_id) FROM skill_rank) AND id = :key")
-    fun getSkillWithRanks(key: Int): SkillWithRanks
+    @Query("SELECT * FROM skill WHERE id = :key")
+    fun getSkillWithRanks(key: Int): LiveData<SkillWithRanks>
 
     @Transaction
     @Query("SELECT * FROM skill WHERE id IN (SELECT DISTINCT(skill_rank_id) FROM skill_rank)")

@@ -1,9 +1,10 @@
 package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.ViewModel
 
-class BuildCreatorViewModel : ViewModel() {
+class BuildCreatorViewModel(application: Application) : ViewModel() {
     init {
         Log.i("BuildCreatorViewModel", "BuildCreatorViewModel created")
     }

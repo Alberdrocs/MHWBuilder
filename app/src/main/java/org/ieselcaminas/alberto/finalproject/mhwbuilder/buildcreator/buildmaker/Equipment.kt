@@ -37,10 +37,13 @@ class Equipment : Fragment() {
                 this, viewModelFactory).get(EquipmentViewModel::class.java)
 
         binding.equipmentSkillsViewModel = equipmentViewModel
-
         binding.headArmorCardView.setOnClickListener {view: View ->
             Navigation.findNavController(view).navigate(R.id.action_buildCreator_to_armorPickerFragment2)
         }
+
+        val inputStreamPiece = context?.assets?.open("armor.json")
+        val inputStreamSet = context?.assets?.open("sets.json")
+        equipmentViewModel.onStartTracking(inputStreamPiece,inputStreamSet)
 
         binding.setLifecycleOwner(this)
         return binding.root

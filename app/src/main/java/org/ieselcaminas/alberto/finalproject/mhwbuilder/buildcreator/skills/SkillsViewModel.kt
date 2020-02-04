@@ -3,6 +3,7 @@ package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.skills
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import kotlinx.coroutines.*
@@ -40,7 +41,7 @@ class SkillsViewModel(
         }
     }
 
-    private suspend fun getSkillsFromDatabase(): Skills? {
+    private suspend fun getSkillsFromDatabase(): LiveData<Skills> {
         return withContext(Dispatchers.IO) {
             var skill = database.get(1)
             skill
@@ -71,7 +72,7 @@ class SkillsViewModel(
         }
     }
 
-    private suspend fun getSkillWithRanks(): SkillWithRanks {
+    private suspend fun getSkillWithRanks(): LiveData<SkillWithRanks> {
         return withContext(Dispatchers.IO) {
             val skillWithRanks = databaseRank.getSkillWithRanks(85)
             skillWithRanks
@@ -90,16 +91,16 @@ class SkillsViewModel(
 
     fun onStartTracking(inputStream: InputStream?) {
         uiScope.launch {
-            Log.i("TAG", "Ha entrado")
-            val skillsWithRanks = getAllSkillsWithRanks()
-            for (i in 0 until skillsWithRanks.size - 1) {
-                val skill = skillsWithRanks[i].skill
-                val skillRank = skillsWithRanks[i].skillRank
-                Log.i("TAG", skill.name)
-                for (x in 0..skillRank.size - 1) {
-                    Log.i("TAG", "\t" + skillRank[x].skillDescription)
-                }
-            }
+//            Log.i("TAG", "Ha entrado")
+//            val skillsWithRanks = getAllSkillsWithRanks()
+//            for (i in 0 until skillsWithRanks.size - 1) {
+//                val skill = skillsWithRanks[i].skill
+//                val skillRank = skillsWithRanks[i].skillRank
+//                Log.i("TAG", skill.name)
+//                for (x in 0..skillRank.size - 1) {
+//                    Log.i("TAG", "\t" + skillRank[x].skillDescription)
+//                }
+//            }
 
             //insertSkills(inputStream)
 //            val skill = getSkillsFromDatabase()

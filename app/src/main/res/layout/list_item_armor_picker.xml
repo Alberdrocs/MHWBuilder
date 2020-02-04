@@ -5,7 +5,10 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="10dp"
+    android:background="#B5000000"
+    android:paddingBottom="10dp"
+    android:stateListAnimator="@animator/armor_picker_details_animation">
 
     <ImageView
         android:id="@+id/armorPickerImage"
@@ -19,10 +22,12 @@
     <TextView
         android:id="@+id/armorPickerName"
         android:layout_width="147dp"
-        android:layout_height="24dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
         android:text="Armor Name"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/armorPickerImage"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,6 +39,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="12dp"
         android:text="Armor Skill 1"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/armorPickerName"
@@ -46,6 +52,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="12dp"
         android:text="Armor Skill 2"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/armorPickerName"
@@ -57,7 +64,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="6dp"
-        android:src="@mipmap/gem_level_4"
+        android:scaleX="1.3"
+        android:scaleY="1.3"
         app:layout_constraintEnd_toStartOf="@+id/armorPickerSlot2Image"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/armorPickerImage"
@@ -69,7 +77,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="36dp"
-        android:src="@mipmap/gem_level_4"
+        android:scaleX="1.3"
+        android:scaleY="1.3"
         app:layout_constraintEnd_toStartOf="@+id/armorPickerSlot3Image"
         app:layout_constraintTop_toBottomOf="@+id/armorPickerName" />
 
@@ -79,7 +88,151 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="20dp"
-        android:src="@mipmap/gem_level_4"
+        android:scaleX="1.3"
+        android:scaleY="1.3"
         app:layout_constraintEnd_toStartOf="@+id/armorPickerSkill2"
         app:layout_constraintTop_toBottomOf="@+id/armorPickerName" />
+
+    <LinearLayout
+        android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/armorPickerImage">
+
+        <View
+            android:id="@+id/divider16"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/stadistics_border" />
+
+        <TextView
+            android:id="@+id/damageTextView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:drawableLeft="@mipmap/defense_icon"
+            android:text="   Defense"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <View
+            android:id="@+id/divider17"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/stadistics_border" />
+
+        <TextView
+            android:id="@+id/damageTextView13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:drawableLeft="@mipmap/fire_icon"
+            android:text="  Vs. Fire"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <View
+            android:id="@+id/divider18"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/stadistics_border" />
+
+        <TextView
+            android:id="@+id/damageTextView14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:drawableLeft="@mipmap/water_icon"
+            android:text="  Vs. Water"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <View
+            android:id="@+id/divider19"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/stadistics_border" />
+
+        <TextView
+            android:id="@+id/damageTextView15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:drawableLeft="@mipmap/thunder_icon"
+            android:text="  Vs. Thunder"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <View
+            android:id="@+id/divider20"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/stadistics_border" />
+
+        <TextView
+            android:id="@+id/damageTextView16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:drawableLeft="@mipmap/ice_icon"
+            android:text="  Vs. Ice"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <View
+            android:id="@+id/divider21"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/stadistics_border" />
+
+        <TextView
+            android:id="@+id/damageTextView17"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:drawableLeft="@mipmap/dragon_icon"
+            android:text="  Vs. Dragon"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <View
+            android:id="@+id/divider22"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/stadistics_border" />
+
+        <Button
+            android:id="@+id/button"
+            style="@style/button_style"
+            android:layout_marginTop="10dp"
+            android:text="Add Armor"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

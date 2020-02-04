@@ -30,7 +30,9 @@ class ArmorPickerFragment : Fragment() {
 
         val dataSource = AppDatabase.getInstance(application).armorPieceDAO()
         val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
-        val viewModelFactory = ArmorPickerViewModelFactory(application, dataSource, dataSourceSet)
+        val dataSourceSkill = AppDatabase.getInstance(application).skillsDAO()
+        val dataSourceSkillRank = AppDatabase.getInstance(application).skillRankDAO()
+        val viewModelFactory = ArmorPickerViewModelFactory(application, dataSource, dataSourceSet,dataSourceSkill, dataSourceSkillRank)
 
         val armorPickerViewModel =
             ViewModelProviders.of(
@@ -38,7 +40,7 @@ class ArmorPickerFragment : Fragment() {
 
         binding.armorPickerViewModel = armorPickerViewModel
 
-        val adapter = ArmorPickerAdapter()
+        val adapter = ArmorPickerAdapter(dataSourceSkill, dataSourceSkillRank, viewLifecycleOwner)
         binding.armorRecyclerView.adapter = adapter
         armorPickerViewModel.getArmorPiecesOfType("head").observe(viewLifecycleOwner, Observer {
             it?.let {

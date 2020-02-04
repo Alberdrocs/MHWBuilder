@@ -17,11 +17,7 @@ import java.io.InputStream
 
 class Skills : Fragment() {
 
-    companion object {
-        fun newInstance() = Skills()
-    }
 
-    private lateinit var viewModel: SkillsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,10 +45,6 @@ class Skills : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SkillsViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+
 
 }
