@@ -25,5 +25,12 @@
     <fragment
         android:id="@+id/armorPickerFragment2"
         android:name="org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.armorPicker.ArmorPickerFragment"
-        android:label="ArmorPickerFragment" />
+        android:label="ArmorPickerFragment" >
+        <argument
+            android:name="armorType"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_armorPickerFragment2_to_buildCreator"
+            app:destination="@id/buildCreator" />
+    </fragment>
 </navigation>

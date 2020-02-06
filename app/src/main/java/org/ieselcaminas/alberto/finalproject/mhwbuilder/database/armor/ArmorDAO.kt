@@ -15,6 +15,9 @@ interface ArmorPieceDAO{
     @Query("SELECT * FROM armor_piece")
     fun getAllArmorPieces():List<ArmorPiece>
 
+    @Query("SELECT * FROM armor_piece LIMIT 5")
+    fun getFirstArmorPiecesOfType():LiveData<List<ArmorPiece>>
+
     @Query("SELECT * FROM armor_piece WHERE type = :armorType AND (rarity BETWEEN 8 AND 12)")
     fun getAllArmorPiecesOfType(armorType: String): LiveData<List<ArmorPiece>>
 
@@ -25,9 +28,7 @@ interface ArmorPieceDAO{
     @Query("SELECT * FROM armor_set")
     fun getArmorSetWithArmorPieces(): List<ArmorSetWithArmorPiece>
 
-    @Transaction
-    @Query("SELECT * FROM armor_piece")
-    fun getArmorPieceWithArmorSkills(): LiveData<List<ArmorPieceWithSkillRank>>
+
 }
 
 @Dao

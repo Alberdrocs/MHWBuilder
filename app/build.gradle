@@ -27,8 +27,11 @@ android {
 }
 
 dependencies {
-    def room_version = "2.2.3"
 
+    apply plugin: 'androidx.navigation.safeargs'
+    implementation 'com.balysv:material-ripple:1.0.2'
+
+    def room_version = "2.2.3"
     implementation "androidx.room:room-runtime:$room_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'

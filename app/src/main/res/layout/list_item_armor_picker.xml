@@ -15,7 +15,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="10dp"
-        android:src="@drawable/item_background"
+        android:src="@mipmap/head"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -97,11 +97,13 @@
         android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/armorPickerImage">
+        app:layout_constraintTop_toBottomOf="@+id/armorPickerImage"
+        app:layout_constraintVertical_bias="0.085"
+        tools:layout_editor_absoluteX="42dp">
 
         <View
             android:id="@+id/divider16"
@@ -112,16 +114,29 @@
             android:layout_marginEnd="40dp"
             android:background="@drawable/stadistics_border" />
 
-        <TextView
-            android:id="@+id/damageTextView12"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:drawableLeft="@mipmap/defense_icon"
-            android:text="   Defense"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/damageTextView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:drawableLeft="@mipmap/defense_icon"
+                android:text="   Defense"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/defenseValueTextViewArmorPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="40dp"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </FrameLayout>
 
         <View
             android:id="@+id/divider17"
@@ -131,16 +146,30 @@
             android:layout_marginEnd="40dp"
             android:background="@drawable/stadistics_border" />
 
-        <TextView
-            android:id="@+id/damageTextView13"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:drawableLeft="@mipmap/fire_icon"
-            android:text="  Vs. Fire"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/damageTextView13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:drawableLeft="@mipmap/fire_icon"
+                android:text="  Vs. Fire"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/fireResistanceValueTextViewArmorPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="40dp"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </FrameLayout>
 
         <View
             android:id="@+id/divider18"
@@ -150,16 +179,30 @@
             android:layout_marginEnd="40dp"
             android:background="@drawable/stadistics_border" />
 
-        <TextView
-            android:id="@+id/damageTextView14"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:drawableLeft="@mipmap/water_icon"
-            android:text="  Vs. Water"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/damageTextView14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:drawableLeft="@mipmap/water_icon"
+                android:text="  Vs. Water"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/waterResistanceValueTextViewArmorPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="40dp"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </FrameLayout>
 
         <View
             android:id="@+id/divider19"
@@ -169,16 +212,30 @@
             android:layout_marginEnd="40dp"
             android:background="@drawable/stadistics_border" />
 
-        <TextView
-            android:id="@+id/damageTextView15"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:drawableLeft="@mipmap/thunder_icon"
-            android:text="  Vs. Thunder"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/damageTextView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:drawableLeft="@mipmap/thunder_icon"
+                android:text="  Vs. Thunder"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/thunderResistanceValueTextViewArmorPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="40dp"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </FrameLayout>
 
         <View
             android:id="@+id/divider20"
@@ -188,16 +245,30 @@
             android:layout_marginEnd="40dp"
             android:background="@drawable/stadistics_border" />
 
-        <TextView
-            android:id="@+id/damageTextView16"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:drawableLeft="@mipmap/ice_icon"
-            android:text="  Vs. Ice"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/damageTextView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:drawableLeft="@mipmap/ice_icon"
+                android:text="  Vs. Ice"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/iceResistanceValueTextViewArmorPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="40dp"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </FrameLayout>
 
         <View
             android:id="@+id/divider21"
@@ -207,16 +278,30 @@
             android:layout_marginEnd="40dp"
             android:background="@drawable/stadistics_border" />
 
-        <TextView
-            android:id="@+id/damageTextView17"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:drawableLeft="@mipmap/dragon_icon"
-            android:text="  Vs. Dragon"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/damageTextView17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:drawableLeft="@mipmap/dragon_icon"
+                android:text="  Vs. Dragon"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/dragonResistanceValueTextViewArmorPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="40dp"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </FrameLayout>
 
         <View
             android:id="@+id/divider22"
@@ -227,7 +312,7 @@
             android:background="@drawable/stadistics_border" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/addArmorToEquipmentButton"
             style="@style/button_style"
             android:layout_marginTop="10dp"
             android:text="Add Armor"

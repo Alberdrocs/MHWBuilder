@@ -21,6 +21,8 @@ class ArmorPickerFragment : Fragment() {
 
     private lateinit var viewModel: ArmorPickerViewModel
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,9 +42,11 @@ class ArmorPickerFragment : Fragment() {
 
         binding.armorPickerViewModel = armorPickerViewModel
 
+        val args = ArmorPickerFragmentArgs.fromBundle(arguments!!)
+
         val adapter = ArmorPickerAdapter(dataSourceSkill, dataSourceSkillRank, viewLifecycleOwner)
         binding.armorRecyclerView.adapter = adapter
-        armorPickerViewModel.getArmorPiecesOfType("head").observe(viewLifecycleOwner, Observer {
+        armorPickerViewModel.getArmorPiecesOfType(args.armorType).observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.data = it
             }

@@ -3,6 +3,8 @@ package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.*
 import org.json.JSONArray
@@ -59,12 +61,13 @@ class EquipmentViewModel(
         }
     }
 
+    fun getPieceOfEachType(): LiveData<List<ArmorPiece>> {
+        return database.getFirstArmorPiecesOfType()
+    }
 
 
-    fun onStartTracking(
-        inputStreamPiece: InputStream?,
-        inputStreamSet: InputStream?
-    ) {
+
+    fun onStartTracking() {
         uiScope.launch {
             //clear()
             //insertArmorPiece(inputStreamPiece)

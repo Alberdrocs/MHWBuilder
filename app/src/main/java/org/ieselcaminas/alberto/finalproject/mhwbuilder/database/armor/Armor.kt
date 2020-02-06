@@ -1,5 +1,6 @@
 package org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor
 
+
 import androidx.room.*
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRank
 
@@ -35,22 +36,4 @@ data class ArmorSetWithArmorPiece(
         entityColumn = "armor_set_id"
     )
     val armorPiece: List<ArmorPiece>
-)
-
-data class ArmorSetWithSetSkill(
-    @Embedded val armorSet: ArmorSet,
-    @Relation(
-        parentColumn = "armor_set_id",
-        entityColumn = "skill_rank_id"
-    )
-    val skillRank: List<SkillRank>
-)
-
-data class ArmorPieceWithSkillRank(
-    @Embedded val armor: ArmorPiece,
-    @Relation(
-        parentColumn = "armor_piece_id",
-        entityColumn = "skill_rank_id"
-    )
-    val skillRank: List<SkillRank>
 )

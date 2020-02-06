@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPiece
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPieceDAO
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPieceWithSkillRank
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorSetDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRank
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRankDAO

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardViewEquipmentArmorPiece"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
     app:cardBackgroundColor="#B5000000"
     app:cardCornerRadius="12dp"
-    app:cardElevation="10dp"
     app:cardUseCompatPadding="true">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:layout_margin="10dp">
+        android:layout_height="100dp"
+        android:layout_margin="10dp">
 
         <ImageView
             android:id="@+id/armorImageView"
@@ -28,71 +30,71 @@
             android:id="@+id/armorTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:text="Jagras Hacker III"
             android:textColor="#F7F7F7"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/armorImageView"
-            app:layout_constraintTop_toTopOf="parent"
-            android:ellipsize="end"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/armorSkill1TextView"
             android:layout_width="177dp"
             android:layout_height="26dp"
+            android:ellipsize="end"
             android:paddingTop="5dp"
             android:text="Skill 1"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/armorImageView"
-            app:layout_constraintTop_toBottomOf="@+id/armorTextView"
-            android:ellipsize="end"/>
+            app:layout_constraintTop_toBottomOf="@+id/armorTextView" />
 
         <TextView
             android:id="@+id/armorSkill2TextView"
             android:layout_width="177dp"
             android:layout_height="26dp"
+            android:ellipsize="end"
             android:paddingTop="5dp"
             android:text="Skill 2"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/armorImageView"
-            app:layout_constraintTop_toBottomOf="@+id/armorSkill1TextView"
-            android:ellipsize="end"/>
+            app:layout_constraintTop_toBottomOf="@+id/armorSkill1TextView" />
 
         <TextView
             android:id="@+id/armorDecoration1TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:text="Jewel 1"
             android:textColor="#F7F7F7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/armorTextView"
-            app:layout_constraintTop_toTopOf="parent"
-            android:ellipsize="end"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/armorDecoration2TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:text="Jewel 2"
             android:textColor="#F7F7F7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/armorTextView"
-            app:layout_constraintTop_toBottomOf="@+id/armorDecoration1TextView"
-            android:ellipsize="end"/>
+            app:layout_constraintTop_toBottomOf="@+id/armorDecoration1TextView" />
 
         <TextView
             android:id="@+id/armorDecoration3TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:text="Jewel 3"
             android:textColor="#F7F7F7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/armorTextView"
-            app:layout_constraintTop_toBottomOf="@+id/armorDecoration2TextView"
-            android:ellipsize="end"/>
+            app:layout_constraintTop_toBottomOf="@+id/armorDecoration2TextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
