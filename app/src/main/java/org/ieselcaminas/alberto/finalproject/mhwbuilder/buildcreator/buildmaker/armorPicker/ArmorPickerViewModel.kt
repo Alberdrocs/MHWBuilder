@@ -26,42 +26,13 @@ class ArmorPickerViewModel(
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
+    private var _navigateToArmorPiece = MutableLiveData<Int>()
+    val navigateToArmorPiece: LiveData<Int>
+        get() = _navigateToArmorPiece
 
-    private suspend fun getAllArmorPieces(): List<ArmorPiece> {
-        return withContext(Dispatchers.IO) {
-            val allArmorPieces = database.getAllArmorPieces()
-            allArmorPieces
-        }
+    fun startNavigationToArmorPiece(armorPieceId: Int){
+        _navigateToArmorPiece.value = armorPieceId
     }
-
-    private suspend fun getAllArmorPiecesOfType(armorType: String): LiveData<List<ArmorPiece>> {
-        return withContext(Dispatchers.IO) {
-            val allArmorPiecesOfType = database.getAllArmorPiecesOfType(armorType)
-            allArmorPiecesOfType
-        }
-    }
-
-    private suspend fun getSkillRank(key: Int): LiveData<SkillRank> {
-        return withContext(Dispatchers.IO) {
-            val allArmorPiecesOfType = dataSourceSkillRank.get(key)
-            allArmorPiecesOfType
-        }
-    }
-
-    private suspend fun getSkill(key: Int): LiveData<Skills> {
-        return withContext(Dispatchers.IO) {
-            val allArmorPiecesOfType = dataSourceSkill.get(key)
-            allArmorPiecesOfType
-        }
-    }
-
-//    fun getSkillName(key: Int): String? {
-//        uiScope.launch {
-//            val skillId = getSkillRank(key).skillId
-//            val skillName = getSkill(skillId).name
-//        }
-//        return null
-//    }
 
     fun getArmorPiecesOfType(armorType: String): LiveData<List<ArmorPiece>> {
         return database.getAllArmorPiecesOfType(armorType)

@@ -12,6 +12,9 @@ interface ArmorPieceDAO{
     @Update
     fun update(armor: ArmorPiece)
 
+    @Query("SELECT * FROM armor_piece WHERE armor_piece_id = :key")
+    fun getArmorPieces(key: Int):LiveData<ArmorPiece>
+
     @Query("SELECT * FROM armor_piece")
     fun getAllArmorPieces():List<ArmorPiece>
 

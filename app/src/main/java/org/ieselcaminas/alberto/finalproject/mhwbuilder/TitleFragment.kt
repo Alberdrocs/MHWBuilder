@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.BuildCreatorDirections
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.FragmentTitleBinding
 
 /**
@@ -21,7 +22,7 @@ class TitleFragment : Fragment() {
     ): View? {
         val binding: FragmentTitleBinding =  DataBindingUtil.inflate(inflater, R.layout.fragment_title,  container, false)
         binding.createBuildButton.setOnClickListener {view: View ->
-            Navigation.findNavController(view).navigate(R.id.action_titleFragment_to_buildCreator)
+            Navigation.findNavController(view).navigate(TitleFragmentDirections.actionTitleFragmentToBuildCreator(-1,"notSelected"))
         }
         return binding.root
     }

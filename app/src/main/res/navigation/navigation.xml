@@ -21,6 +21,12 @@
         <action
             android:id="@+id/action_buildCreator_to_armorPickerFragment2"
             app:destination="@id/armorPickerFragment2" />
+        <argument
+            android:name="armorPieceId"
+            app:argType="integer" />
+        <argument
+            android:name="armorType"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/armorPickerFragment2"

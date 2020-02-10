@@ -10,6 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModel
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModelFactory
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.ArmorPickerFragmentBinding
 
@@ -35,20 +37,30 @@ class ArmorPickerFragment : Fragment() {
         val dataSourceSkill = AppDatabase.getInstance(application).skillsDAO()
         val dataSourceSkillRank = AppDatabase.getInstance(application).skillRankDAO()
         val viewModelFactory = ArmorPickerViewModelFactory(application, dataSource, dataSourceSet,dataSourceSkill, dataSourceSkillRank)
-
         val armorPickerViewModel =
             ViewModelProviders.of(
                 this, viewModelFactory).get(ArmorPickerViewModel::class.java)
+
+        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet, viewLifecycleOwner)
+        val equipmentViewModel = activity?.run {
+            ViewModelProviders.of(
+                this, equipmentViewModelFactory).get(EquipmentViewModel::class.java) }
 
         binding.armorPickerViewModel = armorPickerViewModel
 
         val args = ArmorPickerFragmentArgs.fromBundle(arguments!!)
 
-        val adapter = ArmorPickerAdapter(dataSourceSkill, dataSourceSkillRank, viewLifecycleOwner)
+        val adapter = equipmentViewModel?.let {
+            ArmorPickerAdapter(ArmorPieceListener {
+                armorPieceId -> armorPickerViewModel.startNavigationToArmorPiece(armorPieceId)
+            }, dataSourceSkill, dataSourceSkillRank, viewLifecycleOwner, it)
+        }
         binding.armorRecyclerView.adapter = adapter
         armorPickerViewModel.getArmorPiecesOfType(args.armorType).observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.data = it
+                if (adapter != null) {
+                    adapter.data = it
+                }
             }
         })
 

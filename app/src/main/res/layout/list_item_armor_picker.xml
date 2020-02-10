@@ -1,323 +1,336 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout2"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:background="#B5000000"
-    android:paddingBottom="10dp"
-    android:stateListAnimator="@animator/armor_picker_details_animation">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/armorPickerImage"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_margin="10dp"
-        android:src="@mipmap/head"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
+        <variable
+            name="armorPiece"
+            type="org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPiece" />
+        <variable
+            name="clickListener"
+            type="org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.armorPicker.ArmorPieceListener" />
 
-    <TextView
-        android:id="@+id/armorPickerName"
-        android:layout_width="147dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:ellipsize="end"
-        android:text="Armor Name"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/armorPickerImage"
-        app:layout_constraintTop_toTopOf="parent" />
+    </data>
 
-    <TextView
-        android:id="@+id/armorPickerSkill1"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="12dp"
-        android:text="Armor Skill 1"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/armorPickerName"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/armorPickerSkill2"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="12dp"
-        android:text="Armor Skill 2"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/armorPickerName"
-        app:layout_constraintTop_toBottomOf="@+id/armorPickerSkill1" />
-
-    <ImageView
-        android:id="@+id/armorPickerSlot1Image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="6dp"
-        android:scaleX="1.3"
-        android:scaleY="1.3"
-        app:layout_constraintEnd_toStartOf="@+id/armorPickerSlot2Image"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/armorPickerImage"
-        app:layout_constraintTop_toBottomOf="@+id/armorPickerName" />
-
-    <ImageView
-        android:id="@+id/armorPickerSlot2Image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="36dp"
-        android:scaleX="1.3"
-        android:scaleY="1.3"
-        app:layout_constraintEnd_toStartOf="@+id/armorPickerSlot3Image"
-        app:layout_constraintTop_toBottomOf="@+id/armorPickerName" />
-
-    <ImageView
-        android:id="@+id/armorPickerSlot3Image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="20dp"
-        android:scaleX="1.3"
-        android:scaleY="1.3"
-        app:layout_constraintEnd_toStartOf="@+id/armorPickerSkill2"
-        app:layout_constraintTop_toBottomOf="@+id/armorPickerName" />
-
-    <LinearLayout
-        android:id="@+id/details"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/armorPickerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/armorPickerImage"
-        app:layout_constraintVertical_bias="0.085"
-        tools:layout_editor_absoluteX="42dp">
+        android:layout_marginBottom="10dp"
+        android:background="#B5000000"
+        android:paddingBottom="10dp"
+        android:stateListAnimator="@animator/armor_picker_details_animation">
 
-        <View
-            android:id="@+id/divider16"
+        <ImageView
+            android:id="@+id/armorPickerImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dp"
+            android:src="@mipmap/head"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/armorPickerName"
+            android:layout_width="147dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:text="Armor Name"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/armorPickerImage"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/armorPickerSkill1"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:text="Armor Skill 1"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/armorPickerName"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/armorPickerSkill2"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:text="Armor Skill 2"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/armorPickerName"
+            app:layout_constraintTop_toBottomOf="@+id/armorPickerSkill1" />
+
+        <ImageView
+            android:id="@+id/armorPickerSlot1Image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="6dp"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
+            app:layout_constraintEnd_toStartOf="@+id/armorPickerSlot2Image"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/armorPickerImage"
+            app:layout_constraintTop_toBottomOf="@+id/armorPickerName" />
+
+        <ImageView
+            android:id="@+id/armorPickerSlot2Image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="36dp"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
+            app:layout_constraintEnd_toStartOf="@+id/armorPickerSlot3Image"
+            app:layout_constraintTop_toBottomOf="@+id/armorPickerName" />
+
+        <ImageView
+            android:id="@+id/armorPickerSlot3Image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="20dp"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
+            app:layout_constraintEnd_toStartOf="@+id/armorPickerSkill2"
+            app:layout_constraintTop_toBottomOf="@+id/armorPickerName" />
+
+        <LinearLayout
+            android:id="@+id/details"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="40dp"
-            android:background="@drawable/stadistics_border" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/armorPickerImage"
+            app:layout_constraintVertical_bias="0.085"
+            tools:layout_editor_absoluteX="42dp">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/damageTextView12"
+            <View
+                android:id="@+id/divider16"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="2dp"
                 android:layout_marginStart="40dp"
-                android:drawableLeft="@mipmap/defense_icon"
-                android:text="   Defense"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/defenseValueTextViewArmorPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="40dp"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-        </FrameLayout>
+                android:background="@drawable/stadistics_border" />
 
-        <View
-            android:id="@+id/divider17"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:background="@drawable/stadistics_border" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/damageTextView13"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-                android:drawableLeft="@mipmap/fire_icon"
-                android:text="  Vs. Fire"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/fireResistanceValueTextViewArmorPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginEnd="40dp"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-        </FrameLayout>
+                <TextView
+                    android:id="@+id/damageTextView12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:drawableLeft="@mipmap/defense_icon"
+                    android:text="   Defense"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
 
-        <View
-            android:id="@+id/divider18"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:background="@drawable/stadistics_border" />
+                <TextView
+                    android:id="@+id/defenseValueTextViewArmorPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="40dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+            </FrameLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/damageTextView14"
+            <View
+                android:id="@+id/divider17"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-                android:drawableLeft="@mipmap/water_icon"
-                android:text="  Vs. Water"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/waterResistanceValueTextViewArmorPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginEnd="40dp"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-        </FrameLayout>
-
-        <View
-            android:id="@+id/divider19"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:background="@drawable/stadistics_border" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/damageTextView15"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-                android:drawableLeft="@mipmap/thunder_icon"
-                android:text="  Vs. Thunder"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/thunderResistanceValueTextViewArmorPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginEnd="40dp"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-        </FrameLayout>
-
-        <View
-            android:id="@+id/divider20"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:background="@drawable/stadistics_border" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/damageTextView16"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="2dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
-                android:drawableLeft="@mipmap/ice_icon"
-                android:text="  Vs. Ice"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+                android:background="@drawable/stadistics_border" />
 
-            <TextView
-                android:id="@+id/iceResistanceValueTextViewArmorPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginEnd="40dp"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-        </FrameLayout>
-
-        <View
-            android:id="@+id/divider21"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:background="@drawable/stadistics_border" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/damageTextView17"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/damageTextView13"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:drawableLeft="@mipmap/fire_icon"
+                    android:text="  Vs. Fire"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/fireResistanceValueTextViewArmorPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="40dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+            </FrameLayout>
+
+            <View
+                android:id="@+id/divider18"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
-                android:drawableLeft="@mipmap/dragon_icon"
-                android:text="  Vs. Dragon"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+                android:background="@drawable/stadistics_border" />
 
-            <TextView
-                android:id="@+id/dragonResistanceValueTextViewArmorPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/damageTextView14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:drawableLeft="@mipmap/water_icon"
+                    android:text="  Vs. Water"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/waterResistanceValueTextViewArmorPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="40dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+            </FrameLayout>
+
+            <View
+                android:id="@+id/divider19"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-        </FrameLayout>
+                android:background="@drawable/stadistics_border" />
 
-        <View
-            android:id="@+id/divider22"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:background="@drawable/stadistics_border" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/addArmorToEquipmentButton"
-            style="@style/button_style"
-            android:layout_marginTop="10dp"
-            android:text="Add Armor"
-            android:textColor="#FFFFFF" />
+                <TextView
+                    android:id="@+id/damageTextView15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:drawableLeft="@mipmap/thunder_icon"
+                    android:text="  Vs. Thunder"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/thunderResistanceValueTextViewArmorPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="40dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+            </FrameLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:id="@+id/divider20"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/stadistics_border" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/damageTextView16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:drawableLeft="@mipmap/ice_icon"
+                    android:text="  Vs. Ice"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/iceResistanceValueTextViewArmorPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="40dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+            </FrameLayout>
+
+            <View
+                android:id="@+id/divider21"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/stadistics_border" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/damageTextView17"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:drawableLeft="@mipmap/dragon_icon"
+                    android:text="  Vs. Dragon"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/dragonResistanceValueTextViewArmorPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="40dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+            </FrameLayout>
+
+            <View
+                android:id="@+id/divider22"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/stadistics_border" />
+
+            <Button
+                android:id="@+id/addArmorToEquipmentButton"
+                style="@style/button_style"
+                android:layout_marginTop="10dp"
+                android:text="Add Armor"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -18,8 +18,6 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.BuildCreator
 class BuildCreator : Fragment() {
 
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

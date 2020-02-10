@@ -3,9 +3,12 @@ package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.SelectedArmor
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.*
 import org.json.JSONArray
 import java.io.IOException
@@ -14,12 +17,33 @@ import java.io.InputStream
 class EquipmentViewModel(
     application: Application,
     private val database: ArmorPieceDAO,
-    private val databaseSet: ArmorSetDAO
+    private val databaseSet: ArmorSetDAO,
+    private val viewLifecycleOwner: LifecycleOwner
 ) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    private var _currentArmorPieces = MutableLiveData<ArrayList<SelectedArmor>>()
+    val currentArmorPieces: LiveData<ArrayList<SelectedArmor>>
+        get() = _currentArmorPieces
+
+    init {
+        getPieceOfEachType().observe(viewLifecycleOwner, Observer {
+            it?.let {
+                val selectedArmor: ArrayList<SelectedArmor> = ArrayList()
+                for (i in 0 until it.size){
+                    selectedArmor.add(SelectedArmor(it[i],"Skill 1", "Skill 2"))
+                }
+                _currentArmorPieces.value = selectedArmor
+            }
+        })
+    }
+
+    fun setCurrentArmorPieces(armorPieces: ArrayList<SelectedArmor>){
+        _currentArmorPieces.value = armorPieces
+    }
 
     private suspend fun clear() {
         withContext(Dispatchers.IO) {
@@ -59,6 +83,17 @@ class EquipmentViewModel(
             val allArmorPieces = database.getAllArmorPieces()
             allArmorPieces
         }
+    }
+
+//    private suspend fun getPieceOfEachType(): LiveData<List<ArmorPiece>> {
+//        return withContext(Dispatchers.IO) {
+//            val allArmorPieces = database.getFirstArmorPiecesOfType()
+//            allArmorPieces
+//        }
+//    }
+
+    fun getArmorPiece(armorPieceId: Int): LiveData<ArmorPiece>{
+        return database.getArmorPieces(armorPieceId)
     }
 
     fun getPieceOfEachType(): LiveData<List<ArmorPiece>> {
