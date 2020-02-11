@@ -32,7 +32,7 @@ public class DatabaseCopier {
         copyAttachedDatabase(appContext, DATABASE_NAME);
         mAppDataBase = Room.databaseBuilder(appContext,
                 AppDatabase.class, DATABASE_NAME)
-                .addMigrations(AppDatabase.MIGRATION_3_5)
+                .addMigrations(AppDatabase.MIGRATION_5_6)
                 .build();
     }
 

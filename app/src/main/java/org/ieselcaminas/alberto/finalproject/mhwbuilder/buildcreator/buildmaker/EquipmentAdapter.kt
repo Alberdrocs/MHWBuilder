@@ -1,10 +1,13 @@
 package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker
 
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.cardview.widget.CardView
@@ -19,6 +22,7 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.BuildCreato
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.SelectedArmor
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPiece
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.EquipmentFragmentBinding
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.util.Animations
 
 class EquipmentAdapter : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
 
@@ -100,10 +104,52 @@ class EquipmentAdapter : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
                 })
             }
         }
+        if(item.armorPiece.slots != null){
+            if (item.armorPiece.slots.size > 0){
+                holder.armorDecoration1Details.visibility = View.VISIBLE
+                holder.armorDecoration1Details.setCompoundDrawables(checkDecorationSlot(item.armorPiece.slots[0],holder),null,null,null)
+                if (item.armorPiece.slots.size > 1){
+                    holder.armorDecoration2Details.visibility = View.VISIBLE
+                    holder.armorDecoration1Details.setCompoundDrawables(checkDecorationSlot(item.armorPiece.slots[1],holder),null,null,null)
+                    if (item.armorPiece.slots.size > 2){
+                        holder.armorDecoration3Details.visibility = View.VISIBLE
+                        holder.armorDecoration1Details.setCompoundDrawables(checkDecorationSlot(item.armorPiece.slots[2],holder),null,null,null)
+                    }
+                }
+            } else {
+                holder.changeDecorationsButton.visibility = View.GONE
+            }
+        }
 
-        holder.cardView.setOnClickListener {
+
+        holder.changeArmorButton.setOnClickListener {
             Navigation.findNavController(it).navigate(BuildCreatorDirections.actionBuildCreatorToArmorPickerFragment2(item.armorPiece.type))
         }
+
+        var isExpanded = true
+        holder.cardView.setOnClickListener {
+            val show = toggleLayout(isExpanded, holder.details)
+            isExpanded = !show
+        }
+    }
+
+    private fun checkDecorationSlot(slot: Int, holder:ViewHolder): Drawable? {
+        return when (slot){
+            1 ->   holder.itemView.context.resources.getDrawable(R.mipmap.gem_level_1)
+            2 ->   holder.itemView.context.resources.getDrawable(R.mipmap.gem_level_2)
+            3 ->   holder.itemView.context.resources.getDrawable(R.mipmap.gem_level_3)
+            4 ->   holder.itemView.context.resources.getDrawable(R.mipmap.gem_level_4)
+            else -> holder.itemView.context.resources.getDrawable(R.mipmap.gem_level_1)
+        }
+    }
+
+    private fun toggleLayout(isExpanded: Boolean, layoutExpand: LinearLayout): Boolean {
+        if (isExpanded) {
+            Animations.expand(layoutExpand)
+        } else {
+            Animations.collapse(layoutExpand)
+        }
+        return isExpanded
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -116,6 +162,7 @@ class EquipmentAdapter : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
 
 
         val cardView: CardView = itemView.findViewById(R.id.cardViewEquipmentArmorPiece)
+        val details: LinearLayout = itemView.findViewById(R.id.armorPieceDetails)
         val armorName: TextView = itemView.findViewById(R.id.armorTextView)
         val armorDecoration1: TextView = itemView.findViewById(R.id.armorDecoration1TextView)
         val armorDecoration2: TextView = itemView.findViewById(R.id.armorDecoration2TextView)
@@ -123,6 +170,11 @@ class EquipmentAdapter : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
         val armorImage: ImageView = itemView.findViewById(R.id.armorImageView)
         val skill1: TextView = itemView.findViewById(R.id.armorSkill1TextView)
         val skill2: TextView = itemView.findViewById(R.id.armorSkill2TextView)
+        val changeArmorButton: Button = itemView.findViewById(R.id.changeArmorPieceButton)
+        val changeDecorationsButton: Button = itemView.findViewById(R.id.changeDecorationsArmorPieceButton)
+        val armorDecoration1Details: TextView = itemView.findViewById(R.id.detailsArmorDecoration1TextView)
+        val armorDecoration2Details: TextView = itemView.findViewById(R.id.detailsArmorDecoration2TextView)
+        val armorDecoration3Details: TextView = itemView.findViewById(R.id.detailsArmorDecoration3TextView)
     }
 }
 

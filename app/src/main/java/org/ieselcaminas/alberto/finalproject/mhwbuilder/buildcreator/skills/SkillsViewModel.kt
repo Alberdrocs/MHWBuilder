@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import kotlinx.coroutines.*
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.decorations.Decoration
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.decorations.DecorationDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.*
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.Skills
 import org.json.JSONArray
@@ -21,6 +23,7 @@ import org.json.JSONObject
 class SkillsViewModel(
     val database: SkillsDAO,
     val databaseRank: SkillRankDAO,
+    val databaseDecoration: DecorationDAO,
     application: Application) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()
@@ -50,7 +53,7 @@ class SkillsViewModel(
 
     private suspend fun clear() {
         withContext(Dispatchers.IO) {
-            database.clear()
+            databaseDecoration.clear()
         }
     }
 
@@ -72,6 +75,12 @@ class SkillsViewModel(
         }
     }
 
+    private suspend fun insertDecoration(decoration: Decoration) {
+        withContext(Dispatchers.IO) {
+            databaseDecoration.insert(decoration)
+        }
+    }
+
     private suspend fun getSkillWithRanks(): LiveData<SkillWithRanks> {
         return withContext(Dispatchers.IO) {
             val skillWithRanks = databaseRank.getSkillWithRanks(85)
@@ -89,8 +98,15 @@ class SkillsViewModel(
     }
 
 
-    fun onStartTracking(inputStream: InputStream?) {
+    fun onStartTracking(inputStreamDecorations: InputStream?) {
         uiScope.launch {
+
+            //insertDecorations(inputStreamDecorations)
+            //clear()
+
+
+
+
 //            Log.i("TAG", "Ha entrado")
 //            val skillsWithRanks = getAllSkillsWithRanks()
 //            for (i in 0 until skillsWithRanks.size - 1) {
@@ -122,6 +138,41 @@ class SkillsViewModel(
 //            }
 
             //onClear()
+        }
+    }
+
+    private suspend fun SkillsViewModel.insertDecorations(
+        inputStreamDecorations: InputStream?
+    ) {
+        try {
+            var gson = Gson()
+            val inputString = inputStreamDecorations?.bufferedReader().use { it?.readText() }
+            val jsonArray = JSONArray(inputString)
+            for (i in 0..jsonArray.length() - 1) {
+                val decoration = jsonArray.getJSONObject(i)
+                val skillRankArray = decoration.getJSONArray("skills")
+                val skillRankArrayList: ArrayList<Int> = ArrayList()
+                for (x in 0 until skillRankArray.length()) {
+                    val skillRank = skillRankArray.getJSONObject(x)
+                    skillRankArrayList.add(skillRank.getInt("id"))
+                }
+                val newDecoration = Decoration(
+                    decoration.getInt("id"),
+                    decoration.getInt("rarity").toByte(),
+                    decoration.getInt("slot").toByte(),
+                    decoration.getString("name"),
+                    skillRankArrayList
+                )
+                Log.i(
+                    "DecorationsTAG",
+                    "Id: " + newDecoration.decorationId + ", Rarity: " + newDecoration.rarity + ", slot: " + newDecoration.slot + ", name: " + newDecoration.name
+                            + ", skillRankIds: " + newDecoration.skillRankId.toString()
+                )
+                insertDecoration(newDecoration)
+            }
+
+        } catch (e: IOException) {
+            Log.i("TAG", e.toString())
         }
     }
 

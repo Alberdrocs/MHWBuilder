@@ -11,90 +11,162 @@
     app:cardCornerRadius="12dp"
     app:cardUseCompatPadding="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="10dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/armorImageView"
-            android:layout_width="82dp"
-            android:layout_height="79dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:srcCompat="@drawable/item_background" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp">
 
-        <TextView
-            android:id="@+id/armorTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:text="Jagras Hacker III"
-            android:textColor="#F7F7F7"
-            android:textSize="24sp"
-            app:layout_constraintStart_toEndOf="@+id/armorImageView"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/armorImageView"
+                android:layout_width="82dp"
+                android:layout_height="79dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:srcCompat="@drawable/item_background" />
 
-        <TextView
-            android:id="@+id/armorSkill1TextView"
-            android:layout_width="177dp"
-            android:layout_height="26dp"
-            android:ellipsize="end"
-            android:paddingTop="5dp"
-            android:text="Skill 1"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@+id/armorImageView"
-            app:layout_constraintTop_toBottomOf="@+id/armorTextView" />
+            <TextView
+                android:id="@+id/armorTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="Jagras Hacker III"
+                android:textColor="#F7F7F7"
+                android:textSize="24sp"
+                app:layout_constraintStart_toEndOf="@+id/armorImageView"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/armorSkill2TextView"
-            android:layout_width="177dp"
-            android:layout_height="26dp"
-            android:ellipsize="end"
-            android:paddingTop="5dp"
-            android:text="Skill 2"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@+id/armorImageView"
-            app:layout_constraintTop_toBottomOf="@+id/armorSkill1TextView" />
+            <TextView
+                android:id="@+id/armorSkill1TextView"
+                android:layout_width="177dp"
+                android:layout_height="26dp"
+                android:ellipsize="end"
+                android:paddingTop="5dp"
+                android:text="Skill 1"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/armorImageView"
+                app:layout_constraintTop_toBottomOf="@+id/armorTextView" />
 
-        <TextView
-            android:id="@+id/armorDecoration1TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:text="Jewel 1"
-            android:textColor="#F7F7F7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/armorTextView"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/armorSkill2TextView"
+                android:layout_width="177dp"
+                android:layout_height="26dp"
+                android:ellipsize="end"
+                android:paddingTop="5dp"
+                android:text="Skill 2"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/armorImageView"
+                app:layout_constraintTop_toBottomOf="@+id/armorSkill1TextView" />
 
-        <TextView
-            android:id="@+id/armorDecoration2TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:text="Jewel 2"
-            android:textColor="#F7F7F7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/armorTextView"
-            app:layout_constraintTop_toBottomOf="@+id/armorDecoration1TextView" />
+            <TextView
+                android:id="@+id/armorDecoration1TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="Jewel 1"
+                android:textColor="#F7F7F7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/armorTextView"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/armorDecoration3TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:text="Jewel 3"
-            android:textColor="#F7F7F7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/armorTextView"
-            app:layout_constraintTop_toBottomOf="@+id/armorDecoration2TextView" />
+            <TextView
+                android:id="@+id/armorDecoration2TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="Jewel 2"
+                android:textColor="#F7F7F7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/armorTextView"
+                app:layout_constraintTop_toBottomOf="@+id/armorDecoration1TextView" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/armorDecoration3TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="Jewel 3"
+                android:textColor="#F7F7F7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/armorTextView"
+                app:layout_constraintTop_toBottomOf="@+id/armorDecoration2TextView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/armorPieceDetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/detailsArmorDecoration1TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:drawableLeft="@mipmap/gem_level_4"
+                android:paddingStart="10dp"
+                android:text="  Jewel 1"
+                android:textAllCaps="false"
+                android:textColor="#F7F7F7"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/detailsArmorDecoration2TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:drawableLeft="@mipmap/gem_level_4"
+                android:paddingStart="10dp"
+                android:text="  Jewel 2"
+                android:textColor="#F7F7F7"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/detailsArmorDecoration3TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:drawableLeft="@mipmap/gem_level_4"
+                android:paddingStart="10dp"
+                android:text="  Jewel 3"
+                android:textColor="#F7F7F7"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/changeDecorationsArmorPieceButton"
+                style="@style/button_style"
+                android:layout_width="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:text="Change decorations" />
+
+            <Button
+                android:id="@+id/changeArmorPieceButton"
+                style="@style/button_style"
+                android:layout_width="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:text="Change piece" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 </androidx.cardview.widget.CardView>

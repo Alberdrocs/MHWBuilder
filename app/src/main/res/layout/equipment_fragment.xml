@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="equipmentSkillsViewModel"
+            name="equipmentViewModel"
             type="org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModel" />
     </data>
 
@@ -15,12 +15,25 @@
         android:background="#B5000000"
         tools:context=".buildcreator.buildmaker.Equipment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/armor_piece_recycler_view"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/list_item_armor_piece" />
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/armor_piece_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/list_item_armor_piece" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
     </FrameLayout>
 </layout>

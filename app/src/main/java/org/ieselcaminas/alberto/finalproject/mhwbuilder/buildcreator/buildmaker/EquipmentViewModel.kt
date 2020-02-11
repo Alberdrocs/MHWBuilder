@@ -2,6 +2,9 @@ package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker
 
 import android.app.Application
 import android.util.Log
+import androidx.databinding.Bindable
+import androidx.databinding.Observable
+import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -28,6 +31,20 @@ class EquipmentViewModel(
     private var _currentArmorPieces = MutableLiveData<ArrayList<SelectedArmor>>()
     val currentArmorPieces: LiveData<ArrayList<SelectedArmor>>
         get() = _currentArmorPieces
+
+    val currentDefenseValue: LiveData<Int>
+        get() {
+            var defense:MutableLiveData<Int> = MutableLiveData<Int>()
+            defense.value = 0
+            for (i in 0 until 4){
+                val armorDefense = currentArmorPieces.value?.get(0)?.armorPiece?.defense?.get(0)
+                if (armorDefense != null) {
+                    val currentValue = defense.value
+                    defense.value = armorDefense + currentValue!!
+                }
+            }
+            return defense
+        }
 
     init {
         getPieceOfEachType().observe(viewLifecycleOwner, Observer {

@@ -34,7 +34,7 @@ class Equipment : Fragment() {
                 this, viewModelFactory).get(EquipmentViewModel::class.java)}
 
         val binding: EquipmentFragmentBinding =  DataBindingUtil.inflate(inflater, R.layout.equipment_fragment,  container, false)
-        binding.equipmentSkillsViewModel = equipmentViewModel
+        binding.equipmentViewModel = equipmentViewModel
         val adapter = EquipmentAdapter()
         binding.armorPieceRecyclerView.adapter = adapter
 

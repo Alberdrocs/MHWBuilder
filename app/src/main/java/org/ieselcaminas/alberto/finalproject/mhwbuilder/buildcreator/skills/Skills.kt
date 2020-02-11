@@ -28,8 +28,9 @@ class Skills : Fragment() {
 
         val dataSource = AppDatabase.getInstance(application).skillsDAO()
         val dataSourceRank = AppDatabase.getInstance(application).skillRankDAO()
+        val dataSourceDecoration = AppDatabase.getInstance(application).decorationDAO()
 
-        val viewModelFactory = SkillsViewModelFactory(dataSource, dataSourceRank, application)
+        val viewModelFactory = SkillsViewModelFactory(dataSource, dataSourceRank, dataSourceDecoration, application)
 
         val skillsViewModel =
             ViewModelProviders.of(
@@ -38,7 +39,7 @@ class Skills : Fragment() {
         binding.skillsViewModel = skillsViewModel
 
 
-        val inputStream = context?.assets?.open("skills.json")
+        val inputStream = context?.assets?.open("decorations.json")
         skillsViewModel.onStartTracking(inputStream)
 
 
