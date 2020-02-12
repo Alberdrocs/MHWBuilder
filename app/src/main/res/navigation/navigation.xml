@@ -11,7 +11,8 @@
         android:label="TitleFragment" >
         <action
             android:id="@+id/action_titleFragment_to_buildCreator"
-            app:destination="@id/buildCreator" />
+            app:destination="@id/buildCreator"
+            app:popUpTo="@+id/titleFragment" />
     </fragment>
     <fragment
         android:id="@+id/buildCreator"
@@ -27,6 +28,9 @@
         <argument
             android:name="armorType"
             app:argType="string" />
+        <action
+            android:id="@+id/action_buildCreator_to_decorationPickerFragment"
+            app:destination="@id/decorationPickerFragment" />
     </fragment>
     <fragment
         android:id="@+id/armorPickerFragment2"
@@ -37,6 +41,19 @@
             app:argType="string" />
         <action
             android:id="@+id/action_armorPickerFragment2_to_buildCreator"
-            app:destination="@id/buildCreator" />
+            app:destination="@id/buildCreator"
+            app:popUpTo="@+id/titleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/decorationPickerFragment"
+        android:name="org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.decorationPicker.DecorationPickerFragment"
+        android:label="DecorationPickerFragment" >
+        <argument
+            android:name="slot1"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_decorationPickerFragment_to_buildCreator"
+            app:destination="@id/buildCreator"
+            app:popUpTo="@+id/titleFragment" />
     </fragment>
 </navigation>

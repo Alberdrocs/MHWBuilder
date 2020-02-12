@@ -17,13 +17,6 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.ArmorPickerF
 
 class ArmorPickerFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = ArmorPickerFragment()
-    }
-
-    private lateinit var viewModel: ArmorPickerViewModel
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,12 +59,6 @@ class ArmorPickerFragment : Fragment() {
 
         binding.setLifecycleOwner(this)
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ArmorPickerViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }

@@ -105,20 +105,28 @@ class EquipmentAdapter : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
             }
         }
         if(item.armorPiece.slots != null){
+            holder.changeDecorationsButton.visibility = View.VISIBLE
+            Log.i("TAGSLOTSIZE" , "Tamaño array: " + item.armorPiece.slots.size)
             if (item.armorPiece.slots.size > 0){
                 holder.armorDecoration1Details.visibility = View.VISIBLE
-                holder.armorDecoration1Details.setCompoundDrawables(checkDecorationSlot(item.armorPiece.slots[0],holder),null,null,null)
+                holder.armorDecoration1Details.setCompoundDrawablesWithIntrinsicBounds(checkDecorationSlot(item.armorPiece.slots[0],holder),null,null,null)
                 if (item.armorPiece.slots.size > 1){
                     holder.armorDecoration2Details.visibility = View.VISIBLE
-                    holder.armorDecoration1Details.setCompoundDrawables(checkDecorationSlot(item.armorPiece.slots[1],holder),null,null,null)
+                    holder.armorDecoration2Details.setCompoundDrawablesWithIntrinsicBounds(checkDecorationSlot(item.armorPiece.slots[1],holder),null,null,null)
                     if (item.armorPiece.slots.size > 2){
                         holder.armorDecoration3Details.visibility = View.VISIBLE
-                        holder.armorDecoration1Details.setCompoundDrawables(checkDecorationSlot(item.armorPiece.slots[2],holder),null,null,null)
+                        holder.armorDecoration3Details.setCompoundDrawablesWithIntrinsicBounds(checkDecorationSlot(item.armorPiece.slots[2],holder),null,null,null)
                     }
                 }
-            } else {
-                holder.changeDecorationsButton.visibility = View.GONE
             }
+        } else {
+            holder.changeDecorationsButton.visibility = View.GONE
+        }
+
+        holder.changeDecorationsButton.setOnClickListener {
+            Log.i("TAGNavigate", item.armorPiece.slots!![0].toString())
+            Navigation.findNavController(it).navigate(BuildCreatorDirections.actionBuildCreatorToDecorationPickerFragment(
+                item.armorPiece.slots!![0]))
         }
 
 

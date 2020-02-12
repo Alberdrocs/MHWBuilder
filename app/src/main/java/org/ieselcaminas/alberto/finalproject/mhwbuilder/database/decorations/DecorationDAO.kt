@@ -17,7 +17,9 @@ interface DecorationDAO{
     @Query("DELETE from decoration")
     fun clear()
 
-
     @Query("SELECT * FROM decoration WHERE decoration_id = :key")
     fun getDecoration(key: Int): LiveData<Decoration>
+
+    @Query("SELECT * FROM decoration WHERE slot = :slot")
+    fun getDecorationsOfSlot(slot: Int): LiveData<List<Decoration>>
 }

@@ -38,6 +38,8 @@ class Equipment : Fragment() {
         val adapter = EquipmentAdapter()
         binding.armorPieceRecyclerView.adapter = adapter
 
+        binding.lifecycleOwner = this
+
         //equipmentViewModel.getArmorPiece()
 
         if (equipmentViewModel != null) {

@@ -24,7 +24,7 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.ListItemArmo
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.util.Animations
 
 
-class ArmorPickerAdapter(val clickListener: ArmorPieceListener,
+class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
     private val dataSourceSkill: SkillsDAO,
     private val dataSourceSkillRank: SkillRankDAO,
     private val viewLifecycleOwner: LifecycleOwner,
@@ -37,9 +37,6 @@ class ArmorPickerAdapter(val clickListener: ArmorPieceListener,
             field = value
             notifyDataSetChanged()
         }
-
-    lateinit var mRecyclerView: RecyclerView
-    var mExpandedPosition = -1
 
     override fun getItemCount() = data.size
 
@@ -56,12 +53,6 @@ class ArmorPickerAdapter(val clickListener: ArmorPieceListener,
     }
 
 
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-
-        mRecyclerView = recyclerView
-    }
 
     class ViewHolder private constructor(val binding: ListItemArmorPickerBinding) : RecyclerView.ViewHolder(binding.root){
 

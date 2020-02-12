@@ -5,9 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.DatabaseCopier
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPiece
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPieceDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorSet
@@ -28,26 +25,20 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun armorSetDAO(): ArmorSetDAO
     abstract fun decorationDAO(): DecorationDAO
     companion object {
-        @JvmField
-        val MIGRATION_5_6 : Migration = object : Migration(5, 6) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE TABLE decoration (\n" +
-                        "    decoration_id INTEGER PRIMARY KEY\n" +
-                        "                          NOT NULL,\n" +
-                        "    rarity        INTEGER NOT NULL,\n" +
-                        "    slot          INTEGER NOT NULL,\n" +
-                        "    name          TEXT    NOT NULL,\n" +
-                        "    skill_rank_id TEXT\n" +
-                        ");\n")
-            }
-        }
         @Volatile private var INSTANCE: AppDatabase? = null
         fun getInstance(context: Context): AppDatabase {
             synchronized(this) {
                 var instance =
                     INSTANCE
                 if (instance == null) {
-                    instance = DatabaseCopier.getInstance(context).roomDatabase
+                    instance = Room.databaseBuilder(
+                        context.applicationContext,
+                        AppDatabase::class.java,
+                        "mhwbuilder_database.db"
+                        ).createFromAsset("databases/mhwbuilder_database.db")
+                        .fallbackToDestructiveMigration()
+                        .build()
+
                     INSTANCE = instance
                 }
                 return instance!!
@@ -55,4 +46,3 @@ abstract class AppDatabase: RoomDatabase() {
         }
     }
 }
-

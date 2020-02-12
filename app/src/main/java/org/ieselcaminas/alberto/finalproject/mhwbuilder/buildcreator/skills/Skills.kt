@@ -7,13 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.DatabaseCopier
 
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.SkillsFragmentBinding
-import java.io.File
-import java.io.InputStream
 
 class Skills : Fragment() {
 

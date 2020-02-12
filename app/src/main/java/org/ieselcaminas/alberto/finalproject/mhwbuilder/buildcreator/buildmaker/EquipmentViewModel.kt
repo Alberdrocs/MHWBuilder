@@ -32,12 +32,13 @@ class EquipmentViewModel(
     val currentArmorPieces: LiveData<ArrayList<SelectedArmor>>
         get() = _currentArmorPieces
 
+
     val currentDefenseValue: LiveData<Int>
         get() {
-            var defense:MutableLiveData<Int> = MutableLiveData<Int>()
+            var defense:MutableLiveData<Int> = MutableLiveData()
             defense.value = 0
-            for (i in 0 until 4){
-                val armorDefense = currentArmorPieces.value?.get(0)?.armorPiece?.defense?.get(0)
+            for (i in 0 until 5){
+                val armorDefense = currentArmorPieces.value?.get(i)?.armorPiece?.defense?.get(0)
                 if (armorDefense != null) {
                     val currentValue = defense.value
                     defense.value = armorDefense + currentValue!!
@@ -45,6 +46,41 @@ class EquipmentViewModel(
             }
             return defense
         }
+
+    val currentResistancesValues: LiveData<HashMap<String, Int>>
+    get() {
+        var resistances: MutableLiveData<HashMap<String, Int>> = MutableLiveData()
+        var baseResistances = HashMap<String, Int>()
+        baseResistances["fire"] = 0
+        baseResistances["ice"] = 0
+        baseResistances["thunder"] = 0
+        baseResistances["dragon"] = 0
+        baseResistances["water"] = 0
+        resistances.value = baseResistances
+        for (i in 0 until 5){
+            val armorResistances = currentArmorPieces.value?.get(i)?.armorPiece?.resistances
+            if (armorResistances != null){
+                val currentResistances = resistances.value
+                currentResistances?.set("fire",
+                    currentResistances["fire"]!! + armorResistances["fire"]!!
+                )
+                currentResistances?.set("ice",
+                    currentResistances["ice"]!! + armorResistances["ice"]!!
+                )
+                currentResistances?.set("thunder",
+                    currentResistances["thunder"]!! + armorResistances["thunder"]!!
+                )
+                currentResistances?.set("dragon",
+                    currentResistances["dragon"]!! + armorResistances["dragon"]!!
+                )
+                currentResistances?.set("water",
+                    currentResistances["water"]!! + armorResistances["water"]!!
+                )
+                resistances.value = currentResistances
+            }
+        }
+        return resistances
+    }
 
     init {
         getPieceOfEachType().observe(viewLifecycleOwner, Observer {

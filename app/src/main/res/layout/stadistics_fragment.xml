@@ -286,6 +286,7 @@
                     android:layout_marginEnd="40dp"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
+                    android:text="@{equipmentViewModel.currentDefenseValue.toString()}"
                 />
             </FrameLayout>
 
@@ -319,7 +320,8 @@
                     android:layout_gravity="right"
                     android:layout_marginEnd="40dp"
                     android:textColor="#FFFFFF"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;fire&quot;).toString()}"/>
             </FrameLayout>
 
             <View
@@ -352,7 +354,8 @@
                     android:layout_gravity="right"
                     android:layout_marginEnd="40dp"
                     android:textColor="#FFFFFF"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;water&quot;).toString()}"/>
             </FrameLayout>
 
             <View
@@ -385,7 +388,8 @@
                     android:layout_gravity="right"
                     android:layout_marginEnd="40dp"
                     android:textColor="#FFFFFF"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;thunder&quot;).toString()}"/>
             </FrameLayout>
 
             <View
@@ -418,7 +422,8 @@
                     android:layout_gravity="right"
                     android:layout_marginEnd="40dp"
                     android:textColor="#FFFFFF"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;ice&quot;).toString()}"/>
             </FrameLayout>
 
             <View
@@ -451,7 +456,8 @@
                     android:layout_gravity="right"
                     android:layout_marginEnd="40dp"
                     android:textColor="#FFFFFF"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;dragon&quot;).toString()}"/>
             </FrameLayout>
 
             <View

@@ -32,6 +32,7 @@ class BuildCreator : Fragment() {
                 this, viewModelFactory).get(BuildCreatorViewModel::class.java)
         binding.buildCreatorViewModel = buildCreatorViewModel
         binding.buildCreatorViewPager.adapter = FragmentAdapterPager(childFragmentManager)
+        binding.buildCreatorViewPager.currentItem = 1
         binding.tabLayout.setupWithViewPager(binding.buildCreatorViewPager)
         return binding.root
     }
