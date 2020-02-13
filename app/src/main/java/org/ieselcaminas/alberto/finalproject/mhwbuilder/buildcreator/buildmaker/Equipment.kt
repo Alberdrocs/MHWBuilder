@@ -35,7 +35,7 @@ class Equipment : Fragment() {
 
         val binding: EquipmentFragmentBinding =  DataBindingUtil.inflate(inflater, R.layout.equipment_fragment,  container, false)
         binding.equipmentViewModel = equipmentViewModel
-        val adapter = EquipmentAdapter()
+        val adapter = EquipmentAdapter(activity)
         binding.armorPieceRecyclerView.adapter = adapter
 
         binding.lifecycleOwner = this

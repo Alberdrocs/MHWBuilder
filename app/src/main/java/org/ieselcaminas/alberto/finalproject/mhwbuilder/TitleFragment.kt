@@ -22,7 +22,7 @@ class TitleFragment : Fragment() {
     ): View? {
         val binding: FragmentTitleBinding =  DataBindingUtil.inflate(inflater, R.layout.fragment_title,  container, false)
         binding.createBuildButton.setOnClickListener {view: View ->
-            Navigation.findNavController(view).navigate(TitleFragmentDirections.actionTitleFragmentToBuildCreator(-1,"notSelected"))
+            Navigation.findNavController(view).navigate(TitleFragmentDirections.actionTitleFragmentToBuildCreator())
         }
         return binding.root
     }

@@ -18,13 +18,12 @@
         android:paddingBottom="10dp">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/decorationImageDecorationPickerImageView"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="17dp"
             android:layout_marginStart="52dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@mipmap/gem_level_4" />
@@ -39,7 +38,7 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.13"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintStart_toEndOf="@+id/decorationImageDecorationPickerImageView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -53,7 +52,7 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.075"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintStart_toEndOf="@+id/decorationImageDecorationPickerImageView"
             app:layout_constraintTop_toBottomOf="@+id/decorationNameDecorationPickerTextView" />
 
         <TextView
@@ -66,7 +65,54 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.075"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintStart_toEndOf="@+id/decorationImageDecorationPickerImageView"
             app:layout_constraintTop_toBottomOf="@+id/decorationSkillName1DecorationPickerTextView" />
+
+        <LinearLayout
+            android:id="@+id/detailsDecorationPicker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/decorationSkillName2DecorationPickerTextView"
+            app:layout_constraintVertical_bias="0.027">
+
+            <TextView
+                android:id="@+id/decorationDescription1DecorationPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="50dp"
+                android:text="TextView"
+                android:textColor="#F7F7F7"
+                android:textSize="16sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/decorationDescription2DecorationPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="50dp"
+                android:text="TextView"
+                android:textColor="#F7F7F7"
+                android:textSize="16sp"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/addDecorationDecorationPickerButton"
+                style="@style/button_style"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:text="Add decoration" />
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

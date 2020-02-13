@@ -15,6 +15,3 @@ class BuildCreatorViewModel(application: Application) : ViewModel() {
         Log.i("BuildCreatorViewModel", "BuildCreatorViewModel cleared")
     }
 }
-
-class SelectedArmor(val armorPiece: ArmorPiece, val skillName1:String?, val skillName2:String?){
-}

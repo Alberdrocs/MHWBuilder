@@ -22,12 +22,6 @@
         <action
             android:id="@+id/action_buildCreator_to_armorPickerFragment2"
             app:destination="@id/armorPickerFragment2" />
-        <argument
-            android:name="armorPieceId"
-            app:argType="integer" />
-        <argument
-            android:name="armorType"
-            app:argType="string" />
         <action
             android:id="@+id/action_buildCreator_to_decorationPickerFragment"
             app:destination="@id/decorationPickerFragment" />
@@ -55,5 +49,11 @@
             android:id="@+id/action_decorationPickerFragment_to_buildCreator"
             app:destination="@id/buildCreator"
             app:popUpTo="@+id/titleFragment" />
+        <argument
+            android:name="slotPosition"
+            app:argType="integer" />
+        <argument
+            android:name="armorType"
+            app:argType="string" />
     </fragment>
 </navigation>

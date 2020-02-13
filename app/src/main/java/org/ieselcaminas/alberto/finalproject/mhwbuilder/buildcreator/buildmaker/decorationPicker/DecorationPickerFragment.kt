@@ -2,7 +2,6 @@ package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModel
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModelFactory
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.DecorationPickerFragmentBinding
 
@@ -29,23 +30,35 @@ class DecorationPickerFragment : Fragment() {
         val dataSource = AppDatabase.getInstance(application).decorationDAO()
         val dataSourceSkill = AppDatabase.getInstance(application).skillsDAO()
         val dataSourceSkillRank = AppDatabase.getInstance(application).skillRankDAO()
+        val dataSourceArmor = AppDatabase.getInstance(application).armorPieceDAO()
+        val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
         val viewModelFactory = DecorationPickerViewModelFactory(application, dataSource)
         val decorationPickerViewModel =
             ViewModelProviders.of(
                 this, viewModelFactory).get(DecorationPickerViewModel::class.java)
 
-        binding.decorationPickerViewModel = decorationPickerViewModel
+        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSourceArmor, dataSourceSet, viewLifecycleOwner)
+        val equipmentViewModel = activity?.run {
+            ViewModelProviders.of(
+                this, equipmentViewModelFactory).get(EquipmentViewModel::class.java) }
 
-        val adapter = DecorationPickerAdapter(viewLifecycleOwner, dataSourceSkill, dataSourceSkillRank)
+        binding.decorationPickerViewModel = decorationPickerViewModel
+        val args = DecorationPickerFragmentArgs.fromBundle(arguments!!)
+
+        val adapter = equipmentViewModel?.let {
+            DecorationPickerAdapter(viewLifecycleOwner, dataSourceSkill, dataSourceSkillRank,
+                it, args.slotPosition, args.armorType
+            )
+        }
 
         binding.decorationRecyclerView.adapter = adapter
 
-        val args = DecorationPickerFragmentArgs.fromBundle(arguments!!)
-        Log.i("TAGArg", args.slot1.toString())
+
         decorationPickerViewModel.getDecorationsOfSlot(args.slot1).observe(viewLifecycleOwner, Observer {
             it?.let {
-                Log.i("TAGDecoration", it.toString())
-                adapter.data = it
+                if (adapter != null) {
+                    adapter.data = it
+                }
             }
         })
 

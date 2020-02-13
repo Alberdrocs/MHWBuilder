@@ -1,5 +1,6 @@
 package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker
 
+import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,22 +10,18 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
-import androidx.lifecycle.LiveData
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.TransitionManager
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.BuildCreatorDirections
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.SelectedArmor
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPiece
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.EquipmentFragmentBinding
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.decorations.Decoration
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.util.Animations
 
-class EquipmentAdapter : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
+class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
 
 
     var data = listOf<SelectedArmor>()
@@ -34,6 +31,8 @@ class EquipmentAdapter : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
         }
 
     lateinit var mRecyclerView: RecyclerView
+
+    val decorationsArray = ArrayList<String>(3)
 
     override fun getItemCount() = data.size
 
@@ -56,6 +55,8 @@ class EquipmentAdapter : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
         holder.armorDecoration3.text = ""
         holder.skill1.text = item.skillName1
         holder.skill2.text = item.skillName2
+
+
 
         when (item.armorPiece.type){
             "head" -> {
@@ -106,14 +107,16 @@ class EquipmentAdapter : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
         }
         if(item.armorPiece.slots != null){
             holder.changeDecorationsButton.visibility = View.VISIBLE
-            Log.i("TAGSLOTSIZE" , "Tamaño array: " + item.armorPiece.slots.size)
             if (item.armorPiece.slots.size > 0){
+                decorationsArray.add(0,"Decoration 1")
                 holder.armorDecoration1Details.visibility = View.VISIBLE
                 holder.armorDecoration1Details.setCompoundDrawablesWithIntrinsicBounds(checkDecorationSlot(item.armorPiece.slots[0],holder),null,null,null)
                 if (item.armorPiece.slots.size > 1){
+                    decorationsArray.add(1,"Decoration 2")
                     holder.armorDecoration2Details.visibility = View.VISIBLE
                     holder.armorDecoration2Details.setCompoundDrawablesWithIntrinsicBounds(checkDecorationSlot(item.armorPiece.slots[1],holder),null,null,null)
                     if (item.armorPiece.slots.size > 2){
+                        decorationsArray.add(2,"Decoration 3")
                         holder.armorDecoration3Details.visibility = View.VISIBLE
                         holder.armorDecoration3Details.setCompoundDrawablesWithIntrinsicBounds(checkDecorationSlot(item.armorPiece.slots[2],holder),null,null,null)
                     }
@@ -123,10 +126,47 @@ class EquipmentAdapter : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
             holder.changeDecorationsButton.visibility = View.GONE
         }
 
-        holder.changeDecorationsButton.setOnClickListener {
+        if (item.decorations.toString() != "[]"){
+            Log.i("Decorations", item.decorations[0]?.name)
+            holder.armorDecoration1Details.text = "  " + item.decorations[0]?.name
+            if (item.decorations.size > 1){
+                holder.armorDecoration2Details.text = "  " + item.decorations[1]?.name
+                if (item.decorations.size > 2){
+                    holder.armorDecoration3Details.text = "  " + item.decorations[2]?.name
+                }
+            }
+        }
+
+        holder.changeDecorationsButton.setOnClickListener {view ->
             Log.i("TAGNavigate", item.armorPiece.slots!![0].toString())
-            Navigation.findNavController(it).navigate(BuildCreatorDirections.actionBuildCreatorToDecorationPickerFragment(
-                item.armorPiece.slots!![0]))
+            val alertDialog = activity?.let {
+                val builder = AlertDialog.Builder(it)
+                val array = Array(item.armorPiece.slots.size, { i -> "Decoration " + (i+1) })
+                var selectedItem = 0
+                builder.setTitle("Choose the desired Decoration")
+                    .setSingleChoiceItems(array, 0,
+                        DialogInterface.OnClickListener { dialogInterface, i ->
+                            selectedItem = i
+                        })
+                    // Set the action buttons
+                    .setPositiveButton("OK"
+                    ) { _, _ ->
+                        Log.i("DialogTag", "Seleccion " + selectedItem)
+                        Navigation.findNavController(view).navigate(BuildCreatorDirections.actionBuildCreatorToDecorationPickerFragment(
+                            item.armorPiece.slots!![selectedItem],selectedItem, item.armorPiece.type))
+                    }
+                    .setNegativeButton("Cancel",
+                        DialogInterface.OnClickListener { dialog, id ->
+
+                        })
+                builder.create()
+            } ?: throw IllegalStateException("Activity cannot be null")
+
+
+            alertDialog.show()
+
+//            Navigation.findNavController(it).navigate(BuildCreatorDirections.actionBuildCreatorToDecorationPickerFragment(
+//                item.armorPiece.slots!![0]))
         }
 
 
@@ -185,5 +225,7 @@ class EquipmentAdapter : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
         val armorDecoration3Details: TextView = itemView.findViewById(R.id.detailsArmorDecoration3TextView)
     }
 }
+
+
 
 

@@ -13,8 +13,8 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.SelectedArmor
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModel
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.SelectedArmor
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPiece
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRankDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillWithRanks
@@ -182,41 +182,43 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
                 when(item.type){
                     "head" -> {currentEquipment?.set(0, SelectedArmor(item,
                         binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                    ))
+                    , ArrayList()
+                    )
+                    )
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
                     }
                     "chest" -> {currentEquipment?.set(1, SelectedArmor(item,
                         binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                    ))
+                    ,ArrayList()))
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
                     }
                     "gloves" -> {currentEquipment?.set(2, SelectedArmor(item,
                         binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                    ))
+                    ,ArrayList()))
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
                     }
                     "waist" -> {currentEquipment?.set(3, SelectedArmor(item,
                         binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                    ))
+                    ,ArrayList()))
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
                     }
                     "legs" -> {currentEquipment?.set(4, SelectedArmor(item,
                         binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                    ))
+                    ,ArrayList()))
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
                     }
                 }
-                Navigation.findNavController(it).navigate(ArmorPickerFragmentDirections.actionArmorPickerFragment2ToBuildCreator(item.armorPieceId, item.type))
+                Navigation.findNavController(it).navigate(ArmorPickerFragmentDirections.actionArmorPickerFragment2ToBuildCreator())
             }
             binding.details.visibility = View.GONE
 
@@ -243,8 +245,6 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
                 return ViewHolder(binding)
             }
         }
-
-
     }
 }
 
