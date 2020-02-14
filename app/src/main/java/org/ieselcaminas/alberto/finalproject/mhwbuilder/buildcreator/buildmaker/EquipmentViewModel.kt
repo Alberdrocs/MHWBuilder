@@ -2,24 +2,22 @@ package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.*
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.decorations.Decoration
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRank
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.Skills
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.*
 import org.json.JSONArray
 import java.io.IOException
 import java.io.InputStream
+import java.lang.IndexOutOfBoundsException
 
 class EquipmentViewModel(
     application: Application,
     private val database: ArmorPieceDAO,
     private val databaseSet: ArmorSetDAO,
+    private val databaseRank: SkillRankDAO,
+    private val databaseSkill: SkillsDAO,
     private val viewLifecycleOwner: LifecycleOwner
 ) : AndroidViewModel(application) {
 
@@ -81,17 +79,11 @@ class EquipmentViewModel(
         return resistances
     }
 
-    val currentSkillsForDisplay: LiveData<ArrayList<SkillsForDisplay>>
-    get() {
-        var skills = MutableLiveData<ArrayList<SkillsForDisplay>>()
-        skills.value = ArrayList()
-        for (i in 0 until 5){
-            //val observer = Observer<> {  }
-            //val skillsForDisplay = SkillsForDisplay(currentArmorPieces.value?.get(i)?.armorPiece)
-        }
 
-        return skills
-    }
+    private var _currentSkillsForDisplay = MutableLiveData<ArrayList<SkillsForDisplay>>()
+    val currentSkillsForDisplay: LiveData<ArrayList<SkillsForDisplay>>
+        get() = _currentSkillsForDisplay
+
 
     init {
         getPieceOfEachType().observe(viewLifecycleOwner, Observer {
@@ -108,6 +100,11 @@ class EquipmentViewModel(
     fun setCurrentArmorPieces(armorPieces: ArrayList<SelectedArmor>){
         _currentArmorPieces.value = armorPieces
     }
+
+    fun setCurrentSkillsForDisplay(skillsForDisplay: ArrayList<SkillsForDisplay>){
+        _currentSkillsForDisplay.value = skillsForDisplay
+    }
+
 
     private suspend fun clear() {
         withContext(Dispatchers.IO) {
@@ -149,6 +146,18 @@ class EquipmentViewModel(
         }
     }
 
+    fun getArmorPieceSkillRank(skillRankId: Int): LiveData<SkillRank> {
+        return databaseRank.get(skillRankId)
+    }
+
+    fun getSkillRankSkill(skillId: Int): LiveData<Skills> {
+        return databaseSkill.get(skillId)
+    }
+
+    fun getSkillWithRanks(skillId: Int): LiveData<SkillWithRanks>{
+        return databaseRank.getSkillWithRanks(skillId)
+    }
+
 //    private suspend fun getPieceOfEachType(): LiveData<List<ArmorPiece>> {
 //        return withContext(Dispatchers.IO) {
 //            val allArmorPieces = database.getFirstArmorPiecesOfType()
@@ -169,4 +178,4 @@ class EquipmentViewModel(
 class SelectedArmor(val armorPiece: ArmorPiece, val skillName1:String?, val skillName2:String?, var decorations: ArrayList<Decoration?>){
 }
 
-class SkillsForDisplay(val skill: Skills, val skillRanks: ArrayList<SkillRank>)
+class SkillsForDisplay(val skill: Skills, val skillRanks: ArrayList<SkillRank>, val activeLevels: Int)

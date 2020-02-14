@@ -15,6 +15,7 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRan
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillsDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.ListItemDecorationPickerBinding
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.util.Animations
+import java.lang.IndexOutOfBoundsException
 
 class DecorationPickerAdapter(
     private val viewLifecycleOwner: LifecycleOwner,
@@ -109,7 +110,11 @@ class DecorationPickerAdapter(
                 }
                 val decorations = currentEquipment?.get(equipmentIndex)?.decorations
                 if (decorations != null) {
-                    decorations.add(slotPosition,item)
+                    try {
+                        decorations[slotPosition] = item
+                    } catch (e: IndexOutOfBoundsException){
+                        decorations.add(slotPosition,item)
+                    }
                 }
                 var armorPiece = currentEquipment?.get(equipmentIndex)
                 if (decorations != null) {

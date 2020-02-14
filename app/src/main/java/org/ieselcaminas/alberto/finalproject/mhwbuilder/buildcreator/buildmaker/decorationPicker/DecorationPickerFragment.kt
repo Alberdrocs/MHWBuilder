@@ -37,7 +37,7 @@ class DecorationPickerFragment : Fragment() {
             ViewModelProviders.of(
                 this, viewModelFactory).get(DecorationPickerViewModel::class.java)
 
-        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSourceArmor, dataSourceSet, viewLifecycleOwner)
+        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSourceArmor, dataSourceSet, dataSourceSkillRank, dataSourceSkill, viewLifecycleOwner)
         val equipmentViewModel = activity?.run {
             ViewModelProviders.of(
                 this, equipmentViewModelFactory).get(EquipmentViewModel::class.java) }

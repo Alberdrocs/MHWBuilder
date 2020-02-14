@@ -32,7 +32,6 @@ class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.A
 
     lateinit var mRecyclerView: RecyclerView
 
-    val decorationsArray = ArrayList<String>(3)
 
     override fun getItemCount() = data.size
 
@@ -108,15 +107,12 @@ class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.A
         if(item.armorPiece.slots != null){
             holder.changeDecorationsButton.visibility = View.VISIBLE
             if (item.armorPiece.slots.size > 0){
-                decorationsArray.add(0,"Decoration 1")
                 holder.armorDecoration1Details.visibility = View.VISIBLE
                 holder.armorDecoration1Details.setCompoundDrawablesWithIntrinsicBounds(checkDecorationSlot(item.armorPiece.slots[0],holder),null,null,null)
                 if (item.armorPiece.slots.size > 1){
-                    decorationsArray.add(1,"Decoration 2")
                     holder.armorDecoration2Details.visibility = View.VISIBLE
                     holder.armorDecoration2Details.setCompoundDrawablesWithIntrinsicBounds(checkDecorationSlot(item.armorPiece.slots[1],holder),null,null,null)
                     if (item.armorPiece.slots.size > 2){
-                        decorationsArray.add(2,"Decoration 3")
                         holder.armorDecoration3Details.visibility = View.VISIBLE
                         holder.armorDecoration3Details.setCompoundDrawablesWithIntrinsicBounds(checkDecorationSlot(item.armorPiece.slots[2],holder),null,null,null)
                     }

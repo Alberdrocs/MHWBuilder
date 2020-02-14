@@ -26,7 +26,9 @@ class Stadistics : Fragment() {
         val application = requireNotNull(this.activity).application
         val dataSource = AppDatabase.getInstance(application).armorPieceDAO()
         val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
-        val viewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet, viewLifecycleOwner)
+        val dataSourceSkill = AppDatabase.getInstance(application).skillsDAO()
+        val dataSourceSkillRank = AppDatabase.getInstance(application).skillRankDAO()
+        val viewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet, dataSourceSkillRank, dataSourceSkill, viewLifecycleOwner)
         val equipmentViewModel = activity?.run {
             ViewModelProviders.of(
                 this, viewModelFactory).get(EquipmentViewModel::class.java)}
