@@ -1,6 +1,5 @@
 package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.armorPicker
 
-import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +18,6 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPiec
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRankDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillWithRanks
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillsDAO
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.EquipmentFragmentBindingImpl
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.ListItemArmorPickerBinding
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.util.Animations
 
@@ -29,7 +27,7 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
     private val dataSourceSkillRank: SkillRankDAO,
     private val viewLifecycleOwner: LifecycleOwner,
     private val equipmentViewModel: EquipmentViewModel
-) : RecyclerView.Adapter<ArmorPickerAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ArmorPickerAdapter.ArmorPickerViewHolder>() {
 
 
     var data = listOf<ArmorPiece>()
@@ -40,21 +38,21 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
 
     override fun getItemCount() = data.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArmorPickerViewHolder {
+        return ArmorPickerViewHolder.from(parent)
     }
     private fun getSkill(skillRankId: Int): LiveData<SkillWithRanks> {
         return dataSourceSkillRank.getSkillWithRanks(skillRankId)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ArmorPickerViewHolder, position: Int) {
         val item = data[position]
         holder.bind(item, clickListener,dataSourceSkill, dataSourceSkillRank, viewLifecycleOwner, equipmentViewModel)
     }
 
 
 
-    class ViewHolder private constructor(val binding: ListItemArmorPickerBinding) : RecyclerView.ViewHolder(binding.root){
+    class ArmorPickerViewHolder private constructor(val binding: ListItemArmorPickerBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(item: ArmorPiece, clickListener: ArmorPieceListener, dataSourceSkill: SkillsDAO, dataSourceSkillRank: SkillRankDAO, viewLifecycleOwner: LifecycleOwner, equipmentViewModel: EquipmentViewModel){
             binding.armorPiece = item
@@ -239,10 +237,10 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
         }
 
         companion object{
-            fun from(parent: ViewGroup): ViewHolder {
+            fun from(parent: ViewGroup): ArmorPickerViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemArmorPickerBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding)
+                return ArmorPickerViewHolder(binding)
             }
         }
     }

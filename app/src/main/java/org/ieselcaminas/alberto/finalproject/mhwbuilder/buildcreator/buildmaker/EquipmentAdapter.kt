@@ -17,11 +17,9 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.BuildCreatorDirections
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPiece
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.decorations.Decoration
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.util.Animations
 
-class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.Adapter<EquipmentAdapter.ViewHolder>() {
+class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.Adapter<EquipmentAdapter.EquipmentViewHolder>() {
 
 
     var data = listOf<SelectedArmor>()
@@ -35,18 +33,18 @@ class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.A
 
     override fun getItemCount() = data.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EquipmentViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater
             .inflate(R.layout.list_item_armor_piece, parent, false)
 
-        return ViewHolder(
+        return EquipmentViewHolder(
             view
         )
     }
 
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: EquipmentViewHolder, position: Int) {
         val item = data[position]
         holder.armorName.text = item.armorPiece.name
         holder.armorDecoration1.text = ""
@@ -177,7 +175,7 @@ class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.A
         }
     }
 
-    private fun checkDecorationSlot(slot: Int, holder:ViewHolder): Drawable? {
+    private fun checkDecorationSlot(slot: Int, holder:EquipmentViewHolder): Drawable? {
         return when (slot){
             1 ->   holder.itemView.context.resources.getDrawable(R.mipmap.gem_level_1)
             2 ->   holder.itemView.context.resources.getDrawable(R.mipmap.gem_level_2)
@@ -202,7 +200,7 @@ class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.A
         mRecyclerView = recyclerView
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class EquipmentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
 
         val cardView: CardView = itemView.findViewById(R.id.cardViewEquipmentArmorPiece)

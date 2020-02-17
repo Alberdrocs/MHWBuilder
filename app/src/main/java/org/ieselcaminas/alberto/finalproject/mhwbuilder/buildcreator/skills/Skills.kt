@@ -7,8 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModel
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModelFactory
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.SkillsForDisplay
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.SkillsFragmentBinding
 
@@ -26,19 +30,35 @@ class Skills : Fragment() {
         val dataSource = AppDatabase.getInstance(application).skillsDAO()
         val dataSourceRank = AppDatabase.getInstance(application).skillRankDAO()
         val dataSourceDecoration = AppDatabase.getInstance(application).decorationDAO()
-
+        val dataSourceArmor = AppDatabase.getInstance(application).armorPieceDAO()
+        val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
         val viewModelFactory = SkillsViewModelFactory(dataSource, dataSourceRank, dataSourceDecoration, application)
-
         val skillsViewModel =
             ViewModelProviders.of(
                 this, viewModelFactory).get(SkillsViewModel::class.java)
 
+
+        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSourceArmor, dataSourceSet, dataSourceRank, dataSource, viewLifecycleOwner)
+        val equipmentViewModel = activity?.run {
+            ViewModelProviders.of(
+                this, equipmentViewModelFactory).get(EquipmentViewModel::class.java) }
+
         binding.skillsViewModel = skillsViewModel
 
+        val adapter = SkillsAdapter()
+        binding.skillsRecyclerView.adapter = adapter
 
-        val inputStream = context?.assets?.open("decorations.json")
-        skillsViewModel.onStartTracking(inputStream)
-
+        if (equipmentViewModel != null) {
+            equipmentViewModel.currentSkillsForDisplay.observe(viewLifecycleOwner, Observer {
+                it?.let {
+                    var skillsForDisplayList = ArrayList<SkillsForDisplay>()
+                    for (i in it){
+                        skillsForDisplayList.add(i.value)
+                    }
+                    adapter.data = skillsForDisplayList
+                }
+            })
+        }
 
         return binding.root
     }

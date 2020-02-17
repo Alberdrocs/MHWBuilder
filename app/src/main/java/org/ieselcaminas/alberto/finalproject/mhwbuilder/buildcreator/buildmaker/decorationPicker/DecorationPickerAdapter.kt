@@ -24,7 +24,7 @@ class DecorationPickerAdapter(
     private val equipmentViewModel: EquipmentViewModel,
     private val slotPosition: Int,
     private val armorType: String
-) : RecyclerView.Adapter<DecorationPickerAdapter.ViewHolder>(){
+) : RecyclerView.Adapter<DecorationPickerAdapter.DecorationPickerViewHolder>(){
 
     var data = listOf<Decoration>()
         set(value) {
@@ -33,19 +33,19 @@ class DecorationPickerAdapter(
         }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DecorationPickerViewHolder {
+        return DecorationPickerViewHolder.from(parent)
     }
 
     override fun getItemCount()= data.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DecorationPickerViewHolder, position: Int) {
         val item = data[position]
         holder.bind(item, dataSourceSkill, dataSourceSkillRank, viewLifecycleOwner, equipmentViewModel, slotPosition, armorType)
     }
 
 
-    class ViewHolder private constructor(val binding: ListItemDecorationPickerBinding) : RecyclerView.ViewHolder(binding.root){
+    class DecorationPickerViewHolder private constructor(val binding: ListItemDecorationPickerBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(
             item: Decoration,
             dataSourceSkill: SkillsDAO,
@@ -145,10 +145,10 @@ class DecorationPickerAdapter(
         }
 
         companion object{
-            fun from(parent: ViewGroup): ViewHolder {
+            fun from(parent: ViewGroup): DecorationPickerViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemDecorationPickerBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding)
+                return DecorationPickerViewHolder(binding)
             }
         }
     }

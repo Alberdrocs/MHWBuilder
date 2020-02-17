@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -14,11 +15,12 @@
         android:background="#B5000000"
         tools:context=".buildcreator.skills.Skills">
 
-        <TextView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/skillsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Here you can see your active skills" />
-
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/list_item_skills" />
     </FrameLayout>
 </layout>
