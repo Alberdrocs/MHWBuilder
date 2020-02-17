@@ -80,12 +80,13 @@ class EquipmentViewModel(
     }
 
 
-    private var _currentSkillsForDisplay = MutableLiveData<ArrayList<SkillsForDisplay>>()
-    val currentSkillsForDisplay: LiveData<ArrayList<SkillsForDisplay>>
+    private var _currentSkillsForDisplay = MutableLiveData<HashMap<String, SkillsForDisplay>>()
+    val currentSkillsForDisplay: LiveData<HashMap<String, SkillsForDisplay>>
         get() = _currentSkillsForDisplay
 
 
     init {
+        _currentSkillsForDisplay.value = HashMap()
         getPieceOfEachType().observe(viewLifecycleOwner, Observer {
             it?.let {
                 val selectedArmor: ArrayList<SelectedArmor> = ArrayList()
@@ -101,7 +102,7 @@ class EquipmentViewModel(
         _currentArmorPieces.value = armorPieces
     }
 
-    fun setCurrentSkillsForDisplay(skillsForDisplay: ArrayList<SkillsForDisplay>){
+    fun setCurrentSkillsForDisplay(skillsForDisplay: HashMap<String, SkillsForDisplay>){
         _currentSkillsForDisplay.value = skillsForDisplay
     }
 
