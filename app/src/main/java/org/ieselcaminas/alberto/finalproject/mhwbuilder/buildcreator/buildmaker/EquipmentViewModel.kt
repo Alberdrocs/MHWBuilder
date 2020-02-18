@@ -151,12 +151,28 @@ class EquipmentViewModel(
         return databaseRank.get(skillRankId)
     }
 
+    fun getListOf2SkillRank(skillRankId: Int, skillRankId2: Int): LiveData<List<SkillRank>> {
+        return databaseRank.getListOf2(skillRankId, skillRankId2)
+    }
+
+    fun getListOf3SkillRank(skillRankId: Int, skillRankId2: Int, skillRankId3: Int): LiveData<List<SkillRank>> {
+        return databaseRank.getListOf3(skillRankId, skillRankId2, skillRankId3)
+    }
+
+    fun getListOf4SkillRank(skillRankId: Int, skillRankId2: Int, skillRankId3: Int, skillRankId4: Int): LiveData<List<SkillRank>> {
+        return databaseRank.getListOf4(skillRankId, skillRankId2, skillRankId3, skillRankId4)
+    }
+
     fun getSkillRankSkill(skillId: Int): LiveData<Skills> {
         return databaseSkill.get(skillId)
     }
 
     fun getSkillWithRanks(skillId: Int): LiveData<SkillWithRanks>{
         return databaseRank.getSkillWithRanks(skillId)
+    }
+
+    fun getListOf2SkillWithRanks(skillId: Int, skillId2: Int): LiveData<List<SkillWithRanks>>{
+        return databaseRank.getListOfSkillWithRanks(skillId, skillId2)
     }
 
 //    private suspend fun getPieceOfEachType(): LiveData<List<ArmorPiece>> {

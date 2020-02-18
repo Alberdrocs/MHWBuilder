@@ -6,14 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.ui.AppBarConfiguration
 
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModel
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModelFactory
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.ArmorPickerFragmentBinding
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.util.Animations
 
 class ArmorPickerFragment : Fragment() {
 
@@ -57,8 +60,24 @@ class ArmorPickerFragment : Fragment() {
             }
         })
 
+
+        var isExpanded = true
+        binding.filterButton.setOnClickListener {
+            val show = toggleLayout(isExpanded, binding.filterDetails)
+            isExpanded = !show
+        }
+
         binding.setLifecycleOwner(this)
         return binding.root
+    }
+
+    private fun toggleLayout(isExpanded: Boolean, layoutExpand: ConstraintLayout): Boolean {
+        if (isExpanded) {
+            Animations.expand(layoutExpand)
+        } else {
+            Animations.collapse(layoutExpand)
+        }
+        return isExpanded
     }
 
 }

@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRank
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillWithRanks
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.EquipmentFragmentBinding
 
 
@@ -84,60 +85,109 @@ class Equipment : Fragment() {
                 equipmentViewModel.setCurrentSkillsForDisplay(HashMap())
                 var skillsForDisplayMap: HashMap<String, SkillsForDisplay>
                 selectedArmorArray.forEach { armor ->
-                    armor.armorPiece.skillRankId?.forEach { rankId ->
-                        equipmentViewModel.getSkillRank(rankId)
-                            .observe(viewLifecycleOwner, Observer { skillRank ->
-                                equipmentViewModel.getSkillWithRanks(skillRank.skillId)
-                                    .observe(viewLifecycleOwner, Observer { skillWithRanks ->
-                                        skillsForDisplayMap = equipmentViewModel.currentSkillsForDisplay.value!!
-                                        if (skillsForDisplayMap.containsKey(skillWithRanks.skill.name)) {
-                                            val skillsForDisplay = SkillsForDisplay(
-                                                skillWithRanks.skill,
-                                                skillsForDisplayMap[skillWithRanks.skill.name]!!.skillRanks,
-                                                skillsForDisplayMap[skillWithRanks.skill.name]!!.activeLevels + skillRank.level
-                                            )
-                                            skillsForDisplayMap.set(skillWithRanks.skill.name, skillsForDisplay)
-                                        } else {
-                                            val arrayListSkillRank = skillWithRanks.skillRank as ArrayList<SkillRank>
-                                            val skillsForDisplay = SkillsForDisplay(skillWithRanks.skill, arrayListSkillRank, skillRank.level.toInt())
-                                            skillsForDisplayMap[skillWithRanks.skill.name] = skillsForDisplay
-                                        }
-                                        equipmentViewModel.setCurrentSkillsForDisplay(skillsForDisplayMap)
-//                                        armor.decorations.forEach decorationForEach@{ decoration ->
-//                                            if (decoration == null) return@decorationForEach
-//                                            decoration.skillRankId?.forEach { skillRankId ->
-//                                                equipmentViewModel.getSkillRank(skillRankId)
-//                                                    .observe(viewLifecycleOwner, Observer {skillRank ->
-//                                                        equipmentViewModel.getSkillWithRanks(skillRank.skillId)
-//                                                            .observe(viewLifecycleOwner, Observer { skillWithRanks ->
-//                                                                skillsForDisplayMap = equipmentViewModel.currentSkillsForDisplay.value!!
-//                                                                if (skillsForDisplayMap.containsKey(skillWithRanks.skill.name)) {
-//                                                                    val skillsForDisplay = SkillsForDisplay(
-//                                                                        skillWithRanks.skill,
-//                                                                        skillsForDisplayMap[skillWithRanks.skill.name]!!.skillRanks,
-//                                                                        skillsForDisplayMap[skillWithRanks.skill.name]!!.activeLevels + skillRank.level
-//                                                                    )
-//                                                                    skillsForDisplayMap.set(skillWithRanks.skill.name, skillsForDisplay)
-//                                                                } else {
-//                                                                    val arrayListSkillRank = skillWithRanks.skillRank as ArrayList<SkillRank>
-//                                                                    val skillsForDisplay = SkillsForDisplay(skillWithRanks.skill, arrayListSkillRank, skillRank.level.toInt())
-//                                                                    skillsForDisplayMap[skillWithRanks.skill.name] = skillsForDisplay
-//                                                                }
-//                                                                equipmentViewModel.setCurrentSkillsForDisplay(skillsForDisplayMap)
-//                                                            })
-//                                                    })
-//                                            }
-//                                        }
-                                    })
-                            })
-                    }
+                    if (armor.decorations.size > 0) {
+                        if (armor.armorPiece.skillRankId?.size == 2) {
+                            val armorPieceSkillRankIdList = listOf(armor.armorPiece.skillRankId[0], armor.armorPiece.skillRankId[1])
+                            var decorationCounter = 0
+                            armor.decorations.forEach { decoration ->
+                                    if (decoration?.skillRankId?.size == 2){
+                                        val decorationSkillRankIdList = listOf(decoration.skillRankId[0], decoration.skillRankId[1])
+                                        equipmentViewModel.getListOf4SkillRank(armorPieceSkillRankIdList[0], armorPieceSkillRankIdList[1], decorationSkillRankIdList[0], decorationSkillRankIdList[1])
+                                            .observe(viewLifecycleOwner, Observer { skillRankList ->
+                                                skillRankList.forEach { skillRank ->
+                                                    equipmentViewModel.getSkillWithRanks(skillRank.skillId)
+                                                        .observe(viewLifecycleOwner, Observer { skillWithRanks ->
+                                                            skillsForDisplayMap = equipmentViewModel.currentSkillsForDisplay.value!!
+                                                            checkAndSaveSkillsForDisplay(skillsForDisplayMap, equipmentViewModel, skillWithRanks, skillRank, decorationCounter)
+                                                        })
+                                                }
+                                            })
+                                    } else if(decoration?.skillRankId?.size == 1){
+                                        equipmentViewModel.getListOf3SkillRank(armorPieceSkillRankIdList[0], armorPieceSkillRankIdList[1], decoration?.skillRankId[0])
+                                            .observe(viewLifecycleOwner, Observer { skillRankList ->
+                                                skillRankList.forEach { skillRank ->
+                                                    equipmentViewModel.getSkillWithRanks(skillRank.skillId)
+                                                        .observe(viewLifecycleOwner, Observer { skillWithRanks ->
+                                                            skillsForDisplayMap = equipmentViewModel.currentSkillsForDisplay.value!!
+                                                            checkAndSaveSkillsForDisplay(skillsForDisplayMap, equipmentViewModel, skillWithRanks, skillRank, decorationCounter)
+                                                        })
+                                                }
 
+                                            })
+                                    }
+                                decorationCounter++
+                            }
+                        } else if (armor.armorPiece.skillRankId?.size == 1) {
+                            var decorationCounter = 0
+                            armor.decorations.forEach { decoration ->
+                                if (decoration?.skillRankId?.size == 2){
+                                    val decorationSkillRankIdList = listOf(decoration.skillRankId[0], decoration.skillRankId[1])
+                                    equipmentViewModel.getListOf3SkillRank(armor.armorPiece.skillRankId[0], decorationSkillRankIdList[0], decorationSkillRankIdList[1])
+                                        .observe(viewLifecycleOwner, Observer { skillRankList ->
+                                            skillRankList.forEach { skillRank ->
+                                                equipmentViewModel.getSkillWithRanks(skillRank.skillId)
+                                                    .observe(viewLifecycleOwner, Observer { skillWithRanks ->
+                                                        skillsForDisplayMap = equipmentViewModel.currentSkillsForDisplay.value!!
+                                                        checkAndSaveSkillsForDisplay(skillsForDisplayMap, equipmentViewModel, skillWithRanks, skillRank, decorationCounter)
+                                                    })
+                                            }
+
+                                        })
+                                } else if (decoration?.skillRankId?.size == 1){
+                                    equipmentViewModel.getListOf2SkillRank(armor.armorPiece.skillRankId[0], decoration.skillRankId[0])
+                                        .observe(viewLifecycleOwner, Observer { skillRankList ->
+                                            skillRankList.forEach { skillRank ->
+                                                equipmentViewModel.getSkillWithRanks(skillRank.skillId)
+                                                    .observe(viewLifecycleOwner, Observer { skillWithRanks ->
+                                                        skillsForDisplayMap = equipmentViewModel.currentSkillsForDisplay.value!!
+                                                        checkAndSaveSkillsForDisplay(skillsForDisplayMap, equipmentViewModel, skillWithRanks, skillRank, decorationCounter)
+                                                    })
+                                            }
+
+                                        })
+                                }
+                                decorationCounter++
+                            }
+                        }
+                    } else {
+                        armor.armorPiece.skillRankId?.forEach { rankId ->
+                            equipmentViewModel.getSkillRank(rankId)
+                                .observe(viewLifecycleOwner, Observer { skillRank ->
+                                    equipmentViewModel.getSkillWithRanks(skillRank.skillId)
+                                        .observe(viewLifecycleOwner, Observer { skillWithRanks ->
+                                            skillsForDisplayMap = equipmentViewModel.currentSkillsForDisplay.value!!
+                                            checkAndSaveSkillsForDisplay(skillsForDisplayMap, equipmentViewModel, skillWithRanks, skillRank, 0)
+                                        })
+                                })
+                        }
+                    }
                 }
             })
     }
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
 
+    private fun checkAndSaveSkillsForDisplay(
+        skillsForDisplayMap: HashMap<String, SkillsForDisplay>,
+        equipmentViewModel: EquipmentViewModel,
+        skillWithRanks: SkillWithRanks,
+        skillRank: SkillRank,
+        counter: Int
+    ) {
+        var skillsForDisplayMap1 = skillsForDisplayMap
+        skillsForDisplayMap1 = equipmentViewModel.currentSkillsForDisplay.value!!
+        if (skillsForDisplayMap1.containsKey(skillWithRanks.skill.name)) {
+            val skillsForDisplay = SkillsForDisplay(
+                skillWithRanks.skill,
+                skillsForDisplayMap1[skillWithRanks.skill.name]!!.skillRanks,
+                if (counter > 0 ) skillsForDisplayMap1[skillWithRanks.skill.name]!!.activeLevels else skillsForDisplayMap1[skillWithRanks.skill.name]!!.activeLevels + skillRank.level
+            )
+            skillsForDisplayMap1.set(skillWithRanks.skill.name, skillsForDisplay)
+        } else {
+            val arrayListSkillRank = skillWithRanks.skillRank as ArrayList<SkillRank>
+            val skillsForDisplay = SkillsForDisplay(skillWithRanks.skill, arrayListSkillRank, skillRank.level.toInt())
+            skillsForDisplayMap1[skillWithRanks.skill.name] = skillsForDisplay
+        }
+        equipmentViewModel.setCurrentSkillsForDisplay(skillsForDisplayMap1)
     }
+
 
 }

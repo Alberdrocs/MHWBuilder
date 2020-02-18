@@ -177,40 +177,63 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
 
             binding.addArmorToEquipmentButton.setOnClickListener {
                 val currentEquipment = equipmentViewModel.currentArmorPieces.value
-                when(item.type){
-                    "head" -> {currentEquipment?.set(0, SelectedArmor(item,
-                        binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                    , ArrayList()
-                    )
-                    )
+                when (item.type) {
+                    "head" -> {
+                        currentEquipment?.set(
+                            0, SelectedArmor(
+                                item,
+                                binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
+                                , ArrayList()
+                            )
+                        )
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
                     }
-                    "chest" -> {currentEquipment?.set(1, SelectedArmor(item,
-                        binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                    ,ArrayList()))
+                    "chest" -> {
+                        currentEquipment?.set(
+                            1, SelectedArmor(
+                                item,
+                                binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
+                                , ArrayList()
+                            )
+                        )
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
                     }
-                    "gloves" -> {currentEquipment?.set(2, SelectedArmor(item,
-                        binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                    ,ArrayList()))
+                    "gloves" -> {
+                        currentEquipment?.set(
+                            2, SelectedArmor(
+                                item,
+                                binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
+                                , ArrayList()
+                            )
+                        )
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
                     }
-                    "waist" -> {currentEquipment?.set(3, SelectedArmor(item,
-                        binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                    ,ArrayList()))
+                    "waist" -> {
+                        currentEquipment?.set(
+                            3, SelectedArmor(
+                                item,
+                                binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
+                                , ArrayList()
+                            )
+                        )
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
                     }
-                    "legs" -> {currentEquipment?.set(4, SelectedArmor(item,
-                        binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                    ,ArrayList()))
+                    "legs" -> {
+                        currentEquipment?.set(
+                            4, SelectedArmor(
+                                item,
+                                binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
+                                , ArrayList()
+                            )
+                        )
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
