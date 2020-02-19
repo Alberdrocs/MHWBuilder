@@ -3,6 +3,7 @@ package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
+import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.*
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.decorations.Decoration
@@ -11,6 +12,12 @@ import org.json.JSONArray
 import java.io.IOException
 import java.io.InputStream
 import java.lang.IndexOutOfBoundsException
+import java.util.*
+import kotlin.Comparator
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import kotlin.collections.LinkedHashMap
+
 
 class EquipmentViewModel(
     application: Application,

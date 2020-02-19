@@ -11,23 +11,26 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#B5000000"
+        android:background="@mipmap/skill_display_empty"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/skillImage"
-            android:layout_width="76dp"
-            android:layout_height="86dp"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:paddingBottom="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/skill_icon_white" />
+            app:srcCompat="@mipmap/skill_white" />
 
         <TextView
             android:id="@+id/skillNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="11dp"
             android:text="Skill Name"
             android:textColor="#F7F7F7"
             android:textSize="18sp"
@@ -49,7 +52,7 @@
             android:id="@+id/skillLevelsLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="22dp"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
             app:layout_constraintStart_toEndOf="@+id/skillImage"
@@ -57,57 +60,57 @@
 
             <ImageView
                 android:id="@+id/skillLevelImageView1"
-                android:layout_width="20dp"
+                android:layout_width="18dp"
                 android:layout_height="20dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="3dp"
                 android:layout_weight="1"
                 app:srcCompat="@mipmap/skill_active" />
 
             <ImageView
                 android:id="@+id/skillLevelImageView2"
-                android:layout_width="20dp"
+                android:layout_width="18dp"
                 android:layout_height="20dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="3dp"
                 android:layout_weight="1"
                 app:srcCompat="@mipmap/skill_unactive" />
 
             <ImageView
                 android:id="@+id/skillLevelImageView3"
-                android:layout_width="20dp"
+                android:layout_width="18dp"
                 android:layout_height="20dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="3dp"
                 android:layout_weight="1"
                 app:srcCompat="@mipmap/skill_unactive" />
 
             <ImageView
                 android:id="@+id/skillLevelImageView4"
-                android:layout_width="20dp"
+                android:layout_width="18dp"
                 android:layout_height="20dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="3dp"
                 android:layout_weight="1"
                 app:srcCompat="@mipmap/skill_unactive" />
 
             <ImageView
                 android:id="@+id/skillLevelImageView5"
-                android:layout_width="20dp"
+                android:layout_width="18dp"
                 android:layout_height="20dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="3dp"
                 android:layout_weight="1"
                 app:srcCompat="@mipmap/skill_unactive" />
 
             <ImageView
                 android:id="@+id/skillLevelImageView6"
-                android:layout_width="20dp"
+                android:layout_width="18dp"
                 android:layout_height="20dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="3dp"
                 android:layout_weight="1"
                 app:srcCompat="@mipmap/skill_unactive" />
 
             <ImageView
                 android:id="@+id/skillLevelImageView7"
-                android:layout_width="20dp"
+                android:layout_width="18dp"
                 android:layout_height="20dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="3dp"
                 android:layout_weight="1"
                 app:srcCompat="@mipmap/skill_unactive" />
         </LinearLayout>

@@ -59,13 +59,54 @@ class DecorationPickerAdapter(
 
             binding.detailsDecorationPicker.visibility = View.GONE
 
-            binding.decorationImageDecorationPickerImageView.setImageResource(when(item.slot.toInt()){
-                1-> R.mipmap.gem_level_1
-                2-> R.mipmap.gem_level_2
-                3-> R.mipmap.gem_level_3
-                4-> R.mipmap.gem_level_4
-                else -> R.mipmap.gem_level_1
-            })
+                equipmentViewModel.getSkillRank(item.skillRankId!![0]).observe(viewLifecycleOwner, Observer { skillRank ->
+                    equipmentViewModel.getSkillRankSkill(skillRank.skillId).observe(viewLifecycleOwner, Observer { skill ->
+                        binding.decorationImageDecorationPickerImageView.setImageResource(when(item.slot.toInt()){
+                            1 -> {when(skill.color){
+                                "white" -> R.mipmap.gem_level_1_white
+                                "red" -> R.mipmap.gem_level_1_red
+                                "blue" -> R.mipmap.gem_level_1_blue
+                                "green" -> R.mipmap.gem_level_1_green
+                                "dark green" -> R.mipmap.gem_level_1_dark_green
+                                "yellow" -> R.mipmap.gem_level_1_yellow
+                                "orange" -> R.mipmap.gem_level_1_orange
+                                "light yellow" -> R.mipmap.gem_level_1_light_yellow
+                                "purple" -> R.mipmap.gem_level_1_purple
+                                "dark purple" -> R.mipmap.gem_level_1_dark_purple
+                                else -> R.mipmap.gem_level_1_white
+                            }}
+                            3 -> {when(skill.color){
+                                "white" -> R.mipmap.gem_level_3_white
+                                "red" -> R.mipmap.gem_level_3_red
+                                "blue" -> R.mipmap.gem_level_3_blue
+                                "green" -> R.mipmap.gem_level_3_green
+                                "dark green" -> R.mipmap.gem_level_3_dark_green
+                                "yellow" -> R.mipmap.gem_level_3_yellow
+                                "orange" -> R.mipmap.gem_level_3_orange
+                                "light yellow" -> R.mipmap.gem_level_3_light_yellow
+                                "purple" -> R.mipmap.gem_level_3_purple
+                                "dark purple" -> R.mipmap.gem_level_3_dark_purple
+                                else -> R.mipmap.gem_level_3_white
+                            }}
+                            4 -> {when(skill.color){
+                                "white" -> R.mipmap.gem_level_4_white
+                                "red" -> R.mipmap.gem_level_4_red
+                                "blue" -> R.mipmap.gem_level_4_blue
+                                "green" -> R.mipmap.gem_level_4_green
+                                "dark green" -> R.mipmap.gem_level_4_dark_green
+                                "yellow" -> R.mipmap.gem_level_4_yellow
+                                "orange" -> R.mipmap.gem_level_4_orange
+                                "light yellow" -> R.mipmap.gem_level_4_light_yellow
+                                "purple" -> R.mipmap.gem_level_4_purple
+                                "dark purple" -> R.mipmap.gem_level_4_dark_purple
+                                else -> R.mipmap.gem_level_4_white
+                            }}
+                            else -> R.mipmap.gem_level_1_green
+                        })
+
+                    })
+                })
+
             binding.decorationNameDecorationPickerTextView.text = item.name
             item.skillRankId?.get(0)?.let { dataSourceSkillRank.get(it) }
                 ?.observe(viewLifecycleOwner, Observer {

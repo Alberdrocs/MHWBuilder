@@ -15,6 +15,10 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.SkillsForDisplay
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.SkillsFragmentBinding
+import java.util.*
+import kotlin.Comparator
+import kotlin.collections.ArrayList
+
 
 class Skills : Fragment() {
 
@@ -55,6 +59,12 @@ class Skills : Fragment() {
                     for (i in it){
                         skillsForDisplayList.add(i.value)
                     }
+                    Collections.sort(skillsForDisplayList, object : Comparator<SkillsForDisplay> {
+                        override fun compare(p0: SkillsForDisplay?, p1: SkillsForDisplay?): Int {
+                            return if (p0!!.activeLevels > p1!!.activeLevels) -1 else if (p0.activeLevels < p1.activeLevels) 1 else 0
+                        }
+
+                    })
                     adapter.data = skillsForDisplayList
                 }
             })

@@ -42,14 +42,17 @@ class SkillsAdapter(): RecyclerView.Adapter<SkillsAdapter.SkillsViewHolder>(){
             }
             Log.i("ColorTAG",item.skill.color.toString())
             binding.skillImage.setImageResource(when(item.skill.color){
-                "white" -> R.mipmap.skill_icon_white
-                "red" -> R.mipmap.skill_icon_red
-                "blue" -> R.mipmap.skill_icon_blue
-                "green" -> R.mipmap.skill_icon_green
-                "yellow" -> R.mipmap.skill_icon_yellow
-                "orange" -> R.mipmap.skill_icon_brown
-                "light yellow" -> R.mipmap.skill_icon_brown
-                else -> R.mipmap.skill_icon_white
+                "white" -> R.mipmap.skill_white
+                "red" -> R.mipmap.skill_red
+                "blue" -> R.mipmap.skill_blue
+                "green" -> R.mipmap.skill_green
+                "dark green" -> R.mipmap.skill_dark_green
+                "yellow" -> R.mipmap.skill_yellow
+                "orange" -> R.mipmap.skill_orange
+                "light yellow" -> R.mipmap.skill_light_yellow
+                "purple" -> R.mipmap.skill_purple
+                "dark purple" -> R.mipmap.skill_dark_purple
+                else -> R.mipmap.skill_white
             })
 
         }
