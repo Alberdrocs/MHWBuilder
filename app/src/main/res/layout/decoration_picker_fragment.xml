@@ -9,11 +9,23 @@
             type="org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.decorationPicker.DecorationPickerViewModel" />
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#B5000000"
-        tools:context=".buildcreator.buildmaker.decorationPicker.DecorationPickerFragment">
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/decorationQuery"
+            astyle="@style/Base.Widget.MaterialComponents.TextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Search for a decoration..."
+            android:inputType="textPersonName"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#E4FFFFFF" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/decorationRecyclerView"
@@ -22,5 +34,5 @@
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/list_item_decoration_picker" />
-    </FrameLayout>
+    </LinearLayout>
 </layout>

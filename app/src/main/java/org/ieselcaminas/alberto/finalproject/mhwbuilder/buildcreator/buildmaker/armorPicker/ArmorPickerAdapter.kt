@@ -183,7 +183,7 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
                             0, SelectedArmor(
                                 item,
                                 binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                                , ArrayList()
+                                , arrayListOf(null, null, null)
                             )
                         )
                         if (currentEquipment != null) {
@@ -195,7 +195,7 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
                             1, SelectedArmor(
                                 item,
                                 binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                                , ArrayList()
+                                , arrayListOf(null, null, null)
                             )
                         )
                         if (currentEquipment != null) {
@@ -207,7 +207,7 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
                             2, SelectedArmor(
                                 item,
                                 binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                                , ArrayList()
+                                , arrayListOf(null, null, null)
                             )
                         )
                         if (currentEquipment != null) {
@@ -219,7 +219,7 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
                             3, SelectedArmor(
                                 item,
                                 binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                                , ArrayList()
+                                , arrayListOf(null, null, null)
                             )
                         )
                         if (currentEquipment != null) {
@@ -231,7 +231,7 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
                             4, SelectedArmor(
                                 item,
                                 binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
-                                , ArrayList()
+                                , arrayListOf(null, null, null)
                             )
                         )
                         if (currentEquipment != null) {

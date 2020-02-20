@@ -75,6 +75,19 @@ class DecorationPickerAdapter(
                                 "dark purple" -> R.mipmap.gem_level_1_dark_purple
                                 else -> R.mipmap.gem_level_1_white
                             }}
+                            2 -> {when(skill.color){
+                                "white" -> R.mipmap.gem_level_2_white
+                                "red" -> R.mipmap.gem_level_2_red
+                                "blue" -> R.mipmap.gem_level_2_blue
+                                "green" -> R.mipmap.gem_level_2_green
+                                "dark green" -> R.mipmap.gem_level_2_dark_green
+                                "yellow" -> R.mipmap.gem_level_2_yellow
+                                "orange" -> R.mipmap.gem_level_2_orange
+                                "light yellow" -> R.mipmap.gem_level_2_light_yellow
+                                "purple" -> R.mipmap.gem_level_2_purple
+                                "dark purple" -> R.mipmap.gem_level_2_dark_purple
+                                else -> R.mipmap.gem_level_2_white
+                            }}
                             3 -> {when(skill.color){
                                 "white" -> R.mipmap.gem_level_3_white
                                 "red" -> R.mipmap.gem_level_3_red

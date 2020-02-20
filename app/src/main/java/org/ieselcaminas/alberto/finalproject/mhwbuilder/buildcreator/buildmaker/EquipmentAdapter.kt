@@ -121,12 +121,12 @@ class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.A
         }
 
         if (item.decorations.toString() != "[]"){
-            Log.i("Decorations", item.decorations[0]?.name)
-            holder.armorDecoration1Details.text = "  " + item.decorations[0]?.name
+            //Log.i("Decorations", item.decorations[0]?.name)
+            holder.armorDecoration1Details.text = "  " + (item.decorations[0]?.name ?: "Skill 1")
             if (item.decorations.size > 1){
-                holder.armorDecoration2Details.text = "  " + item.decorations[1]?.name
+                holder.armorDecoration2Details.text = "  " + (item.decorations[1]?.name ?: "Skill 2")
                 if (item.decorations.size > 2){
-                    holder.armorDecoration3Details.text = "  " + item.decorations[2]?.name
+                    holder.armorDecoration3Details.text = "  " + (item.decorations[2]?.name ?: "Skill 3")
                 }
             }
         }
@@ -149,10 +149,7 @@ class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.A
                         Navigation.findNavController(view).navigate(BuildCreatorDirections.actionBuildCreatorToDecorationPickerFragment(
                             item.armorPiece.slots!![selectedItem],selectedItem, item.armorPiece.type))
                     }
-                    .setNegativeButton("Cancel",
-                        DialogInterface.OnClickListener { dialog, id ->
-
-                        })
+                    .setNegativeButton("Cancel") { _, _ -> }
                 builder.create()
             } ?: throw IllegalStateException("Activity cannot be null")
 

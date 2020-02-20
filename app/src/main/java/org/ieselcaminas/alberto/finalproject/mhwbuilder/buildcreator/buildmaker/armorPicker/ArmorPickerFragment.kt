@@ -2,6 +2,7 @@ package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModel
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModelFactory
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPiece
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.ArmorPickerFragmentBinding
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.util.Animations
 
@@ -32,7 +34,7 @@ class ArmorPickerFragment : Fragment() {
         val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
         val dataSourceSkill = AppDatabase.getInstance(application).skillsDAO()
         val dataSourceSkillRank = AppDatabase.getInstance(application).skillRankDAO()
-        val viewModelFactory = ArmorPickerViewModelFactory(application, dataSource, dataSourceSet,dataSourceSkill, dataSourceSkillRank)
+        val viewModelFactory = ArmorPickerViewModelFactory(application, dataSource, dataSourceSet,dataSourceSkill, dataSourceSkillRank,binding)
         val armorPickerViewModel =
             ViewModelProviders.of(
                 this, viewModelFactory).get(ArmorPickerViewModel::class.java)
@@ -60,12 +62,29 @@ class ArmorPickerFragment : Fragment() {
             }
         })
 
+        armorPickerViewModel.armorSearchQuery.observe(viewLifecycleOwner, Observer { query ->
+            val armorListQueried = ArrayList<ArmorPiece>()
+            armorPickerViewModel.getArmorPiecesOfType(args.armorType).observe(viewLifecycleOwner, Observer {
+                it?.let {
+                    for (i in it)
+                        if (i.name.toLowerCase().contains(query.toLowerCase()))
+                            armorListQueried.add(i)
+                            adapter?.data = armorListQueried
+                }
+            })
+        })
 
         var isExpanded = true
         binding.filterButton.setOnClickListener {
             val show = toggleLayout(isExpanded, binding.filterDetails)
             isExpanded = !show
         }
+
+        armorPickerViewModel.armorSearchQuery.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                Log.i("TAGBusqueda", "Mensaje: " + it)
+            }
+        })
 
         binding.setLifecycleOwner(this)
         return binding.root

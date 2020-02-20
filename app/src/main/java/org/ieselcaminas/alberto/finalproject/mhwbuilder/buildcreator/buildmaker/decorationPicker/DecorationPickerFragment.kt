@@ -13,6 +13,7 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModel
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModelFactory
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.decorations.Decoration
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.DecorationPickerFragmentBinding
 
 class DecorationPickerFragment : Fragment() {
@@ -32,7 +33,7 @@ class DecorationPickerFragment : Fragment() {
         val dataSourceSkillRank = AppDatabase.getInstance(application).skillRankDAO()
         val dataSourceArmor = AppDatabase.getInstance(application).armorPieceDAO()
         val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
-        val viewModelFactory = DecorationPickerViewModelFactory(application, dataSource)
+        val viewModelFactory = DecorationPickerViewModelFactory(application, dataSource, binding)
         val decorationPickerViewModel =
             ViewModelProviders.of(
                 this, viewModelFactory).get(DecorationPickerViewModel::class.java)
@@ -60,6 +61,19 @@ class DecorationPickerFragment : Fragment() {
                     adapter.data = it
                 }
             }
+        })
+
+        decorationPickerViewModel.decorationSearchQuery.observe(viewLifecycleOwner, Observer { query ->
+            if (query == "")return@Observer
+            val decorationListQueried = ArrayList<Decoration>()
+            decorationPickerViewModel.getDecorationsOfSlot(args.slot1).observe(viewLifecycleOwner, Observer {
+                it?.let {
+                    for (i in it)
+                        if (i.name.toLowerCase().contains(query.toLowerCase()))
+                            decorationListQueried.add(i)
+                    adapter?.data = decorationListQueried
+                }
+            })
         })
 
         return binding.root
