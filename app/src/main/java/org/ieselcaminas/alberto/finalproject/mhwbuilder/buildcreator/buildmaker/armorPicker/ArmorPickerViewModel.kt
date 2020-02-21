@@ -23,11 +23,6 @@ class ArmorPickerViewModel(
     private val binding: ArmorPickerFragmentBinding
 ) : AndroidViewModel(application) {
 
-    private var viewModelJob = Job()
-
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
-    private var _navigateToArmorPiece = MutableLiveData<Int>()
     val armorSearchQuery: LiveData<String>
         get() {
             val text: MutableLiveData<String> = MutableLiveData()
@@ -37,7 +32,6 @@ class ArmorPickerViewModel(
                 }
 
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    //text.value = p0.toString()
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -48,12 +42,9 @@ class ArmorPickerViewModel(
             return text
         }
 
-    fun startNavigationToArmorPiece(armorPieceId: Int){
-        _navigateToArmorPiece.value = armorPieceId
-    }
 
-    fun getArmorPiecesOfType(armorType: String): LiveData<List<ArmorPiece>> {
-        return database.getAllArmorPiecesOfType(armorType)
+    fun getArmorPiecesOfType(armorType: String, rarityFrom: Int, rarityTo: Int): LiveData<List<ArmorPiece>> {
+        return database.getAllArmorPiecesOfType(armorType, rarityFrom, rarityTo)
     }
 
     fun getAllSkills(): LiveData<List<SkillWithRanks>> {

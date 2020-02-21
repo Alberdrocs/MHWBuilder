@@ -24,44 +24,37 @@ import android.widget.LinearLayout
 
 class ArmorPickerFragment : Fragment() {
 
+    var filterApplied = false
+    var armorListFiltered: ArrayList<ArmorPiece> = ArrayList()
+    var isExpanded = true
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: ArmorPickerFragmentBinding =  DataBindingUtil.inflate(inflater, R.layout.armor_picker_fragment,  container, false)
+        val binding: ArmorPickerFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.armor_picker_fragment, container, false)
         val application = requireNotNull(this.activity).application
 
         val dataSource = AppDatabase.getInstance(application).armorPieceDAO()
         val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
         val dataSourceSkill = AppDatabase.getInstance(application).skillsDAO()
         val dataSourceSkillRank = AppDatabase.getInstance(application).skillRankDAO()
-        val viewModelFactory = ArmorPickerViewModelFactory(application, dataSource, dataSourceSet,dataSourceSkill, dataSourceSkillRank,binding)
-        val armorPickerViewModel =
-            ViewModelProviders.of(
-                this, viewModelFactory).get(ArmorPickerViewModel::class.java)
+        val viewModelFactory = ArmorPickerViewModelFactory(application, dataSource, dataSourceSet, dataSourceSkill, dataSourceSkillRank, binding)
+        val armorPickerViewModel = ViewModelProviders.of(this, viewModelFactory).get(ArmorPickerViewModel::class.java)
+        binding.armorPickerViewModel = armorPickerViewModel
 
         val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet, dataSourceSkillRank, dataSourceSkill, viewLifecycleOwner)
         val equipmentViewModel = activity?.run {
-            ViewModelProviders.of(
-                this, equipmentViewModelFactory).get(EquipmentViewModel::class.java) }
-
-
-        var armorListFiltered: ArrayList<ArmorPiece> = ArrayList()
-        var filterApplied = false
-
-
-        binding.armorPickerViewModel = armorPickerViewModel
+            ViewModelProviders.of(this, equipmentViewModelFactory).get(EquipmentViewModel::class.java)
+        }
 
         val args = ArmorPickerFragmentArgs.fromBundle(arguments!!)
 
-        val adapter = equipmentViewModel?.let {
-            ArmorPickerAdapter(ArmorPieceListener {
-                armorPieceId -> armorPickerViewModel.startNavigationToArmorPiece(armorPieceId)
-            }, dataSourceSkill, dataSourceSkillRank, viewLifecycleOwner, it)
-        }
+
+        val adapter = equipmentViewModel?.let { ArmorPickerAdapter(dataSourceSkill, dataSourceSkillRank, viewLifecycleOwner, it) }
         binding.armorRecyclerView.adapter = adapter
-        armorPickerViewModel.getArmorPiecesOfType(args.armorType).observe(viewLifecycleOwner, Observer {
+        armorPickerViewModel.getArmorPiecesOfType(args.armorType, 9, 12).observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (adapter != null) {
                     adapter.data = it
@@ -69,101 +62,100 @@ class ArmorPickerFragment : Fragment() {
             }
         })
 
-        getQueriedArmors(armorPickerViewModel, filterApplied, armorListFiltered, adapter, args)
+
+        getQueriedArmors(armorPickerViewModel, adapter, args)
+
 
         val rarityLevelsList: ArrayList<String> = ArrayList()
         for (i in 1 until 13) rarityLevelsList.add("Level $i")
+        setFilterSpinnersRarityAdapter(rarityLevelsList, binding)
 
-        val arrayAdapterFrom = context?.let {context ->
-            ArrayAdapter(
-                context,
-                android.R.layout.simple_spinner_dropdown_item, rarityLevelsList
-            )
-        }
-
-        val arrayAdapterTo = context?.let {context ->
-            ArrayAdapter(
-                context,
-                android.R.layout.simple_spinner_dropdown_item,
-                rarityLevelsList.subList(binding.rarityFromSpinner.selectedItemPosition + 1, rarityLevelsList.size-1))
-        }
-
-        binding.rarityFromSpinner.adapter = arrayAdapterFrom
-        binding.rarityToSpinner.adapter = arrayAdapterTo
-
-        binding.rarityFromSpinner.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View, position: Int, id: Long) {
-                binding.rarityToSpinner.adapter = context?.let {context ->
-                    ArrayAdapter(
-                        context,
-                        android.R.layout.simple_spinner_dropdown_item, rarityLevelsList.subList(position, rarityLevelsList.size))
-                }
-            }
-            override fun onNothingSelected(parentView: AdapterView<*>) {
-            }
-        }
 
         val skillNameList: ArrayList<String> = ArrayList()
         val skillIdList: HashMap<String, ArrayList<Int>> = HashMap()
-        armorPickerViewModel.getAllSkills().observe(viewLifecycleOwner, Observer {
-            it?.let {
-                it.forEach {skillWithRanks ->
-                    skillNameList.add(skillWithRanks.skill.name)
-                    val skillRankArrayList: ArrayList<Int> = ArrayList()
-                    skillWithRanks.skillRank.forEach {
-                            skillRankArrayList.add(it.skillRankId)
-                        }
-                    skillIdList[skillWithRanks.skill.name] = skillRankArrayList
-                }
-                val autoCompleteAdapter = context?.let { context -> ArrayAdapter(context, android.R.layout.select_dialog_item, skillNameList) }
-                binding.armorSkillToSearchAutoCompleteTextView.threshold = 2
-                binding.armorSkillToSearchAutoCompleteTextView.setAdapter(autoCompleteAdapter)
-            }
-        })
+        setFilterSkillAutoCompleteTextView(armorPickerViewModel, skillNameList, skillIdList, binding)
+
 
         val slotsList: ArrayList<String> = ArrayList()
         for (i in 1 until 4) if (i != 3) slotsList.add("$i or more") else slotsList.add("$i")
+        setFiltersSpinnerDecorationsAdapter(binding, rarityLevelsList, slotsList)
 
-        binding.decorationSlotLevelSpinner.adapter = context?.let {context ->
-            ArrayAdapter(
-                context,
-                android.R.layout.simple_spinner_dropdown_item, rarityLevelsList.subList(0, 4))
+
+
+        applyFilters(binding, armorPickerViewModel, args, skillIdList, adapter)
+
+
+
+        binding.filterButton.setOnClickListener {
+            expandCollapseAnimation(binding)
         }
 
-        binding.decorationSlotsNumberSpinner.adapter = context?.let {context ->
+
+        binding.lifecycleOwner = this
+        return binding.root
+    }
+
+    private fun expandCollapseAnimation(binding: ArmorPickerFragmentBinding) {
+        if (isExpanded) {
+            binding.filterButton.text = "Hide filter options"
+        } else {
+            binding.filterButton.text = "Show filter options"
+        }
+        isExpanded = !toggleLayout(isExpanded, binding.filterDetails)
+    }
+
+    private fun setFiltersSpinnerDecorationsAdapter(
+        binding: ArmorPickerFragmentBinding,
+        rarityLevelsList: ArrayList<String>,
+        slotsList: ArrayList<String>
+    ) {
+        binding.decorationSlotLevelSpinner.adapter = context?.let { context ->
             ArrayAdapter(
                 context,
-                android.R.layout.simple_spinner_dropdown_item, slotsList)
+                android.R.layout.simple_spinner_dropdown_item, rarityLevelsList.subList(0, 4)
+            )
         }
 
+        binding.decorationSlotsNumberSpinner.adapter = context?.let { context ->
+            ArrayAdapter(
+                context,
+                android.R.layout.simple_spinner_dropdown_item, slotsList
+            )
+        }
+    }
 
-
+    private fun applyFilters(
+        binding: ArmorPickerFragmentBinding,
+        armorPickerViewModel: ArmorPickerViewModel,
+        args: ArmorPickerFragmentArgs,
+        skillIdList: HashMap<String, ArrayList<Int>>,
+        adapter: ArmorPickerAdapter?
+    ) {
         binding.applyFiltersButton.setOnClickListener {
             armorListFiltered = ArrayList()
-            armorPickerViewModel.getArmorPiecesOfType(args.armorType).observe(viewLifecycleOwner, Observer { armorPieceList ->
+            armorPickerViewModel.getArmorPiecesOfType(
+                args.armorType, binding.rarityFromSpinner.selectedItem.toString().substring(6).toInt(),
+                binding.rarityToSpinner.selectedItem.toString().substring(6).toInt()
+            ).observe(viewLifecycleOwner, Observer { armorPieceList ->
                 armorPieceList?.let {
                     it.forEach { armorPiece ->
-                        if (armorPiece.rarity >= binding.rarityFromSpinner.selectedItem.toString().substring(6).toInt() &&
-                            armorPiece.rarity <= binding.rarityToSpinner.selectedItem.toString().substring(6).toInt()
-                        ) {
-                            if (binding.armorSkillToSearchAutoCompleteTextView.text.toString() != "") {
-                                if (armorPiece.skillRankId.toString() != "[]") {
-                                    try {
-                                        if (skillIdList.get(binding.armorSkillToSearchAutoCompleteTextView.text.toString())!!.contains(armorPiece.skillRankId!![0])) {
-                                            checkAndAddDecorationsForFilter(armorPiece, binding, armorListFiltered)
-                                        }
-                                        if (armorPiece.skillRankId.size > 1) {
-                                            if (skillIdList.get(binding.armorSkillToSearchAutoCompleteTextView.text.toString())!!.contains(armorPiece.skillRankId[1])) {
-                                                checkAndAddDecorationsForFilter(armorPiece, binding, armorListFiltered)
-                                            }
-                                        }
-                                    } catch (e: KotlinNullPointerException) {
-                                        armorListFiltered = ArrayList()
+                        if (binding.armorSkillToSearchAutoCompleteTextView.text.toString() != "") {
+                            if (armorPiece.skillRankId.toString() != "[]") {
+                                try {
+                                    if (skillIdList[binding.armorSkillToSearchAutoCompleteTextView.text.toString()]!!.contains(armorPiece.skillRankId!![0])) {
+                                        checkAndAddDecorationsForFilter(armorPiece, binding)
                                     }
+                                    if (armorPiece.skillRankId.size > 1) {
+                                        if (skillIdList[binding.armorSkillToSearchAutoCompleteTextView.text.toString()]!!.contains(armorPiece.skillRankId[1])) {
+                                            checkAndAddDecorationsForFilter(armorPiece, binding)
+                                        }
+                                    }
+                                } catch (e: KotlinNullPointerException) {
+                                    armorListFiltered = ArrayList()
                                 }
-                            } else {
-                                checkAndAddDecorationsForFilter(armorPiece, binding, armorListFiltered)
                             }
+                        } else {
+                            checkAndAddDecorationsForFilter(armorPiece, binding)
                         }
                     }
                 }
@@ -172,29 +164,72 @@ class ArmorPickerFragment : Fragment() {
                 }
             })
             filterApplied = true
+            expandCollapseAnimation(binding)
         }
+    }
 
-
-        var isExpanded = true
-        binding.filterButton.setOnClickListener {
-            val show = toggleLayout(isExpanded, binding.filterDetails)
-            if (isExpanded){
-                binding.filterButton.text = "Hide filter options"
-            } else{
-                binding.filterButton.text = "Show filter options"
+    private fun setFilterSkillAutoCompleteTextView(
+        armorPickerViewModel: ArmorPickerViewModel,
+        skillNameList: ArrayList<String>,
+        skillIdList: HashMap<String, ArrayList<Int>>,
+        binding: ArmorPickerFragmentBinding
+    ) {
+        armorPickerViewModel.getAllSkills().observe(viewLifecycleOwner, Observer {
+            it?.let {
+                it.forEach { skillWithRanks ->
+                    skillNameList.add(skillWithRanks.skill.name)
+                    val skillRankArrayList: ArrayList<Int> = ArrayList()
+                    skillWithRanks.skillRank.forEach {skillRank ->
+                        skillRankArrayList.add(skillRank.skillRankId)
+                    }
+                    skillIdList[skillWithRanks.skill.name] = skillRankArrayList
+                }
+                val autoCompleteAdapter = context?.let { context -> ArrayAdapter(context, android.R.layout.select_dialog_item, skillNameList) }
+                binding.armorSkillToSearchAutoCompleteTextView.threshold = 2
+                binding.armorSkillToSearchAutoCompleteTextView.setAdapter(autoCompleteAdapter)
             }
-            isExpanded = !show
+        })
+    }
+
+    private fun setFilterSpinnersRarityAdapter(
+        rarityLevelsList: ArrayList<String>,
+        binding: ArmorPickerFragmentBinding
+    ) {
+        val arrayAdapterFrom = context?.let { context ->
+            ArrayAdapter(
+                context,
+                android.R.layout.simple_spinner_dropdown_item, rarityLevelsList
+            )
         }
 
+        val arrayAdapterTo = context?.let { context ->
+            ArrayAdapter(
+                context,
+                android.R.layout.simple_spinner_dropdown_item,
+                rarityLevelsList.subList(binding.rarityFromSpinner.selectedItemPosition + 1, rarityLevelsList.size - 1)
+            )
+        }
 
-        binding.setLifecycleOwner(this)
-        return binding.root
+        binding.rarityFromSpinner.adapter = arrayAdapterFrom
+        binding.rarityToSpinner.adapter = arrayAdapterTo
+
+        binding.rarityFromSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View, position: Int, id: Long) {
+                binding.rarityToSpinner.adapter = context?.let { context ->
+                    ArrayAdapter(
+                        context,
+                        android.R.layout.simple_spinner_dropdown_item, rarityLevelsList.subList(position, rarityLevelsList.size)
+                    )
+                }
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>) {
+            }
+        }
     }
 
     private fun getQueriedArmors(
         armorPickerViewModel: ArmorPickerViewModel,
-        filterApplied: Boolean,
-        armorListFiltered: ArrayList<ArmorPiece>,
         adapter: ArmorPickerAdapter?,
         args: ArmorPickerFragmentArgs
     ) {
@@ -208,7 +243,7 @@ class ArmorPickerFragment : Fragment() {
                         armorListQueried.add(i)
                 adapter?.data = armorListQueried
             } else {
-                armorPickerViewModel.getArmorPiecesOfType(args.armorType).observe(viewLifecycleOwner, Observer {
+                armorPickerViewModel.getArmorPiecesOfType(args.armorType, 9, 12).observe(viewLifecycleOwner, Observer {
                     it?.let {
                         for (i in it)
                             if (i.name.toLowerCase().contains(query.toLowerCase()))
@@ -223,8 +258,7 @@ class ArmorPickerFragment : Fragment() {
 
     private fun checkAndAddDecorationsForFilter(
         armorPiece: ArmorPiece,
-        binding: ArmorPickerFragmentBinding,
-        armorListFiltered: ArrayList<ArmorPiece>
+        binding: ArmorPickerFragmentBinding
     ) {
         if (armorPiece.slots?.size ?: 0 > binding.decorationSlotsNumberSpinner.selectedItemPosition) {
             var canBeAdded = false

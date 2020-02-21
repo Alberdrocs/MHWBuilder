@@ -31,52 +31,29 @@ class Equipment : Fragment() {
         val dataSourceRank = AppDatabase.getInstance(application).skillRankDAO()
         val dataSourceSkill = AppDatabase.getInstance(application).skillsDAO()
         val viewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet, dataSourceRank, dataSourceSkill, viewLifecycleOwner)
-        val equipmentViewModel = activity?.run {
-            ViewModelProviders.of(
-                this, viewModelFactory
-            ).get(EquipmentViewModel::class.java)
-        }
+        val equipmentViewModel = activity?.run { ViewModelProviders.of(this, viewModelFactory).get(EquipmentViewModel::class.java) }
 
         val binding: EquipmentFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.equipment_fragment, container, false)
         binding.equipmentViewModel = equipmentViewModel
         val adapter = EquipmentAdapter(activity)
         binding.armorPieceRecyclerView.adapter = adapter
 
+
+        equipmentViewModel?.currentArmorPieces?.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.data = it
+            }
+        })
+
+        setSkillsForDisplayToViewModel(equipmentViewModel)
+
         binding.lifecycleOwner = this
-
-        //equipmentViewModel.getArmorPiece()
-
-        if (equipmentViewModel != null) {
-            equipmentViewModel.currentArmorPieces.observe(viewLifecycleOwner, Observer {
-                it?.let {
-                    adapter.data = it
-
-                }
-            })
-        }
-        if (equipmentViewModel != null) {
-            Log.i("TAG", equipmentViewModel.currentArmorPieces.value.toString())
-        }
-
-        getSkillsForDisplayToViewModel(equipmentViewModel)
-
-        if (equipmentViewModel != null) {
-            equipmentViewModel.currentSkillsForDisplay.observe(viewLifecycleOwner, Observer {
-                it?.let {
-                    for (i in it) {
-                        Log.i("SkillsForDisplay", "Skill: " + i.value.skill.toString() + ", Active levels: " + i.value.activeLevels)
-                    }
-                }
-            })
-        }
-
-        binding.setLifecycleOwner(this)
 
 
         return binding.root
     }
 
-    private fun getSkillsForDisplayToViewModel(equipmentViewModel: EquipmentViewModel?) {
+    private fun setSkillsForDisplayToViewModel(equipmentViewModel: EquipmentViewModel?) {
         equipmentViewModel?.currentArmorPieces?.observe(
             viewLifecycleOwner,
             Observer { selectedArmorArray ->
@@ -110,7 +87,7 @@ class Equipment : Fragment() {
                                         skillsForDisplayMap[skillWithRanks.skill.name]!!.skillRanks,
                                         skillsForDisplayMap[skillName]!!.activeLevels + skillRank.level
                                     )
-                                    skillsForDisplayMap.set(skillWithRanks.skill.name, skillsForDisplay)
+                                    skillsForDisplayMap[skillWithRanks.skill.name] = skillsForDisplay
                                 } else {
                                     val arrayListSkillRank = skillWithRanks.skillRank as ArrayList<SkillRank>
                                     val skillsForDisplay = SkillsForDisplay(skillWithRanks.skill, arrayListSkillRank, skillRank.level.toInt())
@@ -119,9 +96,7 @@ class Equipment : Fragment() {
                                 equipmentViewModel.setCurrentSkillsForDisplay(skillsForDisplayMap)
                             })
                     })
-
                 }
-
             })
     }
 }

@@ -11,23 +11,10 @@ import kotlin.collections.HashMap
 
 
 class Converters {
-    @TypeConverter
-    fun fromStringToArrayList(value: String?): ArrayList<String>? {
-        val listType = object : TypeToken<ArrayList<String>>() {
-
-        }.type
-        return Gson().fromJson(value, listType)
-    }
-
-    @TypeConverter
-    fun fromArrayList(list: ArrayList<String>?): String? {
-        val gson = Gson()
-        return gson.toJson(list)
-    }
 
     @TypeConverter
     fun gettingListFromString(value: String?): ArrayList<Int>? {
-        if (value == ""){
+        if (value == "") {
             return null
         }
         val list = mutableListOf<Int>()
@@ -36,7 +23,7 @@ class Converters {
             for (s in array) {
                 try {
                     list.add(s.toInt())
-                } catch (e: NumberFormatException){
+                } catch (e: NumberFormatException) {
 
                 }
 
@@ -50,7 +37,7 @@ class Converters {
         var result = ""
         list?.forEachIndexed { index, element ->
             result += element
-            if(index != (list.size-1)){
+            if (index != (list.size - 1)) {
                 result += ","
             }
         }

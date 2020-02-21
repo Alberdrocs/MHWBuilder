@@ -4,9 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="skillsViewModel"
-            type="org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.skills.SkillsViewModel" />
     </data>
 
     <FrameLayout

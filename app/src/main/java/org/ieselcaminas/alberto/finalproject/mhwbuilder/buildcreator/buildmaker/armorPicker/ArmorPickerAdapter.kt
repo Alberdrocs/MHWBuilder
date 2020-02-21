@@ -22,7 +22,7 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.ListItemArmo
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.util.Animations
 
 
-class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
+class ArmorPickerAdapter(
     private val dataSourceSkill: SkillsDAO,
     private val dataSourceSkillRank: SkillRankDAO,
     private val viewLifecycleOwner: LifecycleOwner,
@@ -41,27 +41,20 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArmorPickerViewHolder {
         return ArmorPickerViewHolder.from(parent)
     }
-    private fun getSkill(skillRankId: Int): LiveData<SkillWithRanks> {
-        return dataSourceSkillRank.getSkillWithRanks(skillRankId)
-    }
 
     override fun onBindViewHolder(holder: ArmorPickerViewHolder, position: Int) {
         val item = data[position]
-        holder.bind(item, clickListener,dataSourceSkill, dataSourceSkillRank, viewLifecycleOwner, equipmentViewModel)
+        holder.bind(item,dataSourceSkill, dataSourceSkillRank, viewLifecycleOwner, equipmentViewModel)
     }
-
-
 
     class ArmorPickerViewHolder private constructor(val binding: ListItemArmorPickerBinding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(item: ArmorPiece, clickListener: ArmorPieceListener, dataSourceSkill: SkillsDAO, dataSourceSkillRank: SkillRankDAO, viewLifecycleOwner: LifecycleOwner, equipmentViewModel: EquipmentViewModel){
+        fun bind(item: ArmorPiece, dataSourceSkill: SkillsDAO, dataSourceSkillRank: SkillRankDAO, viewLifecycleOwner: LifecycleOwner, equipmentViewModel: EquipmentViewModel){
             binding.armorPiece = item
-            binding.clickListener = clickListener
 
             binding.armorPickerName.text = item.name
-            if (item.skillRankId.toString() != "[]") {
-                Log.i("TAG", "" + item.skillRankId?.get(0)!!)
-                dataSourceSkillRank.get(item.skillRankId?.get(0)).observe(viewLifecycleOwner, Observer {
+            if (item.skillRankId?.size ?: 0 > 0) {
+                dataSourceSkillRank.get(item.skillRankId!![0]).observe(viewLifecycleOwner, Observer {
                     it?.let {
                         val skillRankLevel = it.level
                         dataSourceSkill.get(it.skillId).observe(viewLifecycleOwner, Observer { it2 ->
@@ -184,8 +177,7 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
                                 item,
                                 binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
                                 , arrayListOf(null, null, null)
-                            )
-                        )
+                            ))
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
@@ -196,8 +188,7 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
                                 item,
                                 binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
                                 , arrayListOf(null, null, null)
-                            )
-                        )
+                            ))
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
@@ -208,8 +199,7 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
                                 item,
                                 binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
                                 , arrayListOf(null, null, null)
-                            )
-                        )
+                            ))
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
@@ -220,8 +210,7 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
                                 item,
                                 binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
                                 , arrayListOf(null, null, null)
-                            )
-                        )
+                            ))
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
@@ -232,8 +221,7 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
                                 item,
                                 binding.armorPickerSkill1.text as String?, binding.armorPickerSkill2.text as String?
                                 , arrayListOf(null, null, null)
-                            )
-                        )
+                            ))
                         if (currentEquipment != null) {
                             equipmentViewModel.setCurrentArmorPieces(currentEquipment)
                         }
@@ -269,17 +257,3 @@ class ArmorPickerAdapter(private val clickListener: ArmorPieceListener,
     }
 }
 
-class ArmorPieceDiffCallback: DiffUtil.ItemCallback<ArmorPiece>(){
-    override fun areItemsTheSame(oldItem: ArmorPiece, newItem: ArmorPiece): Boolean {
-        return oldItem.armorPieceId == newItem.armorPieceId
-    }
-
-    override fun areContentsTheSame(oldItem: ArmorPiece, newItem: ArmorPiece): Boolean {
-        return  oldItem == newItem
-    }
-
-}
-
-class ArmorPieceListener(val clickListener: (armorPieceId: Int) -> Unit){
-    fun onClick(armorPiece: ArmorPiece) = clickListener(armorPiece.armorPieceId)
-}

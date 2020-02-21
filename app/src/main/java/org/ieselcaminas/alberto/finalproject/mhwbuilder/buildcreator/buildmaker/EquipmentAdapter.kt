@@ -135,19 +135,18 @@ class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.A
             Log.i("TAGNavigate", item.armorPiece.slots!![0].toString())
             val alertDialog = activity?.let {
                 val builder = AlertDialog.Builder(it)
-                val array = Array(item.armorPiece.slots.size, { i -> "Decoration " + (i+1) })
+                val array = Array(item.armorPiece.slots.size) { i -> "Decoration " + (i+1) }
                 var selectedItem = 0
                 builder.setTitle("Choose the desired Decoration")
-                    .setSingleChoiceItems(array, 0,
-                        DialogInterface.OnClickListener { dialogInterface, i ->
-                            selectedItem = i
-                        })
-                    // Set the action buttons
+                    .setSingleChoiceItems(array, 0
+                    ) { _, i ->
+                        selectedItem = i
+                    }
                     .setPositiveButton("OK"
                     ) { _, _ ->
-                        Log.i("DialogTag", "Seleccion " + selectedItem)
+                        Log.i("DialogTag", "Seleccion $selectedItem")
                         Navigation.findNavController(view).navigate(BuildCreatorDirections.actionBuildCreatorToDecorationPickerFragment(
-                            item.armorPiece.slots!![selectedItem],selectedItem, item.armorPiece.type))
+                            item.armorPiece.slots[selectedItem],selectedItem, item.armorPiece.type))
                     }
                     .setNegativeButton("Cancel") { _, _ -> }
                 builder.create()
@@ -155,9 +154,6 @@ class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.A
 
 
             alertDialog.show()
-
-//            Navigation.findNavController(it).navigate(BuildCreatorDirections.actionBuildCreatorToDecorationPickerFragment(
-//                item.armorPiece.slots!![0]))
         }
 
 

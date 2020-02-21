@@ -21,8 +21,8 @@ interface ArmorPieceDAO{
     @Query("SELECT * FROM armor_piece LIMIT 5")
     fun getFirstArmorPiecesOfType():LiveData<List<ArmorPiece>>
 
-    @Query("SELECT * FROM armor_piece WHERE type = :armorType AND (rarity BETWEEN 8 AND 12)")
-    fun getAllArmorPiecesOfType(armorType: String): LiveData<List<ArmorPiece>>
+    @Query("SELECT * FROM armor_piece WHERE type = :armorType AND (rarity BETWEEN :rarityFrom AND :rarityTo)")
+    fun getAllArmorPiecesOfType(armorType: String, rarityFrom: Int, rarityTo: Int): LiveData<List<ArmorPiece>>
 
     @Query("DELETE from armor_piece")
     fun clear()

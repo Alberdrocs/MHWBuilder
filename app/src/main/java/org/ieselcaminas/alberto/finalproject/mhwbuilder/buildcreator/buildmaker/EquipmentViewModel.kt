@@ -28,14 +28,9 @@ class EquipmentViewModel(
     private val viewLifecycleOwner: LifecycleOwner
 ) : AndroidViewModel(application) {
 
-    private var viewModelJob = Job()
-
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
     private var _currentArmorPieces = MutableLiveData<ArrayList<SelectedArmor>>()
     val currentArmorPieces: LiveData<ArrayList<SelectedArmor>>
         get() = _currentArmorPieces
-
 
     val currentDefenseValue: LiveData<Int>
         get() {
@@ -65,27 +60,16 @@ class EquipmentViewModel(
             val armorResistances = currentArmorPieces.value?.get(i)?.armorPiece?.resistances
             if (armorResistances != null){
                 val currentResistances = resistances.value
-                currentResistances?.set("fire",
-                    currentResistances["fire"]!! + armorResistances["fire"]!!
-                )
-                currentResistances?.set("ice",
-                    currentResistances["ice"]!! + armorResistances["ice"]!!
-                )
-                currentResistances?.set("thunder",
-                    currentResistances["thunder"]!! + armorResistances["thunder"]!!
-                )
-                currentResistances?.set("dragon",
-                    currentResistances["dragon"]!! + armorResistances["dragon"]!!
-                )
-                currentResistances?.set("water",
-                    currentResistances["water"]!! + armorResistances["water"]!!
-                )
+                currentResistances?.set("fire", currentResistances["fire"]!! + armorResistances["fire"]!!)
+                currentResistances?.set("ice", currentResistances["ice"]!! + armorResistances["ice"]!!)
+                currentResistances?.set("thunder", currentResistances["thunder"]!! + armorResistances["thunder"]!!)
+                currentResistances?.set("dragon", currentResistances["dragon"]!! + armorResistances["dragon"]!!)
+                currentResistances?.set("water", currentResistances["water"]!! + armorResistances["water"]!!)
                 resistances.value = currentResistances
             }
         }
         return resistances
     }
-
 
     private var _currentSkillsForDisplay = MutableLiveData<HashMap<String, SkillsForDisplay>>()
     val currentSkillsForDisplay: LiveData<HashMap<String, SkillsForDisplay>>
@@ -113,61 +97,8 @@ class EquipmentViewModel(
         _currentSkillsForDisplay.value = skillsForDisplay
     }
 
-
-    private suspend fun clear() {
-        withContext(Dispatchers.IO) {
-            database.clear()
-            databaseSet.clear()
-        }
-    }
-
-    private suspend fun insert(armorPiece: ArmorPiece) {
-        withContext(Dispatchers.IO) {
-            database.insert(armorPiece)
-        }
-    }
-
-    private suspend fun insert(armorSet: ArmorSet) {
-        withContext(Dispatchers.IO) {
-            databaseSet.insert(armorSet)
-        }
-    }
-
-    private suspend fun getArmorSetWithPieces(): List<ArmorSetWithArmorPiece> {
-        return withContext(Dispatchers.IO) {
-            val armorSetWithPieces = database.getArmorSetWithArmorPieces()
-            armorSetWithPieces
-        }
-    }
-
-    private suspend fun getAllArmorSets(): List<ArmorSet> {
-        return withContext(Dispatchers.IO) {
-            val allArmorSets = databaseSet.getAllArmorSets()
-            allArmorSets
-        }
-    }
-
-    private suspend fun getAllArmorPieces(): List<ArmorPiece> {
-        return withContext(Dispatchers.IO) {
-            val allArmorPieces = database.getAllArmorPieces()
-            allArmorPieces
-        }
-    }
-
     fun getSkillRank(skillRankId: Int): LiveData<SkillRank> {
         return databaseRank.get(skillRankId)
-    }
-
-    fun getListOf2SkillRank(skillRankId: Int, skillRankId2: Int): LiveData<List<SkillRank>> {
-        return databaseRank.getListOf2(skillRankId, skillRankId2)
-    }
-
-    fun getListOf3SkillRank(skillRankId: Int, skillRankId2: Int, skillRankId3: Int): LiveData<List<SkillRank>> {
-        return databaseRank.getListOf3(skillRankId, skillRankId2, skillRankId3)
-    }
-
-    fun getListOf4SkillRank(skillRankId: Int, skillRankId2: Int, skillRankId3: Int, skillRankId4: Int): LiveData<List<SkillRank>> {
-        return databaseRank.getListOf4(skillRankId, skillRankId2, skillRankId3, skillRankId4)
     }
 
     fun getSkillRankSkill(skillId: Int): LiveData<Skills> {
@@ -178,28 +109,12 @@ class EquipmentViewModel(
         return databaseRank.getSkillWithRanks(skillId)
     }
 
-    fun getListOf2SkillWithRanks(skillId: Int, skillId2: Int): LiveData<List<SkillWithRanks>>{
-        return databaseRank.getListOfSkillWithRanks(skillId, skillId2)
-    }
-
-//    private suspend fun getPieceOfEachType(): LiveData<List<ArmorPiece>> {
-//        return withContext(Dispatchers.IO) {
-//            val allArmorPieces = database.getFirstArmorPiecesOfType()
-//            allArmorPieces
-//        }
-//    }
-
-    fun getArmorPiece(armorPieceId: Int): LiveData<ArmorPiece>{
-        return database.getArmorPieces(armorPieceId)
-    }
-
-    fun getPieceOfEachType(): LiveData<List<ArmorPiece>> {
+    private fun getPieceOfEachType(): LiveData<List<ArmorPiece>> {
         return database.getFirstArmorPiecesOfType()
     }
 
 }
 
-class SelectedArmor(val armorPiece: ArmorPiece, val skillName1:String?, val skillName2:String?, var decorations: ArrayList<Decoration?>){
-}
+class SelectedArmor(val armorPiece: ArmorPiece, val skillName1:String?, val skillName2:String?, var decorations: ArrayList<Decoration?>)
 
 class SkillsForDisplay(val skill: Skills, val skillRanks: ArrayList<SkillRank>, val activeLevels: Int)

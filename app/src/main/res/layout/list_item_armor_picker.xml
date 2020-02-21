@@ -7,9 +7,6 @@
         <variable
             name="armorPiece"
             type="org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPiece" />
-        <variable
-            name="clickListener"
-            type="org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.armorPicker.ArmorPieceListener" />
 
     </data>
 

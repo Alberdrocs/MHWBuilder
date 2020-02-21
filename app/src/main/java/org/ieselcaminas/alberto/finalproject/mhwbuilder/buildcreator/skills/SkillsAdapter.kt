@@ -19,11 +19,11 @@ class SkillsAdapter(): RecyclerView.Adapter<SkillsAdapter.SkillsViewHolder>(){
 
     override fun getItemCount() = data.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SkillsAdapter.SkillsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SkillsViewHolder {
         return SkillsViewHolder.from(parent)
     }
 
-    override fun onBindViewHolder(holder: SkillsAdapter.SkillsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SkillsViewHolder, position: Int) {
         val item = data[position]
         holder.bind(item)
     }

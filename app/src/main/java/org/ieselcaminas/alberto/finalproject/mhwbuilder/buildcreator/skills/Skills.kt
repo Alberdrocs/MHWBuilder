@@ -33,46 +33,26 @@ class Skills : Fragment() {
 
         val dataSource = AppDatabase.getInstance(application).skillsDAO()
         val dataSourceRank = AppDatabase.getInstance(application).skillRankDAO()
-        val dataSourceDecoration = AppDatabase.getInstance(application).decorationDAO()
         val dataSourceArmor = AppDatabase.getInstance(application).armorPieceDAO()
         val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
-        val viewModelFactory = SkillsViewModelFactory(dataSource, dataSourceRank, dataSourceDecoration, application)
-        val skillsViewModel =
-            ViewModelProviders.of(
-                this, viewModelFactory).get(SkillsViewModel::class.java)
-
 
         val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSourceArmor, dataSourceSet, dataSourceRank, dataSource, viewLifecycleOwner)
         val equipmentViewModel = activity?.run {
-            ViewModelProviders.of(
-                this, equipmentViewModelFactory).get(EquipmentViewModel::class.java) }
-
-        binding.skillsViewModel = skillsViewModel
+            ViewModelProviders.of(this, equipmentViewModelFactory).get(EquipmentViewModel::class.java) }
 
         val adapter = SkillsAdapter()
         binding.skillsRecyclerView.adapter = adapter
 
-        if (equipmentViewModel != null) {
-            equipmentViewModel.currentSkillsForDisplay.observe(viewLifecycleOwner, Observer {
-                it?.let {
-                    var skillsForDisplayList = ArrayList<SkillsForDisplay>()
-                    for (i in it){
-                        skillsForDisplayList.add(i.value)
-                    }
-                    Collections.sort(skillsForDisplayList, object : Comparator<SkillsForDisplay> {
-                        override fun compare(p0: SkillsForDisplay?, p1: SkillsForDisplay?): Int {
-                            return if (p0!!.activeLevels > p1!!.activeLevels) -1 else if (p0.activeLevels < p1.activeLevels) 1 else 0
-                        }
-
-                    })
-                    adapter.data = skillsForDisplayList
+        equipmentViewModel?.currentSkillsForDisplay?.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                val skillsForDisplayList = ArrayList<SkillsForDisplay>()
+                for (i in it){
+                    skillsForDisplayList.add(i.value)
                 }
-            })
-        }
-
+                skillsForDisplayList.sortWith(Comparator { p0, p1 -> if (p0!!.activeLevels > p1!!.activeLevels) -1 else if (p0.activeLevels < p1.activeLevels) 1 else 0 })
+                adapter.data = skillsForDisplayList
+            }
+        })
         return binding.root
     }
-
-
-
 }

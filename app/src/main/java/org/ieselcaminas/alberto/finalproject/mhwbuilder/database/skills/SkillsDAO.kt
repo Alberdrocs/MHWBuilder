@@ -35,15 +35,6 @@ interface SkillRankDAO {
     @Query("SELECT * FROM skill_rank WHERE skill_rank_id = :key")
     fun get(key: Int): LiveData<SkillRank>
 
-    @Query("SELECT * FROM skill_rank WHERE skill_rank_id = :key OR skill_rank_id = :key2")
-    fun getListOf2(key: Int, key2: Int): LiveData<List<SkillRank>>
-
-    @Query("SELECT * FROM skill_rank WHERE skill_rank_id = :key OR skill_rank_id = :key2 OR skill_rank_id = :key3")
-    fun getListOf3(key: Int, key2: Int, key3: Int): LiveData<List<SkillRank>>
-
-    @Query("SELECT * FROM skill_rank WHERE skill_rank_id = :key OR skill_rank_id = :key2 OR skill_rank_id = :key3 OR skill_rank_id = :key4")
-    fun getListOf4(key: Int, key2: Int, key3: Int, key4: Int): LiveData<List<SkillRank>>
-
     @Transaction
     @Query("SELECT * FROM skill WHERE id = :key")
     fun getSkillWithRanks(key: Int): LiveData<SkillWithRanks>

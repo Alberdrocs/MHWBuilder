@@ -33,7 +33,6 @@ class Stadistics : Fragment() {
             ViewModelProviders.of(
                 this, viewModelFactory).get(EquipmentViewModel::class.java)}
         binding.equipmentViewModel = equipmentViewModel
-        //binding.lifecycleOwner = this
         return binding.root
     }
 

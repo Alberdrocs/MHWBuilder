@@ -32,14 +32,11 @@ public class Animations {
             }
         };
 
-
         animation.setDuration((long) (actualheight / view.getContext().getResources().getDisplayMetrics().density));
 
         view.startAnimation(animation);
 
         return animation;
-
-
     }
 
     public static void collapse(final View view) {
@@ -60,9 +57,8 @@ public class Animations {
             }
         };
 
-        animation.setDuration((long) (actualHeight/ view.getContext().getResources().getDisplayMetrics().density));
+        animation.setDuration((long) (actualHeight / view.getContext().getResources().getDisplayMetrics().density));
         view.startAnimation(animation);
     }
-
 
 }
