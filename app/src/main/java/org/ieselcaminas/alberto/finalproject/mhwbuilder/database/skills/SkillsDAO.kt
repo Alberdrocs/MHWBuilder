@@ -13,7 +13,6 @@ interface SkillsDAO {
     @Update
     fun update(skill: Skills)
 
-
     @Query("SELECT * FROM skill WHERE id = :key")
     fun get(key: Int): LiveData<Skills>
 
@@ -55,6 +54,6 @@ interface SkillRankDAO {
 
     @Transaction
     @Query("SELECT * FROM skill WHERE id IN (SELECT DISTINCT(skill_rank_id) FROM skill_rank)")
-    fun getAllSkillWithRanks(): List<SkillWithRanks>
+    fun getAllSkillWithRanks(): LiveData<List<SkillWithRanks>>
 
 }

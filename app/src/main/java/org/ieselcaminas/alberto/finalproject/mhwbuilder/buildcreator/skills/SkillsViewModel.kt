@@ -89,7 +89,7 @@ class SkillsViewModel(
         }
     }
 
-    private suspend fun getAllSkillsWithRanks(): List<SkillWithRanks> {
+    private suspend fun getAllSkillsWithRanks(): LiveData<List<SkillWithRanks>> {
         return withContext(Dispatchers.IO) {
             val skillWithRanks = databaseRank.getAllSkillWithRanks()
             skillWithRanks

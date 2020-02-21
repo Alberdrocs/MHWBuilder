@@ -11,10 +11,7 @@ import kotlinx.coroutines.*
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPiece
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPieceDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorSetDAO
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRank
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRankDAO
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.Skills
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillsDAO
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.*
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.ArmorPickerFragmentBinding
 
 class ArmorPickerViewModel(
@@ -57,5 +54,9 @@ class ArmorPickerViewModel(
 
     fun getArmorPiecesOfType(armorType: String): LiveData<List<ArmorPiece>> {
         return database.getAllArmorPiecesOfType(armorType)
+    }
+
+    fun getAllSkills(): LiveData<List<SkillWithRanks>> {
+        return dataSourceSkillRank.getAllSkillWithRanks()
     }
 }
