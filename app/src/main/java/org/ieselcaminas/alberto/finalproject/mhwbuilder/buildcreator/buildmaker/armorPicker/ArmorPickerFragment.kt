@@ -7,11 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.navigation.ui.AppBarConfiguration
-
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModel
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModelFactory
@@ -19,6 +20,10 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPiece
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.ArmorPickerFragmentBinding
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.util.Animations
+import android.widget.AdapterView.OnItemSelectedListener
+
+
+
 
 class ArmorPickerFragment : Fragment() {
 
@@ -74,17 +79,48 @@ class ArmorPickerFragment : Fragment() {
             })
         })
 
+        val rarityLevelsList: ArrayList<String> = ArrayList()
+        for (i in 1 until 13) rarityLevelsList.add("Level $i")
+
+        val arrayAdapterFrom = context?.let {
+            ArrayAdapter<String>(
+                it,
+                android.R.layout.simple_spinner_dropdown_item, rarityLevelsList
+            )
+        }
+
+        val arrayAdapterTo = context?.let {
+            ArrayAdapter<String>(
+                it,
+                android.R.layout.simple_spinner_dropdown_item, rarityLevelsList.subList(binding.rarityFromSpinner.selectedItemPosition + 1, rarityLevelsList.size-1)
+            )
+        }
+
+        binding.rarityFromSpinner.adapter = arrayAdapterFrom
+        binding.rarityToSpinner.adapter = arrayAdapterTo
+
+        binding.rarityFromSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View, position: Int, id: Long) {
+                binding.rarityToSpinner.adapter = context?.let {
+                    ArrayAdapter<String>(
+                        it,
+                        android.R.layout.simple_spinner_dropdown_item, rarityLevelsList.subList(position, rarityLevelsList.size)
+                    )
+                }
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>) {
+                // your code here
+            }
+
+        }
+
         var isExpanded = true
         binding.filterButton.setOnClickListener {
             val show = toggleLayout(isExpanded, binding.filterDetails)
             isExpanded = !show
         }
 
-        armorPickerViewModel.armorSearchQuery.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                Log.i("TAGBusqueda", "Mensaje: " + it)
-            }
-        })
 
         binding.setLifecycleOwner(this)
         return binding.root
