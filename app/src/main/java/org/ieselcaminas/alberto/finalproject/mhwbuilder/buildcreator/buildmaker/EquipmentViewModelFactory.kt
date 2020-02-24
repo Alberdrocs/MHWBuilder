@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPieceDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorSetDAO
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.charm.CharmsDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRankDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillsDAO
 
@@ -15,12 +16,13 @@ class EquipmentViewModelFactory(
     private val dataSourceSet: ArmorSetDAO,
     private val dataSourceRank: SkillRankDAO,
     private val dataSourceSkill: SkillsDAO,
+    private val dataSourceCharms: CharmsDAO,
     private val viewLifecycleOwner: LifecycleOwner
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(EquipmentViewModel::class.java)) {
-            return EquipmentViewModel(application, dataSource, dataSourceSet, dataSourceRank, dataSourceSkill, viewLifecycleOwner) as T
+            return EquipmentViewModel(application, dataSource, dataSourceSet, dataSourceRank, dataSourceSkill,dataSourceCharms, viewLifecycleOwner) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

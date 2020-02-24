@@ -33,12 +33,13 @@ class DecorationPickerFragment : Fragment() {
         val dataSourceSkillRank = AppDatabase.getInstance(application).skillRankDAO()
         val dataSourceArmor = AppDatabase.getInstance(application).armorPieceDAO()
         val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
+        val dataSourceCharm = AppDatabase.getInstance(application).charmsDAO()
         val viewModelFactory = DecorationPickerViewModelFactory(application, dataSource, binding)
         val decorationPickerViewModel =
             ViewModelProviders.of(
                 this, viewModelFactory).get(DecorationPickerViewModel::class.java)
 
-        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSourceArmor, dataSourceSet, dataSourceSkillRank, dataSourceSkill, viewLifecycleOwner)
+        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSourceArmor, dataSourceSet, dataSourceSkillRank, dataSourceSkill,dataSourceCharm, viewLifecycleOwner)
         val equipmentViewModel = activity?.run {
             ViewModelProviders.of(
                 this, equipmentViewModelFactory).get(EquipmentViewModel::class.java) }

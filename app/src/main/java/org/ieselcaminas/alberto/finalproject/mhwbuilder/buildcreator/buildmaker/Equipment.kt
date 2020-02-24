@@ -2,7 +2,6 @@ package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import androidx.lifecycle.Observer
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRank
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillWithRanks
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.EquipmentFragmentBinding
 
 
@@ -30,7 +28,8 @@ class Equipment : Fragment() {
         val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
         val dataSourceRank = AppDatabase.getInstance(application).skillRankDAO()
         val dataSourceSkill = AppDatabase.getInstance(application).skillsDAO()
-        val viewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet, dataSourceRank, dataSourceSkill, viewLifecycleOwner)
+        val dataSourceCharm = AppDatabase.getInstance(application).charmsDAO()
+        val viewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet, dataSourceRank, dataSourceSkill,dataSourceCharm, viewLifecycleOwner)
         val equipmentViewModel = activity?.run { ViewModelProviders.of(this, viewModelFactory).get(EquipmentViewModel::class.java) }
 
         val binding: EquipmentFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.equipment_fragment, container, false)
@@ -44,6 +43,12 @@ class Equipment : Fragment() {
                 adapter.data = it
             }
         })
+
+        val inputStreamSet = context?.assets?.open("charms.json")
+
+        if (equipmentViewModel != null) {
+            equipmentViewModel.onStartTracking(inputStreamSet)
+        }
 
         setSkillsForDisplayToViewModel(equipmentViewModel)
 

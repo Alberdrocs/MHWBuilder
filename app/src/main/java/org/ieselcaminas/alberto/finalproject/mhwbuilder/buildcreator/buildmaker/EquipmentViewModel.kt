@@ -6,17 +6,15 @@ import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.*
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.charm.Charms
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.charm.CharmsDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.decorations.Decoration
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.*
 import org.json.JSONArray
-import java.io.IOException
+import org.json.JSONException
 import java.io.InputStream
-import java.lang.IndexOutOfBoundsException
-import java.util.*
-import kotlin.Comparator
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
-import kotlin.collections.LinkedHashMap
 
 
 class EquipmentViewModel(
@@ -25,6 +23,7 @@ class EquipmentViewModel(
     private val databaseSet: ArmorSetDAO,
     private val databaseRank: SkillRankDAO,
     private val databaseSkill: SkillsDAO,
+    private val databaseCharm: CharmsDAO,
     private val viewLifecycleOwner: LifecycleOwner
 ) : AndroidViewModel(application) {
 
@@ -103,6 +102,10 @@ class EquipmentViewModel(
         })
     }
 
+    private var viewModelJob = Job()
+
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
     fun setCurrentArmorPieces(armorPieces: ArrayList<SelectedArmor>){
         _currentArmorPieces.value = armorPieces
     }
@@ -125,6 +128,41 @@ class EquipmentViewModel(
 
     private fun getPieceOfEachType(): LiveData<List<ArmorPiece>> {
         return database.getFirstArmorPiecesOfType()
+    }
+
+    private suspend fun insertCharm(charms: Charms){
+        withContext(Dispatchers.IO) {
+            databaseCharm.insert(charms)
+        }
+    }
+
+    fun onStartTracking(inputStream: InputStream?) {
+        uiScope.launch {
+            val inputString = inputStream?.bufferedReader().use { it?.readText() }
+            val jsonArray = JSONArray(inputString)
+            var idCounter = 1
+
+            for (i in 0..jsonArray.length() - 1) {
+                val skillIdList = ArrayList<Int>()
+                val charm = jsonArray.getJSONObject(i)
+                val charmLevels = charm.getJSONArray("ranks")
+                val charmFinalLevel = charmLevels.getJSONObject(charmLevels.length() - 1)
+                val charmFinalLevelSkillArray = charmFinalLevel.getJSONArray("skills")
+
+                val skill = charmFinalLevelSkillArray.getJSONObject(0)
+                skillIdList.add(skill.getInt("id"))
+                try {
+                    val skill2 = charmFinalLevelSkillArray.getJSONObject(1)
+                    skillIdList.add(skill2.getInt("id"))
+                } catch (e: JSONException) {
+                }
+
+                val newCharm = Charms(idCounter,charmFinalLevel.getString("name"), charmFinalLevel.getInt("rarity").toByte(),skillIdList)
+                Log.i("CHARM","Id: " + newCharm.charmId + ", Name: " + newCharm.name + ", Rarity: " + newCharm.rarity + ", Skills id: " + newCharm.skillRankId.toString())
+                //insertCharm(newCharm)
+                idCounter++
+            }
+        }
     }
 
 }

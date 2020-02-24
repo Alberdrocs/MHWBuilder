@@ -9,14 +9,20 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPiec
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPieceDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorSet
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorSetDAO
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.charm.Charms
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.charm.CharmsDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.decorations.Decoration
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.decorations.DecorationDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRank
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRankDAO
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.Skills
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillsDAO
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.room.migration.Migration
 
-@Database(entities = [Skills::class, SkillRank::class, ArmorPiece::class, ArmorSet::class, Decoration::class], version = 6, exportSchema = false)
+
+
+@Database(entities = [Skills::class, SkillRank::class, ArmorPiece::class, ArmorSet::class, Decoration::class, Charms::class], version = 7, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun skillsDAO(): SkillsDAO
@@ -24,7 +30,22 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun armorPieceDAO(): ArmorPieceDAO
     abstract fun armorSetDAO(): ArmorSetDAO
     abstract fun decorationDAO(): DecorationDAO
+    abstract fun charmsDAO(): CharmsDAO
     companion object {
+        val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE charms (\n" +
+                        "    charm_id      INTEGER NOT NULL,\n" +
+                        "    name          TEXT    NOT NULL,\n" +
+                        "    rarity        INTEGER NOT NULL,\n" +
+                        "    skill_rank_id TEXT    NOT NULL,\n" +
+                        "    PRIMARY KEY (\n" +
+                        "        charm_id\n" +
+                        "    )\n" +
+                        ");\n")
+            }
+        }
+
         @Volatile private var INSTANCE: AppDatabase? = null
         fun getInstance(context: Context): AppDatabase {
             synchronized(this) {
@@ -36,7 +57,6 @@ abstract class AppDatabase: RoomDatabase() {
                         AppDatabase::class.java,
                         "mhwbuilder_database.db"
                         ).createFromAsset("databases/mhwbuilder_database.db")
-                        .fallbackToDestructiveMigration()
                         .build()
 
                     INSTANCE = instance
