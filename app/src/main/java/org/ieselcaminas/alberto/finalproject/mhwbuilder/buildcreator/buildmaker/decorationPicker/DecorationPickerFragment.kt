@@ -64,16 +64,25 @@ class DecorationPickerFragment : Fragment() {
         })
 
         decorationPickerViewModel.decorationSearchQuery.observe(viewLifecycleOwner, Observer { query ->
-            if (query == "")return@Observer
-            val decorationListQueried = ArrayList<Decoration>()
-            decorationPickerViewModel.getDecorationsOfSlot(args.slot1).observe(viewLifecycleOwner, Observer {
-                it?.let {
-                    for (i in it)
-                        if (i.name.toLowerCase().contains(query.toLowerCase()))
-                            decorationListQueried.add(i)
-                    adapter?.data = decorationListQueried
-                }
-            })
+            if (query == ""){
+                decorationPickerViewModel.getDecorationsOfSlot(args.slot1).observe(viewLifecycleOwner, Observer {
+                    it?.let {
+                        if (adapter != null) {
+                            adapter.data = it
+                        }
+                    }
+                })
+            } else {
+                val decorationListQueried = ArrayList<Decoration>()
+                decorationPickerViewModel.getDecorationsOfSlot(args.slot1).observe(viewLifecycleOwner, Observer {
+                    it?.let {
+                        for (i in it)
+                            if (i.name.toLowerCase().contains(query.toLowerCase()))
+                                decorationListQueried.add(i)
+                        adapter?.data = decorationListQueried
+                    }
+                })
+            }
         })
 
         return binding.root

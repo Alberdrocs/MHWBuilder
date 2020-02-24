@@ -17,7 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
 
             <View
                 android:id="@+id/divider2"
@@ -49,6 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginEnd="40dp"
+                    android:text="@{equipmentViewModel.currentHealthValue.toString()}"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp" />
             </FrameLayout>
@@ -82,6 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginEnd="40dp"
+                    android:text="100"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp" />
             </FrameLayout>
@@ -284,10 +287,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginEnd="40dp"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
                     android:text="@{equipmentViewModel.currentDefenseValue.toString()}"
-                />
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
             </FrameLayout>
 
             <View
@@ -319,9 +321,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginEnd="40dp"
+                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;fire&quot;).toString()}"
                     android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;fire&quot;).toString()}"/>
+                    android:textSize="18sp" />
             </FrameLayout>
 
             <View
@@ -353,9 +355,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginEnd="40dp"
+                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;water&quot;).toString()}"
                     android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;water&quot;).toString()}"/>
+                    android:textSize="18sp" />
             </FrameLayout>
 
             <View
@@ -387,9 +389,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginEnd="40dp"
+                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;thunder&quot;).toString()}"
                     android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;thunder&quot;).toString()}"/>
+                    android:textSize="18sp" />
             </FrameLayout>
 
             <View
@@ -421,9 +423,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginEnd="40dp"
+                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;ice&quot;).toString()}"
                     android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;ice&quot;).toString()}"/>
+                    android:textSize="18sp" />
             </FrameLayout>
 
             <View
@@ -455,9 +457,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginEnd="40dp"
+                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;dragon&quot;).toString()}"
                     android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:text="@{equipmentViewModel.currentResistancesValues.get(&quot;dragon&quot;).toString()}"/>
+                    android:textSize="18sp" />
             </FrameLayout>
 
             <View

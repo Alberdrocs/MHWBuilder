@@ -46,6 +46,20 @@ class EquipmentViewModel(
             return defense
         }
 
+    val currentHealthValue: LiveData<Int>
+    get() {
+        var health: MutableLiveData<Int> = MutableLiveData()
+        health.value = 100
+        if (currentSkillsForDisplay.value!!.contains("Health Boost")){
+            when(currentSkillsForDisplay.value!!["Health Boost"]?.activeLevels){
+                1 -> health.value = 115
+                2 -> health.value = 130
+                3 -> health.value = 150
+            }
+        }
+        return health
+    }
+
     val currentResistancesValues: LiveData<HashMap<String, Int>>
     get() {
         var resistances: MutableLiveData<HashMap<String, Int>> = MutableLiveData()
