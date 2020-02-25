@@ -23,8 +23,7 @@ class EquipmentViewModel(
     private val databaseSet: ArmorSetDAO,
     private val databaseRank: SkillRankDAO,
     private val databaseSkill: SkillsDAO,
-    private val databaseCharm: CharmsDAO,
-    private val viewLifecycleOwner: LifecycleOwner
+    private val databaseCharm: CharmsDAO
 ) : AndroidViewModel(application) {
 
     private var _currentArmorPieces = MutableLiveData<ArrayList<SelectedArmor>>()
@@ -88,18 +87,31 @@ class EquipmentViewModel(
     val currentSkillsForDisplay: LiveData<HashMap<String, SkillsForDisplay>>
         get() = _currentSkillsForDisplay
 
+    private var _currentCharm = MutableLiveData<Charms>()
+    val currentCharm: LiveData<Charms>
+        get() = _currentCharm
+
 
     init {
         _currentSkillsForDisplay.value = HashMap()
-        getPieceOfEachType().observe(viewLifecycleOwner, Observer {
-            it?.let {
-                val selectedArmor: ArrayList<SelectedArmor> = ArrayList()
-                for (i in 0 until it.size){
-                    selectedArmor.add(SelectedArmor(it[i],"Skill 1", "Skill 2", ArrayList()))
-                }
-                _currentArmorPieces.value = selectedArmor
-            }
-        })
+        val selectedArmor: ArrayList<SelectedArmor> = ArrayList()
+        selectedArmor.add(SelectedArmor(ArmorPiece(749,"Bone Helm Alpha +","head","master",9, arrayListOf(114,0,0),
+            hashMapOf("fire" to 2,"ice" to 0, "thunder" to 2, "dragon" to 2, "water" to 0), arrayListOf(3), arrayListOf(54,150),169)
+            ,"Health Boost x2","Partbreaker x1", arrayListOf(null, null, null)))
+        selectedArmor.add(SelectedArmor(ArmorPiece(750,"Bone Mail Alpha +","chest","master",9, arrayListOf(114,0,0),
+            hashMapOf("fire" to 2,"ice" to 0, "thunder" to 2, "dragon" to 2, "water" to 0), arrayListOf(2), arrayListOf(40,53),169)
+            ,"Attack Boost x2","Health Boost x1", arrayListOf(null, null, null)))
+        selectedArmor.add(SelectedArmor(ArmorPiece(751,"Bone Vambraces Alpha +","gloves","master",9, arrayListOf(114,0,0),
+            hashMapOf("fire" to 2,"ice" to 0, "thunder" to 2, "dragon" to 2, "water" to 0), arrayListOf(2), arrayListOf(39,154),169)
+            ,"Attack Boost x1","Master Mounter x1", arrayListOf(null, null, null)))
+        selectedArmor.add(SelectedArmor(ArmorPiece(752,"Bone Coil Alpha +","waist","master",9, arrayListOf(114,0,0),
+            hashMapOf("fire" to 2,"ice" to 0, "thunder" to 2, "dragon" to 2, "water" to 0), arrayListOf(3), arrayListOf(150,186),169)
+            ,"Partbreaker x1","Horn Maestro x1", arrayListOf(null, null, null)))
+        selectedArmor.add(SelectedArmor(ArmorPiece(752,"Bone Greaves Alpha +","legs","master",9, arrayListOf(114,0,0),
+            hashMapOf("fire" to 2,"ice" to 0, "thunder" to 2, "dragon" to 2, "water" to 0), arrayListOf(3), arrayListOf(153,186),169)
+            ,"Slugger x1","Horn Maestro x1", arrayListOf(null, null, null)))
+        _currentArmorPieces.value = selectedArmor
+        _currentCharm.value = Charms(1, "Poison Charm 3",6, arrayListOf(3))
     }
 
     private var viewModelJob = Job()
@@ -114,6 +126,10 @@ class EquipmentViewModel(
         _currentSkillsForDisplay.value = skillsForDisplay
     }
 
+    fun setCurrentCharm(charms: Charms){
+        _currentCharm.value = charms
+    }
+
     fun getSkillRank(skillRankId: Int): LiveData<SkillRank> {
         return databaseRank.get(skillRankId)
     }
@@ -124,6 +140,10 @@ class EquipmentViewModel(
 
     fun getSkillWithRanks(skillId: Int): LiveData<SkillWithRanks>{
         return databaseRank.getSkillWithRanks(skillId)
+    }
+
+    fun getAllCharms(): LiveData<List<Charms>>{
+        return  databaseCharm.getAllCharms()
     }
 
     private fun getPieceOfEachType(): LiveData<List<ArmorPiece>> {

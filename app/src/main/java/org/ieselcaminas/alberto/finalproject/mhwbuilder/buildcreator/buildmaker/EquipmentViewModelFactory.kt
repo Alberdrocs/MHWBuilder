@@ -16,13 +16,12 @@ class EquipmentViewModelFactory(
     private val dataSourceSet: ArmorSetDAO,
     private val dataSourceRank: SkillRankDAO,
     private val dataSourceSkill: SkillsDAO,
-    private val dataSourceCharms: CharmsDAO,
-    private val viewLifecycleOwner: LifecycleOwner
+    private val dataSourceCharms: CharmsDAO
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(EquipmentViewModel::class.java)) {
-            return EquipmentViewModel(application, dataSource, dataSourceSet, dataSourceRank, dataSourceSkill,dataSourceCharms, viewLifecycleOwner) as T
+            return EquipmentViewModel(application, dataSource, dataSourceSet, dataSourceRank, dataSourceSkill,dataSourceCharms) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

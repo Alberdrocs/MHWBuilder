@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_buildCreator_to_decorationPickerFragment"
             app:destination="@id/decorationPickerFragment" />
+        <action
+            android:id="@+id/action_buildCreator_to_charmPickerFragment"
+            app:destination="@id/charmPickerFragment" />
     </fragment>
     <fragment
         android:id="@+id/armorPickerFragment2"
@@ -55,5 +58,13 @@
         <argument
             android:name="armorType"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/charmPickerFragment"
+        android:name="org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.charmPicker.CharmPickerFragment"
+        android:label="CharmPickerFragment" >
+        <action
+            android:id="@+id/action_charmPickerFragment_to_buildCreator"
+            app:destination="@id/buildCreator" />
     </fragment>
 </navigation>

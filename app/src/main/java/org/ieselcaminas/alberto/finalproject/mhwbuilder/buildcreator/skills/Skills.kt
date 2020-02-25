@@ -37,7 +37,7 @@ class Skills : Fragment() {
         val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
         val dataSourceCharm = AppDatabase.getInstance(application).charmsDAO()
 
-        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSourceArmor, dataSourceSet, dataSourceRank, dataSource,dataSourceCharm, viewLifecycleOwner)
+        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSourceArmor, dataSourceSet, dataSourceRank, dataSource,dataSourceCharm)
         val equipmentViewModel = activity?.run {
             ViewModelProviders.of(this, equipmentViewModelFactory).get(EquipmentViewModel::class.java) }
 

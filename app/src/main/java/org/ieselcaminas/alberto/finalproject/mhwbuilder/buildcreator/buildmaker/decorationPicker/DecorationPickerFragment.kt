@@ -18,10 +18,6 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.DecorationPi
 
 class DecorationPickerFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = DecorationPickerFragment()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,7 +35,7 @@ class DecorationPickerFragment : Fragment() {
             ViewModelProviders.of(
                 this, viewModelFactory).get(DecorationPickerViewModel::class.java)
 
-        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSourceArmor, dataSourceSet, dataSourceSkillRank, dataSourceSkill,dataSourceCharm, viewLifecycleOwner)
+        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSourceArmor, dataSourceSet, dataSourceSkillRank, dataSourceSkill,dataSourceCharm)
         val equipmentViewModel = activity?.run {
             ViewModelProviders.of(
                 this, equipmentViewModelFactory).get(EquipmentViewModel::class.java) }

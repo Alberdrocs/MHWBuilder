@@ -15,4 +15,7 @@ interface CharmsDAO{
 
     @Query("SELECT * FROM charms WHERE charm_id = :key")
     fun getCharm(key: Int): LiveData<Charms>
+
+    @Query("SELECT * FROM charms")
+    fun getAllCharms(): LiveData<List<Charms>>
 }

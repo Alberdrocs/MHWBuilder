@@ -45,7 +45,7 @@ class ArmorPickerFragment : Fragment() {
         val armorPickerViewModel = ViewModelProviders.of(this, viewModelFactory).get(ArmorPickerViewModel::class.java)
         binding.armorPickerViewModel = armorPickerViewModel
 
-        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet, dataSourceSkillRank, dataSourceSkill, dataSourceCharm, viewLifecycleOwner)
+        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet, dataSourceSkillRank, dataSourceSkill, dataSourceCharm)
         val equipmentViewModel = activity?.run {
             ViewModelProviders.of(this, equipmentViewModelFactory).get(EquipmentViewModel::class.java)
         }

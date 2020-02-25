@@ -29,7 +29,7 @@ class Equipment : Fragment() {
         val dataSourceRank = AppDatabase.getInstance(application).skillRankDAO()
         val dataSourceSkill = AppDatabase.getInstance(application).skillsDAO()
         val dataSourceCharm = AppDatabase.getInstance(application).charmsDAO()
-        val viewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet, dataSourceRank, dataSourceSkill,dataSourceCharm, viewLifecycleOwner)
+        val viewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet, dataSourceRank, dataSourceSkill,dataSourceCharm)
         val equipmentViewModel = activity?.run { ViewModelProviders.of(this, viewModelFactory).get(EquipmentViewModel::class.java) }
 
         val binding: EquipmentFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.equipment_fragment, container, false)
@@ -44,11 +44,27 @@ class Equipment : Fragment() {
             }
         })
 
-        val inputStreamSet = context?.assets?.open("charms.json")
+        equipmentViewModel?.currentCharm?.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.charmTextView.text = it.name
+                binding.charmSkill2TextView.text = ""
+                var counter = 0
+                it.skillRankId.forEach {skillRankId ->
+                    equipmentViewModel.getSkillRank(skillRankId).observe(viewLifecycleOwner, Observer { skillRank ->
+                        equipmentViewModel.getSkillRankSkill(skillRank.skillId).observe(viewLifecycleOwner, Observer { skill ->
+                            if (counter == 0){
+                                binding.charmSkill1TextView.text = skill.name + " x" + skillRank.level
+                            } else {
+                                binding.charmSkill2TextView.text = skill.name + " x" + skillRank.level
+                            }
+                            counter++
+                        })
+                    })
+                }
 
-        if (equipmentViewModel != null) {
-            equipmentViewModel.onStartTracking(inputStreamSet)
-        }
+
+            }
+        })
 
         setSkillsForDisplayToViewModel(equipmentViewModel)
 
@@ -78,6 +94,10 @@ class Equipment : Fragment() {
                             skillRankIdList.add(decorationSkillRankId)
                         }
                     }
+                }
+
+                equipmentViewModel.currentCharm.value?.skillRankId?.forEach {
+                    skillRankIdList.add(it)
                 }
 
                 skillRankIdList.forEach { skillRankId ->

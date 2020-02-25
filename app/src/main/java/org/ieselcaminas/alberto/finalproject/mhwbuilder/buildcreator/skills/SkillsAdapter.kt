@@ -38,8 +38,10 @@ class SkillsAdapter(): RecyclerView.Adapter<SkillsAdapter.SkillsViewHolder>(){
             binding.skillNameTextView.text = item.skill.name
             binding.skillActiveLevelTextView.text = "Level " + item.activeLevels
             for (i in 0 until binding.skillLevelsLinearLayout.childCount){
+
                 val image = binding.skillLevelsLinearLayout.getChildAt(i) as ImageView
                 val levelLayout = binding.linearLayoutLevelsDescriptions.getChildAt(i) as LinearLayout
+                levelLayout.visibility = View.VISIBLE
                 if (item.skillRanks.size <= i){
                     image.setImageResource(android.R.color.transparent)
                     levelLayout.visibility = View.GONE
