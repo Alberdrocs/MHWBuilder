@@ -17,8 +17,6 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.ArmorPickerF
 class ArmorPickerViewModel(
     application: Application,
     private val database: ArmorPieceDAO,
-    private val databaseSet: ArmorSetDAO,
-    private val dataSourceSkill: SkillsDAO,
     private val dataSourceSkillRank: SkillRankDAO,
     private val binding: ArmorPickerFragmentBinding
 ) : AndroidViewModel(application) {

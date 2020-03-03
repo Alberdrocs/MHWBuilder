@@ -56,7 +56,6 @@ class SkillsAdapter(): RecyclerView.Adapter<SkillsAdapter.SkillsViewHolder>(){
                     }
                 }
             }
-            Log.i("ColorTAG",item.skill.color.toString())
             binding.skillImage.setImageResource(when(item.skill.color){
                 "white" -> R.mipmap.skill_white
                 "red" -> R.mipmap.skill_red

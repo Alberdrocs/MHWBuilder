@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.BuildCreatorDirections
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.skills.SkillRank
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.EquipmentFragmentBinding
@@ -47,6 +49,13 @@ class Equipment : Fragment() {
         equipmentViewModel?.currentCharm?.observe(viewLifecycleOwner, Observer {
             it?.let {
                 binding.charmTextView.text = it.name
+                binding.charmImageView.setImageResource(when(it.rarity.toInt()){
+                    6 -> R.mipmap.charm_level_6
+                    7 -> R.mipmap.charm_level_7
+                    8 -> R.mipmap.charm_level_8
+                    9 -> R.mipmap.charm_level_9
+                    else -> R.mipmap.charm_level_6
+                })
                 binding.charmSkill2TextView.text = ""
                 var counter = 0
                 it.skillRankId.forEach {skillRankId ->
@@ -61,8 +70,9 @@ class Equipment : Fragment() {
                         })
                     })
                 }
-
-
+                binding.cardViewEquipmentCharm.setOnClickListener {
+                    Navigation.findNavController(it).navigate(BuildCreatorDirections.actionBuildCreatorToCharmPickerFragment())
+                }
             }
         })
 

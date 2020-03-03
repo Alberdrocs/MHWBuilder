@@ -8,6 +8,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModel
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.decorationPicker.DecorationPickerFragmentDirections
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.charm.Charms
@@ -52,11 +53,20 @@ private val equipmentViewModel: EquipmentViewModel
         ){
 
             binding.detailsDecorationPicker.visibility = View.GONE
-
+            binding.addDecorationDecorationPickerButton.text = "ADD CHARM"
 
             binding.decorationNameDecorationPickerTextView.text = item.name
-            item.skillRankId?.get(0)?.let { dataSourceSkillRank.get(it) }
-                ?.observe(viewLifecycleOwner, Observer {
+            binding.decorationImageDecorationPickerImageView.setImageResource(
+                when (item.rarity.toInt()) {
+                    6 -> R.mipmap.charm_level_6
+                    7 -> R.mipmap.charm_level_7
+                    8 -> R.mipmap.charm_level_8
+                    9 -> R.mipmap.charm_level_9
+                    else -> R.mipmap.charm_level_6
+                }
+            )
+            item.skillRankId[0].let { dataSourceSkillRank.get(it) }
+                .observe(viewLifecycleOwner, Observer {
                     it?.let {
                         val level = it.level
                         dataSourceSkill.get(it.skillId).observe(viewLifecycleOwner, Observer { it2 ->
@@ -88,7 +98,7 @@ private val equipmentViewModel: EquipmentViewModel
 
             binding.addDecorationDecorationPickerButton.setOnClickListener {
                 equipmentViewModel.setCurrentCharm(item)
-                Navigation.findNavController(it).navigate(DecorationPickerFragmentDirections.actionDecorationPickerFragmentToBuildCreator())
+                Navigation.findNavController(it).navigate(CharmPickerFragmentDirections.actionCharmPickerFragmentToBuildCreator())
             }
 
             var isExpanded = true

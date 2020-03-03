@@ -64,7 +64,7 @@ class ArmorPickerAdapter(
                         })
                     }
                 })
-                if (item.skillRankId?.size  > 1) {
+                if (item.skillRankId.size  > 1) {
                     dataSourceSkillRank.get(item.skillRankId[1]).observe(viewLifecycleOwner, Observer {
                         it?.let {
                             val skillRankLevel = it.level

@@ -1,8 +1,6 @@
 package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker
 
-import android.content.DialogInterface
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,8 +50,6 @@ class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.A
         holder.armorDecoration3.text = ""
         holder.skill1.text = item.skillName1
         holder.skill2.text = item.skillName2
-
-
 
         when (item.armorPiece.type){
             "head" -> {
@@ -121,7 +117,6 @@ class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.A
         }
 
         if (item.decorations.toString() != "[]"){
-            //Log.i("Decorations", item.decorations[0]?.name)
             holder.armorDecoration1Details.text = "  " + (item.decorations[0]?.name ?: "Skill 1")
             if (item.decorations.size > 1){
                 holder.armorDecoration2Details.text = "  " + (item.decorations[1]?.name ?: "Skill 2")
@@ -132,10 +127,9 @@ class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.A
         }
 
         holder.changeDecorationsButton.setOnClickListener {view ->
-            Log.i("TAGNavigate", item.armorPiece.slots!![0].toString())
             val alertDialog = activity?.let {
                 val builder = AlertDialog.Builder(it)
-                val array = Array(item.armorPiece.slots.size) { i -> "Decoration " + (i+1) }
+                val array = Array(item.armorPiece.slots!!.size) { i -> "Decoration " + (i+1) }
                 var selectedItem = 0
                 builder.setTitle("Choose the desired Decoration")
                     .setSingleChoiceItems(array, 0
@@ -144,7 +138,6 @@ class EquipmentAdapter(private val activity: FragmentActivity?) : RecyclerView.A
                     }
                     .setPositiveButton("OK"
                     ) { _, _ ->
-                        Log.i("DialogTag", "Seleccion $selectedItem")
                         Navigation.findNavController(view).navigate(BuildCreatorDirections.actionBuildCreatorToDecorationPickerFragment(
                             item.armorPiece.slots[selectedItem],selectedItem, item.armorPiece.type))
                     }

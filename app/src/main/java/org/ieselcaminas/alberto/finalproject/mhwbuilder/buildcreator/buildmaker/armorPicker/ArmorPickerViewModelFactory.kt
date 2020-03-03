@@ -12,15 +12,13 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.ArmorPickerF
 class ArmorPickerViewModelFactory(
     private val application: Application,
     private val dataSource: ArmorPieceDAO,
-    private val dataSourceSet: ArmorSetDAO,
-    private val dataSourceSkill: SkillsDAO,
     private val dataSourceSkillRank: SkillRankDAO,
     private val binding: ArmorPickerFragmentBinding
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ArmorPickerViewModel::class.java)) {
-            return ArmorPickerViewModel(application, dataSource, dataSourceSet, dataSourceSkill, dataSourceSkillRank, binding) as T
+            return ArmorPickerViewModel(application, dataSource, dataSourceSkillRank, binding) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

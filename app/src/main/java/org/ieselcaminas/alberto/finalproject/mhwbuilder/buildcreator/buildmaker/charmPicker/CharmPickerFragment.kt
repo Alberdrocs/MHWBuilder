@@ -14,8 +14,8 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModel
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModelFactory
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.charm.Charms
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.CharmPickerFragmentBinding
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.DecorationPickerFragmentBinding
 
 /**
  * A simple [Fragment] subclass.
@@ -29,6 +29,8 @@ class CharmPickerFragment : Fragment() {
         val binding: CharmPickerFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.charm_picker_fragment, container, false)
         val application = requireNotNull(this.activity).application
 
+        val dataSource = AppDatabase.getInstance(application).charmsDAO()
+
         val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
         val dataSourceSkill = AppDatabase.getInstance(application).skillsDAO()
         val dataSourceSkillRank = AppDatabase.getInstance(application).skillRankDAO()
@@ -37,6 +39,11 @@ class CharmPickerFragment : Fragment() {
 
         val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSourceArmor, dataSourceSet, dataSourceSkillRank, dataSourceSkill,dataSourceCharm)
         val equipmentViewModel = activity?.run { ViewModelProviders.of(this, equipmentViewModelFactory).get(EquipmentViewModel::class.java) }
+
+        val viewModelFactory = CharmPickerViewModelFactory(application, dataSource, binding)
+        val charmPickerViewModel =
+            ViewModelProviders.of(
+                this, viewModelFactory).get(CharmPickerViewModel::class.java)
 
         val adapter = equipmentViewModel?.let {
             CharmPickerAdapter(viewLifecycleOwner, dataSourceSkill, dataSourceSkillRank, it)
@@ -47,6 +54,28 @@ class CharmPickerFragment : Fragment() {
         equipmentViewModel?.getAllCharms()?.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter?.data = it
+            }
+        })
+
+        charmPickerViewModel.charmSearchQuery.observe(viewLifecycleOwner, Observer { query ->
+            if (query == ""){
+                charmPickerViewModel.getAllCharms().observe(viewLifecycleOwner, Observer {
+                    it?.let {
+                        if (adapter != null) {
+                            adapter.data = it
+                        }
+                    }
+                })
+            } else {
+                val charmListQueried = ArrayList<Charms>()
+                charmPickerViewModel.getAllCharms().observe(viewLifecycleOwner, Observer {
+                    it?.let {
+                        for (i in it)
+                            if (i.name.toLowerCase().contains(query.toLowerCase()))
+                                charmListQueried.add(i)
+                        adapter?.data = charmListQueried
+                    }
+                })
             }
         })
 

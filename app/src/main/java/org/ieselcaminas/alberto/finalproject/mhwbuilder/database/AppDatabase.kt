@@ -61,7 +61,7 @@ abstract class AppDatabase: RoomDatabase() {
 
                     INSTANCE = instance
                 }
-                return instance!!
+                return instance
             }
         }
     }

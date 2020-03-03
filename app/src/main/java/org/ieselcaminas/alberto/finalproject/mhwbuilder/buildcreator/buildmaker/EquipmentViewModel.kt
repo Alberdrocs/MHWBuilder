@@ -156,35 +156,6 @@ class EquipmentViewModel(
         }
     }
 
-    fun onStartTracking(inputStream: InputStream?) {
-        uiScope.launch {
-            val inputString = inputStream?.bufferedReader().use { it?.readText() }
-            val jsonArray = JSONArray(inputString)
-            var idCounter = 1
-
-            for (i in 0..jsonArray.length() - 1) {
-                val skillIdList = ArrayList<Int>()
-                val charm = jsonArray.getJSONObject(i)
-                val charmLevels = charm.getJSONArray("ranks")
-                val charmFinalLevel = charmLevels.getJSONObject(charmLevels.length() - 1)
-                val charmFinalLevelSkillArray = charmFinalLevel.getJSONArray("skills")
-
-                val skill = charmFinalLevelSkillArray.getJSONObject(0)
-                skillIdList.add(skill.getInt("id"))
-                try {
-                    val skill2 = charmFinalLevelSkillArray.getJSONObject(1)
-                    skillIdList.add(skill2.getInt("id"))
-                } catch (e: JSONException) {
-                }
-
-                val newCharm = Charms(idCounter,charmFinalLevel.getString("name"), charmFinalLevel.getInt("rarity").toByte(),skillIdList)
-                Log.i("CHARM","Id: " + newCharm.charmId + ", Name: " + newCharm.name + ", Rarity: " + newCharm.rarity + ", Skills id: " + newCharm.skillRankId.toString())
-                //insertCharm(newCharm)
-                idCounter++
-            }
-        }
-    }
-
 }
 
 class SelectedArmor(val armorPiece: ArmorPiece, val skillName1:String?, val skillName2:String?, var decorations: ArrayList<Decoration?>)

@@ -121,8 +121,8 @@ class DecorationPickerAdapter(
                 })
 
             binding.decorationNameDecorationPickerTextView.text = item.name
-            item.skillRankId?.get(0)?.let { dataSourceSkillRank.get(it) }
-                ?.observe(viewLifecycleOwner, Observer {
+            item.skillRankId[0].let { dataSourceSkillRank.get(it) }
+                .observe(viewLifecycleOwner, Observer {
                     it?.let {
                         val level = it.level
                         dataSourceSkill.get(it.skillId).observe(viewLifecycleOwner, Observer { it2 ->
@@ -137,7 +137,7 @@ class DecorationPickerAdapter(
                 binding.decorationSkillName2DecorationPickerTextView.text = ""
                 binding.decorationDescription2DecorationPicker.text = ""
             } else {
-                if (item.skillRankId!!.size > 1){
+                if (item.skillRankId.size > 1){
                     dataSourceSkillRank.get(item.skillRankId[1]).observe(viewLifecycleOwner, Observer {
                         it?.let {
                             val level = it.level
