@@ -23,5 +23,15 @@
             style="@style/button_style"
             android:text="Create Build" />
 
+        <Button
+            android:id="@+id/myBuildsButton"
+            style="@style/button_style"
+            android:text="My Builds" />
+
+        <Button
+            android:id="@+id/browseBuildsButton"
+            style="@style/button_style"
+            android:text="Browse Builds" />
+
     </LinearLayout>
 </layout>

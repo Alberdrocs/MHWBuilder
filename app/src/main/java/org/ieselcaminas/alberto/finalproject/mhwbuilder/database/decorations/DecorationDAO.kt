@@ -20,6 +20,6 @@ interface DecorationDAO{
     @Query("SELECT * FROM decoration WHERE decoration_id = :key")
     fun getDecoration(key: Int): LiveData<Decoration>
 
-    @Query("SELECT * FROM decoration WHERE slot BETWEEN 1 AND :slot")
+    @Query("SELECT * FROM decoration WHERE slot BETWEEN 1 AND :slot ORDER BY slot")
     fun getDecorationsOfSlot(slot: Int): LiveData<List<Decoration>>
 }

@@ -4,9 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="decorationPickerViewModel"
-            type="org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.decorationPicker.DecorationPickerViewModel" />
     </data>
 
     <LinearLayout

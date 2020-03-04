@@ -1,7 +1,6 @@
 package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.skills
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,10 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.SkillsForDisplay
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.ListItemSkillsBinding
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.util.Animations
+import android.text.SpannableString
+import android.text.Spannable
+import android.text.style.ForegroundColorSpan
+
 
 class SkillsAdapter(): RecyclerView.Adapter<SkillsAdapter.SkillsViewHolder>(){
 
@@ -36,9 +39,9 @@ class SkillsAdapter(): RecyclerView.Adapter<SkillsAdapter.SkillsViewHolder>(){
     class SkillsViewHolder private constructor(val binding: ListItemSkillsBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: SkillsForDisplay){
             binding.skillNameTextView.text = item.skill.name
+            binding.skillLevelsConstraintLayout.setBackgroundResource(R.mipmap.skill_display_empty_bar)
             binding.skillActiveLevelTextView.text = "Level " + item.activeLevels
             for (i in 0 until binding.skillLevelsLinearLayout.childCount){
-
                 val image = binding.skillLevelsLinearLayout.getChildAt(i) as ImageView
                 val levelLayout = binding.linearLayoutLevelsDescriptions.getChildAt(i) as LinearLayout
                 levelLayout.visibility = View.VISIBLE
@@ -55,6 +58,12 @@ class SkillsAdapter(): RecyclerView.Adapter<SkillsAdapter.SkillsViewHolder>(){
                         textLevelDescription.setTextColor(Color.parseColor("#F0810B"))
                     }
                 }
+            }
+            if (item.activeLevels == item.skillRanks.size){
+                val spannable = SpannableString("Level " + item.activeLevels)
+                spannable.setSpan(ForegroundColorSpan(Color.parseColor("#F0810B")), "Level ".length, ("Level " + item.activeLevels).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                binding.skillActiveLevelTextView.setText(spannable, TextView.BufferType.SPANNABLE)
+                binding.skillLevelsConstraintLayout.setBackgroundResource(R.mipmap.skill_display_empty_bar_active)
             }
             binding.skillImage.setImageResource(when(item.skill.color){
                 "white" -> R.mipmap.skill_white

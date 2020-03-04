@@ -13,13 +13,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModel
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModelFactory
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.ArmorPiece
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.ArmorPickerFragmentBinding
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.util.Animations
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.LinearLayout
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.Equipment
 
 
 class ArmorPickerFragment : Fragment() {
@@ -35,62 +35,43 @@ class ArmorPickerFragment : Fragment() {
     ): View? {
         val binding: ArmorPickerFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.armor_picker_fragment, container, false)
         val application = requireNotNull(this.activity).application
+        val databaseInstance = AppDatabase.getInstance(application)
+        val dataSourcePiece = databaseInstance.armorPieceDAO()
+        val dataSourceSkill = databaseInstance.skillsDAO()
+        val dataSourceSkillRank = databaseInstance.skillRankDAO()
 
-        val dataSource = AppDatabase.getInstance(application).armorPieceDAO()
-        val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
-        val dataSourceSkill = AppDatabase.getInstance(application).skillsDAO()
-        val dataSourceSkillRank = AppDatabase.getInstance(application).skillRankDAO()
-        val dataSourceCharm = AppDatabase.getInstance(application).charmsDAO()
-        val viewModelFactory = ArmorPickerViewModelFactory(application, dataSource, dataSourceSkillRank, binding)
+        val viewModelFactory = ArmorPickerViewModelFactory(application, dataSourcePiece, dataSourceSkillRank, binding)
         val armorPickerViewModel = ViewModelProviders.of(this, viewModelFactory).get(ArmorPickerViewModel::class.java)
-        binding.armorPickerViewModel = armorPickerViewModel
 
-        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet, dataSourceSkillRank, dataSourceSkill, dataSourceCharm)
-        val equipmentViewModel = activity?.run {
-            ViewModelProviders.of(this, equipmentViewModelFactory).get(EquipmentViewModel::class.java)
-        }
+        val equipmentViewModel = activity?.run {ViewModelProviders.of(this, Equipment.viewModelFactory).get(EquipmentViewModel::class.java)}
 
         val args = ArmorPickerFragmentArgs.fromBundle(arguments!!)
-
 
         val adapter = equipmentViewModel?.let { ArmorPickerAdapter(dataSourceSkill, dataSourceSkillRank, viewLifecycleOwner, it) }
         binding.armorRecyclerView.adapter = adapter
         armorPickerViewModel.getArmorPiecesOfType(args.armorType, 9, 12).observe(viewLifecycleOwner, Observer {
-            it?.let {
-                if (adapter != null) {
-                    adapter.data = it
-                }
-            }
+            it?.let { if (adapter != null) adapter.data = it }
         })
 
-
         getQueriedArmors(armorPickerViewModel, adapter, args)
-
 
         val rarityLevelsList: ArrayList<String> = ArrayList()
         for (i in 1 until 13) rarityLevelsList.add("Level $i")
         setFilterSpinnersRarityAdapter(rarityLevelsList, binding)
 
-
         val skillNameList: ArrayList<String> = ArrayList()
         val skillIdList: HashMap<String, ArrayList<Int>> = HashMap()
         setFilterSkillAutoCompleteTextView(armorPickerViewModel, skillNameList, skillIdList, binding)
-
 
         val slotsList: ArrayList<String> = ArrayList()
         for (i in 1 until 4) if (i != 3) slotsList.add("$i or more") else slotsList.add("$i")
         setFiltersSpinnerDecorationsAdapter(binding, rarityLevelsList, slotsList)
 
-
-
         applyFilters(binding, armorPickerViewModel, args, skillIdList, adapter)
-
-
 
         binding.filterButton.setOnClickListener {
             expandCollapseAnimation(binding)
         }
-
 
         binding.lifecycleOwner = this
         return binding.root

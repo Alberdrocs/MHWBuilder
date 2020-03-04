@@ -4,9 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="armorPickerViewModel"
-            type="org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.armorPicker.ArmorPickerViewModel" />
     </data>
 
     <LinearLayout

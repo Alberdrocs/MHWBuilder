@@ -11,8 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.R
+import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.Equipment
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModel
-import org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker.EquipmentViewModelFactory
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.AppDatabase
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.charm.Charms
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.CharmPickerFragmentBinding
@@ -28,22 +28,18 @@ class CharmPickerFragment : Fragment() {
     ): View? {
         val binding: CharmPickerFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.charm_picker_fragment, container, false)
         val application = requireNotNull(this.activity).application
+        val databaseInstance = AppDatabase.getInstance(application)
+        val dataSource = databaseInstance.charmsDAO()
+        val dataSourceSkill = databaseInstance.skillsDAO()
+        val dataSourceSkillRank = databaseInstance.skillRankDAO()
 
-        val dataSource = AppDatabase.getInstance(application).charmsDAO()
 
-        val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
-        val dataSourceSkill = AppDatabase.getInstance(application).skillsDAO()
-        val dataSourceSkillRank = AppDatabase.getInstance(application).skillRankDAO()
-        val dataSourceArmor = AppDatabase.getInstance(application).armorPieceDAO()
-        val dataSourceCharm = AppDatabase.getInstance(application).charmsDAO()
+        val equipmentViewModel = activity?.run { ViewModelProviders.of(this, Equipment.viewModelFactory).get(EquipmentViewModel::class.java) }
 
-        val equipmentViewModelFactory = EquipmentViewModelFactory(application, dataSourceArmor, dataSourceSet, dataSourceSkillRank, dataSourceSkill,dataSourceCharm)
-        val equipmentViewModel = activity?.run { ViewModelProviders.of(this, equipmentViewModelFactory).get(EquipmentViewModel::class.java) }
-
-        val viewModelFactory = CharmPickerViewModelFactory(application, dataSource, binding)
+        val charmViewModelFactory = CharmPickerViewModelFactory(application, dataSource, binding)
         val charmPickerViewModel =
             ViewModelProviders.of(
-                this, viewModelFactory).get(CharmPickerViewModel::class.java)
+                this, charmViewModelFactory).get(CharmPickerViewModel::class.java)
 
         val adapter = equipmentViewModel?.let {
             CharmPickerAdapter(viewLifecycleOwner, dataSourceSkill, dataSourceSkillRank, it)

@@ -19,49 +19,65 @@ import org.ieselcaminas.alberto.finalproject.mhwbuilder.databinding.EquipmentFra
 
 class Equipment : Fragment() {
 
+    companion object{
+        lateinit var viewModelFactory: EquipmentViewModelFactory
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val application = requireNotNull(this.activity).application
         val dataSource = AppDatabase.getInstance(application).armorPieceDAO()
         val dataSourceSet = AppDatabase.getInstance(application).armorSetDAO()
         val dataSourceRank = AppDatabase.getInstance(application).skillRankDAO()
         val dataSourceSkill = AppDatabase.getInstance(application).skillsDAO()
         val dataSourceCharm = AppDatabase.getInstance(application).charmsDAO()
-        val viewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet, dataSourceRank, dataSourceSkill,dataSourceCharm)
+        viewModelFactory = EquipmentViewModelFactory(application, dataSource, dataSourceSet, dataSourceRank, dataSourceSkill,dataSourceCharm)
         val equipmentViewModel = activity?.run { ViewModelProviders.of(this, viewModelFactory).get(EquipmentViewModel::class.java) }
 
         val binding: EquipmentFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.equipment_fragment, container, false)
         binding.equipmentViewModel = equipmentViewModel
         val adapter = EquipmentAdapter(activity)
         binding.armorPieceRecyclerView.adapter = adapter
-
-
         equipmentViewModel?.currentArmorPieces?.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.data = it
             }
         })
 
+        setCharmsToViewModel(equipmentViewModel, binding)
+        setSkillsForDisplayToViewModel(equipmentViewModel)
+
+        binding.lifecycleOwner = this
+
+
+        return binding.root
+    }
+
+    private fun setCharmsToViewModel(
+        equipmentViewModel: EquipmentViewModel?,
+        binding: EquipmentFragmentBinding
+    ) {
         equipmentViewModel?.currentCharm?.observe(viewLifecycleOwner, Observer {
             it?.let {
                 binding.charmTextView.text = it.name
-                binding.charmImageView.setImageResource(when(it.rarity.toInt()){
-                    6 -> R.mipmap.charm_level_6
-                    7 -> R.mipmap.charm_level_7
-                    8 -> R.mipmap.charm_level_8
-                    9 -> R.mipmap.charm_level_9
-                    else -> R.mipmap.charm_level_6
-                })
+                binding.charmImageView.setImageResource(
+                    when (it.rarity.toInt()) {
+                        6 -> R.mipmap.charm_level_6
+                        7 -> R.mipmap.charm_level_7
+                        8 -> R.mipmap.charm_level_8
+                        9 -> R.mipmap.charm_level_9
+                        else -> R.mipmap.charm_level_6
+                    }
+                )
                 binding.charmSkill2TextView.text = ""
                 var counter = 0
-                it.skillRankId.forEach {skillRankId ->
+                it.skillRankId.forEach { skillRankId ->
                     equipmentViewModel.getSkillRank(skillRankId).observe(viewLifecycleOwner, Observer { skillRank ->
                         equipmentViewModel.getSkillRankSkill(skillRank.skillId).observe(viewLifecycleOwner, Observer { skill ->
-                            if (counter == 0){
+                            if (counter == 0) {
                                 binding.charmSkill1TextView.text = skill.name + " x" + skillRank.level
                             } else {
                                 binding.charmSkill2TextView.text = skill.name + " x" + skillRank.level
@@ -75,13 +91,6 @@ class Equipment : Fragment() {
                 }
             }
         })
-
-        setSkillsForDisplayToViewModel(equipmentViewModel)
-
-        binding.lifecycleOwner = this
-
-
-        return binding.root
     }
 
     private fun setSkillsForDisplayToViewModel(equipmentViewModel: EquipmentViewModel?) {
