@@ -50,8 +50,15 @@ class Equipment : Fragment() {
         setCharmsToViewModel(equipmentViewModel, binding)
         setSkillsForDisplayToViewModel(equipmentViewModel)
 
-        binding.lifecycleOwner = this
+        equipmentViewModel?.currentArmorPieces?.observe(
+            viewLifecycleOwner,
+            Observer { selectedArmorArray ->
+                if (selectedArmorArray == null) return@Observer
 
+
+            })
+
+        binding.lifecycleOwner = this
 
         return binding.root
     }

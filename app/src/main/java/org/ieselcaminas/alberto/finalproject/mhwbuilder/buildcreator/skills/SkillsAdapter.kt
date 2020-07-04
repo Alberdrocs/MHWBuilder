@@ -17,7 +17,7 @@ import android.text.Spannable
 import android.text.style.ForegroundColorSpan
 
 
-class SkillsAdapter(): RecyclerView.Adapter<SkillsAdapter.SkillsViewHolder>(){
+class SkillsAdapter: RecyclerView.Adapter<SkillsAdapter.SkillsViewHolder>(){
 
     var data = listOf<SkillsForDisplay>()
         set(value) {
@@ -105,5 +105,7 @@ class SkillsAdapter(): RecyclerView.Adapter<SkillsAdapter.SkillsViewHolder>(){
             }
         }
     }
+
+
 
 }

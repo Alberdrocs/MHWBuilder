@@ -3,7 +3,6 @@ package org.ieselcaminas.alberto.finalproject.mhwbuilder.buildcreator.buildmaker
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.armor.*
 import org.ieselcaminas.alberto.finalproject.mhwbuilder.database.charm.Charms
@@ -91,6 +90,10 @@ class EquipmentViewModel(
     val currentCharm: LiveData<Charms>
         get() = _currentCharm
 
+    private var _currentSetSkillsForDisplay = MutableLiveData<ArrayList<Skills>>()
+    val currentSetSkillsForDisplay: LiveData<ArrayList<Skills>>
+        get() = _currentSetSkillsForDisplay
+
 
     init {
         _currentSkillsForDisplay.value = HashMap()
@@ -150,14 +153,10 @@ class EquipmentViewModel(
         return database.getFirstArmorPiecesOfType()
     }
 
-    private suspend fun insertCharm(charms: Charms){
-        withContext(Dispatchers.IO) {
-            databaseCharm.insert(charms)
-        }
-    }
-
 }
 
 class SelectedArmor(val armorPiece: ArmorPiece, val skillName1:String?, val skillName2:String?, var decorations: ArrayList<Decoration?>)
 
 class SkillsForDisplay(val skill: Skills, val skillRanks: ArrayList<SkillRank>, val activeLevels: Int)
+
+class SetSkillForDisplay(val skill: Skills)
